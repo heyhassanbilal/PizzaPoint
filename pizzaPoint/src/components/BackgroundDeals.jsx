@@ -17,7 +17,7 @@ function BackgroundDeals() {
   }, [bg.length]);
 
   return (
-    <div className="w-screen h-[93vh] bg-red-950 z-0 overflow-hidden absolute">
+    <div className="w-screen h-[93vh] bg-red-950 z-0 overflow-hidden">
       <div
         className="w-full h-full flex z-0 relative transition-transform duration-1000"
         style={{
