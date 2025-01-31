@@ -17,7 +17,7 @@ return (
             </div>
 
             <div className='w-full flex justify-center relative z-10'>
-                <div className=' w-28 h-28 rounded-full border-0 hover:blur-[1px] transition duration-300 ease-in-out'>
+                <div className='md:w-20 md:h-20 lg:w-28 lg:h-28 rounded-full border-0 hover:blur-[1px] transition duration-300 ease-in-out'>
                     <img src={Logo} alt="" className="w-full h-full object-cover border-0 "/>
                 </div>
             </div>

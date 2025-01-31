@@ -5,7 +5,7 @@ function CardShort({img, title, price}) {
     <>
         
         <div 
-        className="h-[17rem] w-[17rem] bg-cover bg-center bg-no-repeat relative rounded-xl transition-transform duration-300 hover:scale-105"
+        className="h-[17rem] w-[17rem] bg-cover bg-center bg-no-repeat relative rounded-xl shadow-xl transition-transform duration-300 hover:scale-105"
         style={{ backgroundImage: `linear-gradient(to bottom,  rgba(0, 0, 0, 0.4) 5%, rgba(0, 0, 0, 0.1) 25%, rgba(0, 0, 0, 0) 50%), url(${img})` }}>
             
             

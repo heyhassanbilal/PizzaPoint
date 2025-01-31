@@ -1,11 +1,20 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: [
+    './index.html',
+    './src/**/*.{js,jsx,ts,tsx}'
+  ],
   theme: {
-    extend: {},
+    extend: {
+
+      colors: {
+        brandRed: 'rgb(235, 33, 49)', // Custom alias
+      },
+
+      fontFamily: {
+        sans: ["Poppins", "sans-serif"],
+      },
+    },
   },
   plugins: [require('tailwind-scrollbar')],
-}
-
-
-module.exports = { content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'], theme: { extend: {}, }, plugins: [require('tailwind-scrollbar')], }
+};
