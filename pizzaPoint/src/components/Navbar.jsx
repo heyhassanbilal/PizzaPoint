@@ -1,12 +1,12 @@
 import React from 'react'
 import Logo from '../assets/imgs/Logo.webp';
 import cart from '../assets/imgs/cart-shopping.png';
-function Navbar() {
+function Navbar({setIsCartOpen}) {
 return (
     <>
         <nav className="w-full h-12 flex">
             <div className='w-full pt-2 flex gap-3'>
-                <div className='w-[10rem] h-5/6 ml-5 pt-1 bg-red-600 text-white text-center rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
+                <div className='w-[11rem] h-5/6 ml-5 pt-1 bg-red-600 text-white text-center rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
                     <i className="fa-solid fa-location-dot mr-2"></i>
                     Change Location    
                 </div>
@@ -24,7 +24,7 @@ return (
 
             <div className='w-full flex gap-2 justify-end'>
                 <div className='w-10 h-10 pt-1 rounded-lg'>
-                    <button className='relative w-10 h-10 rounded-lg'>
+                    <button className='relative w-10 h-10 rounded-lg' onClick={()=> setIsCartOpen(true)}>
                         <img src={cart} alt="" className="w-full h-full object-cover hover:blur-[1px] transition duration-300 ease-in-out"/>
                         <span className='absolute top-0 right-0 bg-red-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center'>3</span>
                     </button>

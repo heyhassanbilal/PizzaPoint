@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SearchBar from './SearchBar'
 import PopularItems from './PopularItems'
 import NewYearDeal from './NewYearDeal'
@@ -16,6 +16,29 @@ import ChickenNuggets from '../assets/imgs/ChickenNuggets.webp'
 import PlainGarlicBread from '../assets/imgs/PlainGarlicBread.webp'
 
 function Container() {
+
+    // useEffect(() => {
+    //   // Simple POST request with a JSON body using fetch
+    //   const requestOptions = {
+    //       method: 'POST',
+    //       headers: { 'Content-Type': 'application/json' },
+    //       body: JSON.stringify({
+    //         "name": "oe",
+    //         "email": "oe@example.com",
+    //         "password": "StrongPass123!",
+    //         "confirmPassword": "StrongPass123!",
+    //         "phone": "+1234567890",
+    //         "address": "123 Main Street"
+    //       }
+          
+    //       )
+    //   };
+    //   fetch('http://localhost:8082/auth/signup', requestOptions)
+    //       .then(response => response.json())
+    //       .then(data => console.log(data))
+    //       .catch(error => console.error("Error:", error));
+    // }, []);
+
   return (
     <>
         <div className='flex-col w-[77%] h-auto '>
