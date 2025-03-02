@@ -15,44 +15,23 @@ import ChickenWings from '../assets/imgs/ChickenWings.webp'
 import ChickenNuggets from '../assets/imgs/ChickenNuggets.webp'
 import PlainGarlicBread from '../assets/imgs/PlainGarlicBread.webp'
 
-function Container() {
+function Container({token}) {
 
-    // useEffect(() => {
-    //   // Simple POST request with a JSON body using fetch
-    //   const requestOptions = {
-    //       method: 'POST',
-    //       headers: { 'Content-Type': 'application/json' },
-    //       body: JSON.stringify({
-    //         "name": "oe",
-    //         "email": "oe@example.com",
-    //         "password": "StrongPass123!",
-    //         "confirmPassword": "StrongPass123!",
-    //         "phone": "+1234567890",
-    //         "address": "123 Main Street"
-    //       }
-          
-    //       )
-    //   };
-    //   fetch('http://localhost:8082/auth/signup', requestOptions)
-    //       .then(response => response.json())
-    //       .then(data => console.log(data))
-    //       .catch(error => console.error("Error:", error));
-    // }, []);
 
   return (
     <>
         <div className='flex-col w-[77%] h-auto '>
-            <SearchBar />
+            {/* <SearchBar /> */}
             <PopularItems />
             <NewYearDeal />
-            <ServeDeals />
+            <ServeDeals token = {token}/>
             <WinterDeals />
-            <BasicCategory Banner={AppetizersBanner} items={[[CheeseGarlicBread, "Cheese Garlic Bread", "Rs. 349", ""],
-              [MeatyGarlicBread, "Meaty Garlic Bread", "Rs. 499", ""],
-              [CheesyStick, "Cheesy Stick", "Rs. 399", ""],
-              [ChickenWings, "Chicken Wings", "Rs. 499", ""],
-              [ChickenNuggets, "Chicken Nuggets", "Rs. 499", ""],
-              [PlainGarlicBread, "Plain Garlic Bread", "Rs. 499", ""],
+            <BasicCategory category={"appetizers"} Banner={AppetizersBanner} items={[[CheeseGarlicBread, "Cheese Garlic Bread", 349, ""],
+              [MeatyGarlicBread, "Meaty Garlic Bread", 499, ""],
+              [CheesyStick, "Cheesy Stick", 399, ""],
+              [ChickenWings, "Chicken Wings", 499, ""],
+              [ChickenNuggets, "Chicken Nuggets", 499, ""],
+              [PlainGarlicBread, "Plain Garlic Bread", 499, ""],
             
             ]}/>
         </div>

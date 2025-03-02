@@ -10,6 +10,7 @@ import { useState } from 'react'
 import YourCart from './components/YourCart'
 import SignUp from './components/SignUp'
 import serve6 from './assets/imgs/serve6.webp'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
 
@@ -33,28 +34,43 @@ function App() {
     { id: 5, name: "Pepsi", price: 99, img: {serve6} }
   ];
 
-  return (
-    <>
-      <div className='h-screen overflow-y-auto overflow-x-hidden'>
-       {isCartOpen && <YourCart cartItems={cartItems} 
-                  popularItems={popularItems} 
-                  setCartItems={setCartItems} 
-                  isOpen={isCartOpen}
-                  onClose={closeCart}
-                  /> }
-        <div className='flex-col'>
-          <Navbar setIsCartOpen= {setIsCartOpen} />
-          <BackgroundDeals/>
-          <WhatsAppButton />        
-        </div>
-          <CategoriesList />
-        <div className='flex justify-center'>
-          <Container />
-        </div>
-          <ViewCartOverlay setIsCartOpen= {setIsCartOpen} />
+  const [token,setToken] = useState("");
 
-      </div>
-    </>
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={
+          
+            <div className='h-screen overflow-y-auto overflow-x-hidden'>
+            {isCartOpen && <YourCart cartItems={cartItems} 
+                        popularItems={popularItems} 
+                        setCartItems={setCartItems} 
+                        isOpen={isCartOpen}
+                        onClose={closeCart}
+                        /> }
+              <div className='flex-col'>
+                <Navbar setIsCartOpen= {setIsCartOpen} />
+                <BackgroundDeals/>
+                <WhatsAppButton />        
+              </div>
+                <CategoriesList />
+              <div className='flex justify-center'>
+                <Container token={token}/>
+              </div>
+                <ViewCartOverlay setIsCartOpen= {setIsCartOpen} />
+              
+
+            </div>
+        } /> 
+      
+        <Route path="/signup" element={
+          <>
+            <Navbar setIsCartOpen= {setIsCartOpen} />
+            <SignUp setToken={setToken} />
+          </>  
+      } />
+      </Routes>
+    </Router>
   )
 }
 

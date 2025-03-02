@@ -1,6 +1,7 @@
 import React from 'react'
 import Logo from '../assets/imgs/Logo.webp';
 import cart from '../assets/imgs/cart-shopping.png';
+import { Link } from 'react-router-dom';
 function Navbar({setIsCartOpen}) {
 return (
     <>
@@ -17,12 +18,21 @@ return (
             </div>
 
             <div className='w-full flex justify-center relative z-10'>
+            <Link to="/">
                 <div className='md:w-20 md:h-20 lg:w-28 lg:h-28 rounded-full border-0 hover:blur-[1px] transition duration-300 ease-in-out'>
                     <img src={Logo} alt="" className="w-full h-full object-cover border-0 "/>
                 </div>
+            </Link>
             </div>
 
             <div className='w-full flex gap-2 justify-end'>
+                <div className='w-10 h-10 mt-1 pt-2 rounded-full text-center'>
+                <Link to="/signup">
+                    <button className='text-brandRed rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
+                        <i class="fa-regular fa-user fa-2xl"></i>
+                    </button>
+                </Link>
+                </div>
                 <div className='w-10 h-10 pt-1 rounded-lg'>
                     <button className='relative w-10 h-10 rounded-lg' onClick={()=> setIsCartOpen(true)}>
                         <img src={cart} alt="" className="w-full h-full object-cover hover:blur-[1px] transition duration-300 ease-in-out"/>
