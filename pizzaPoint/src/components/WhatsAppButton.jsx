@@ -7,7 +7,7 @@ function WhatsAppButton() {
             href="/"
             target="_blank"
             rel="noreferrer"
-            className="fixed bottom-4 right-4 z-50"
+            className="fixed bottom-16 right-4 z-50"
         >
             <img
             src="https://img.icons8.com/color/48/000000/whatsapp--v1.png"

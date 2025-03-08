@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { React, useState,useContext } from "react";
 import { Route, useNavigate } from "react-router-dom";
+import { useAuth } from '../utils/useAuth';
 
-const SignUp = ({setToken}) => {
+const SignUp = () => {
+  const { setToken, setEmail } = useAuth();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -39,6 +41,7 @@ const SignUp = ({setToken}) => {
         .then((data) => {
           console.log("Success:", data);
           setToken(data.token);
+          setEmail(data.em);
           alert("User registered successfully");
           navigate("/");
           

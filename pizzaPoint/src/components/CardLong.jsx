@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ReviewCard from './ReviewCard'
+import { useAuth } from '../utils/useAuth';
 
-function CardLong({img,title,price,description,size}) {
+function CardLong({img,title,price,description,size, id}) {
 
     const [cardOpen, setCardOpen] = useState(false);
+         
+
+
     return (
         <>
-        {cardOpen && <ReviewCard img={img} title={title} price={price} description={description} setCardOpen={setCardOpen} size={size}/>}
+        {cardOpen && <ReviewCard img={img} InitialId={id} title={title} Initialprice={price} description={description} setCardOpen={setCardOpen} size={size}/>}
         <div className='h-[28rem] w-64 rounded-xl shadow-2xl border-4 border-transparent transition-all duration-300 hover:scale-105 hover:border-brandRed hover:cursor-pointer' onClick={()=> setCardOpen(true)}>
         <div className='h-64 relative'>
-            <img src={img} alt="" className='h-full w-full rounded-t-xl' />
-            {size && <p className='bg-brandRed text-white absolute top-2 left-0 text-sm px-2 py-1 rounded-md'>
-                {size}
-            </p>}
+            <img src={img} alt="" className='h-full w-full rounded-t-xl shadow-md' /> 
         </div>
             <div className='flex-col pt-2'>
-                <h1 className='text-center font-bold'>{title}</h1>
+                <h1 className='text-center font-bold truncate'>{title}</h1>
                 <p className='text-center text-sm mt-5 truncate'>{description}</p>
                 <h2 className='text-center text-sm font-bold mt-9'>{price} HUF</h2>
                 <div className='text-center mt-2'>

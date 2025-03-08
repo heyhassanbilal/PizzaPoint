@@ -7,33 +7,33 @@ import serve1 from '../assets/imgs/Serve1.webp'
 import ServeDeals from './ServeDeals'
 import WinterDeals from './WinterDeals'
 import BasicCategory from './BasicCategory'
-import AppetizersBanner from '../assets/imgs/AppetizersBanner.webp'
+import BeveragesBanner from '../assets/imgs/BeveragesBanner.webp'
+import ClassicPizzaBanner from '../assets/imgs/ClassicPizzaBanner.webp'
 import CheeseGarlicBread from '../assets/imgs/CheeseGarlicBread.webp'
 import MeatyGarlicBread from '../assets/imgs/MeatyGarlicBread.webp'
 import CheesyStick from '../assets/imgs/CheesyStick.webp'
 import ChickenWings from '../assets/imgs/ChickenWings.webp'
 import ChickenNuggets from '../assets/imgs/ChickenNuggets.webp'
 import PlainGarlicBread from '../assets/imgs/PlainGarlicBread.webp'
+// import { useAuth } from '../utils/AuthContext';
+// import { useContext } from "react";
+function Container() {
 
-function Container({token}) {
-
+  // const { token, setAuthToken } = useAuth(); // ✅ Token directly mil jayega
 
   return (
     <>
-        <div className='flex-col w-[77%] h-auto '>
+        <div className='flex-col w-[77%] h-auto'>
             {/* <SearchBar /> */}
             <PopularItems />
             <NewYearDeal />
-            <ServeDeals token = {token}/>
+            {/* <ServeDeals /> */}
             <WinterDeals />
-            <BasicCategory category={"appetizers"} Banner={AppetizersBanner} items={[[CheeseGarlicBread, "Cheese Garlic Bread", 349, ""],
-              [MeatyGarlicBread, "Meaty Garlic Bread", 499, ""],
-              [CheesyStick, "Cheesy Stick", 399, ""],
-              [ChickenWings, "Chicken Wings", 499, ""],
-              [ChickenNuggets, "Chicken Nuggets", 499, ""],
-              [PlainGarlicBread, "Plain Garlic Bread", 499, ""],
-            
-            ]}/>
+            <BasicCategory category={"PIZZA"} Banner={ClassicPizzaBanner}/>
+            <BasicCategory category={"DRINKS"} Banner={BeveragesBanner}/>
+            <BasicCategory category={"BURGER"} Banner={BeveragesBanner}/>
+            <BasicCategory category={"FRIES_NUGGETS"} Banner={BeveragesBanner}/>
+            <BasicCategory category={"CALZONE"} Banner={BeveragesBanner}/>
         </div>
     </>
   )

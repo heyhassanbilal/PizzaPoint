@@ -1,4 +1,5 @@
 import './App.css'
+import { useEffect } from 'react'
 import BackgroundDeals from './components/BackgroundDeals'
 import CategoriesList from './components/CategoriesList'
 import Container from './components/Container'
@@ -11,6 +12,11 @@ import YourCart from './components/YourCart'
 import SignUp from './components/SignUp'
 import serve6 from './assets/imgs/serve6.webp'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+// import { AuthContext } from './utils/AuthContext'
+// import AuthContext from './utils/AuthContext'
+import { AuthProvider } from "./utils/AuthContext";
+import { CartProvider } from './utils/CartContext';
+import LoginPage from './components/LoginPage'
 
 function App() {
 
@@ -34,43 +40,59 @@ function App() {
     { id: 5, name: "Pepsi", price: 99, img: {serve6} }
   ];
 
-  const [token,setToken] = useState("");
+
+  // useEffect(() => {
+  //   if (token) {
+  //     localStorage.setItem("token", token);
+  //   }
+  // }, [token]); // Jab bhi token change hoga, save hoga local storage me
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={
-          
-            <div className='h-screen overflow-y-auto overflow-x-hidden'>
-            {isCartOpen && <YourCart cartItems={cartItems} 
-                        popularItems={popularItems} 
-                        setCartItems={setCartItems} 
-                        isOpen={isCartOpen}
-                        onClose={closeCart}
-                        /> }
-              <div className='flex-col'>
-                <Navbar setIsCartOpen= {setIsCartOpen} />
-                <BackgroundDeals/>
-                <WhatsAppButton />        
-              </div>
-                <CategoriesList />
-              <div className='flex justify-center'>
-                <Container token={token}/>
-              </div>
-                <ViewCartOverlay setIsCartOpen= {setIsCartOpen} />
+    <AuthProvider>
+      <CartProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={
               
+              <div className='h-screen overflow-y-auto overflow-x-hidden'>
+                {isCartOpen && <YourCart cartItems={cartItems} 
+                            popularItems={popularItems} 
+                            setCartItems={setCartItems} 
+                            isOpen={isCartOpen}
+                            onClose={closeCart}
+                            /> }
+                  <div className='flex-col'>
+                    <Navbar setIsCartOpen= {setIsCartOpen} />
+                    <BackgroundDeals/>
+                    <WhatsAppButton />        
+                  </div>
+                    <CategoriesList />
+                  <div className='flex justify-center'>
+                    <Container/>
+                  </div>
+                    <ViewCartOverlay setIsCartOpen= {setIsCartOpen} />
+                  
 
-            </div>
-        } /> 
-      
-        <Route path="/signup" element={
-          <>
-            <Navbar setIsCartOpen= {setIsCartOpen} />
-            <SignUp setToken={setToken} />
-          </>  
-      } />
-      </Routes>
-    </Router>
+                </div>
+            } /> 
+          
+            <Route path="/signup" element={
+              <>
+                <Navbar setIsCartOpen= {setIsCartOpen} />
+                <SignUp />
+              </>  
+          } />
+            <Route path="/login" element={
+              <>
+                <Navbar setIsCartOpen= {setIsCartOpen} />
+                <LoginPage />
+              </>  
+          } />
+
+          </Routes>
+        </Router>
+      </CartProvider>
+    </AuthProvider>
   )
 }
 

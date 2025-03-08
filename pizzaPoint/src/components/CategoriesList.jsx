@@ -9,14 +9,14 @@ function CategoriesList() {
             <li className='flex-none text-nowrap'><a href="#serveDeals" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Serve Deals</a></li>
             <li className='flex-none text-nowrap'><a href="#winterDeals" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Winter Deals</a></li>
             <li className='flex-none text-nowrap'><a href="#appetizers" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Appetizers</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Classic Pizza</a></li>
+            <li className='flex-none text-nowrap'><a href="#PIZZA" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Classic Pizza</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Premium Pizza</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Special Pizza</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Sandwiches</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Pastas</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Fries</a></li>
             <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Dip & Souces</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Beverages</a></li>
+            <li className='flex-none text-nowrap'><a href="#DRINKS" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Beverages</a></li>
             
         </ul>
     </>
