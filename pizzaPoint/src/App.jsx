@@ -12,6 +12,7 @@ import YourCart from './components/YourCart'
 import SignUp from './components/SignUp'
 import serve6 from './assets/imgs/serve6.webp'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import "./firebase"
 // import { AuthContext } from './utils/AuthContext'
 // import AuthContext from './utils/AuthContext'
 import { AuthProvider } from "./utils/AuthContext";
