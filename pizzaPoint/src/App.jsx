@@ -18,6 +18,7 @@ import "./firebase"
 import { AuthProvider } from "./utils/AuthContext";
 import { CartProvider } from './utils/CartContext';
 import LoginPage from './components/LoginPage'
+import SideMenu from './components/SideMenu'
 
 function App() {
 
@@ -29,6 +30,14 @@ function App() {
 
   // To close cart
   const closeCart = () => setIsCartOpen(false);
+
+  const [isSideMenuOpen, setSideMenuOpen] = useState(false);
+
+  // To open cart
+  const openSideMenu = () => setSideMenuOpen(true);
+
+  // To close cart
+  const closeSideMenu = () => setSideMenuOpen(false);
 
   const [cartItems, setCartItems] = useState([
     { id: 1, name: "Super Max (Small 7 Inch)", price: 649, qty: 1, img: {serve6} },
@@ -62,8 +71,10 @@ function App() {
                             isOpen={isCartOpen}
                             onClose={closeCart}
                             /> }
+
+                {isSideMenuOpen && <SideMenu isSideMenuOpen={isSideMenuOpen} onSideMenuClose={closeSideMenu} />}
                   <div className='flex-col'>
-                    <Navbar setIsCartOpen= {setIsCartOpen} />
+                    <Navbar setIsCartOpen= {setIsCartOpen} setSideMenuOpen = {setSideMenuOpen} />
                     <BackgroundDeals/>
                     <WhatsAppButton />        
                   </div>

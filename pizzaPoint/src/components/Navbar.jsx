@@ -4,7 +4,7 @@ import cartLogo from '../assets/imgs/cart-shopping.png';
 import { Link } from 'react-router-dom';
 import { useCart } from '../utils/CartContext';
 
-function Navbar({setIsCartOpen}) {
+function Navbar({setIsCartOpen, setSideMenuOpen}) {
     const { cart, loading } = useCart();
 return (
     <>
@@ -14,7 +14,7 @@ return (
                     <i className="fa-solid fa-location-dot mr-2 pt-1 pl-3"></i>
                     <p className='hidden sm:block'>Change Location</p>  
                 </div>
-                <div className='w-36 h-5/6 pt-1 bg-red-600 text-white text-center rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
+                <div onClick="window.location.href='tel:+1234567890';" className='w-36 h-5/6 pt-1 bg-red-600 text-white text-center rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
                     <i className="fa-solid fa-phone mr-1"></i>
                     1234567890
                 </div>
@@ -47,7 +47,7 @@ return (
                     </button>
                 </div>
                 
-                <button className='w-10 h-10 mr-5 mt-1 pl-3 bg-red-600 rounded-lg flex-col  hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out'>
+                <button className='w-10 h-10 mr-5 mt-1 pl-3 bg-red-600 rounded-lg flex-col  hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out' onClick={()=> setSideMenuOpen(true)}>
                     <div className='w-3/5 h-[3px] bg-white mb-1 rounded-sm'></div>
                     <div className='w-3/5 h-[3px] bg-white mb-1 rounded-sm'></div>
                     <div className='w-3/5 h-[3px] bg-white rounded-sm'></div>
