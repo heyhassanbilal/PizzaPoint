@@ -1,5 +1,7 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+
+const withMT = require("@material-tailwind/react/utils/withMT");
+export default withMT({
   content: [
     './index.html',
     './src/**/*.{js,jsx,ts,tsx}'
@@ -17,4 +19,4 @@ export default {
     },
   },
   plugins: [require('tailwind-scrollbar')],
-};
+});

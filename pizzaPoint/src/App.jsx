@@ -19,6 +19,8 @@ import { AuthProvider } from "./utils/AuthContext";
 import { CartProvider } from './utils/CartContext';
 import LoginPage from './components/LoginPage'
 import SideMenu from './components/SideMenu'
+import AdminPage from './components/AdminPage'
+import AdminDashboard from './components/AdminDashboard'
 
 function App() {
 
@@ -100,6 +102,18 @@ function App() {
                 <LoginPage />
               </>  
           } />
+
+            <Route path="/admin" element={
+              <>
+                <AdminPage />
+              </>  
+            } />
+{/* 
+            <Route path="/adminP" element={
+              <>
+                <AdminDashboard />
+              </>  
+            } /> */}
 
           </Routes>
         </Router>
