@@ -21,6 +21,8 @@ import LoginPage from './components/LoginPage'
 import SideMenu from './components/SideMenu'
 import AdminPage from './components/AdminPage'
 import AdminDashboard from './components/AdminDashboard'
+import AddressChange from './components/AddressChange'
+import CheckOut from './components/CheckOut'
 
 function App() {
 
@@ -108,12 +110,24 @@ function App() {
                 <AdminPage />
               </>  
             } />
-{/* 
+
             <Route path="/adminP" element={
               <>
                 <AdminDashboard />
               </>  
-            } /> */}
+            } />
+
+            <Route path="/address" element={
+              <>
+                <AddressChange  />
+              </>  
+            } />
+
+            <Route path="/checkout" element={
+              <>
+                <CheckOut />
+              </>  
+            } />
 
           </Routes>
         </Router>

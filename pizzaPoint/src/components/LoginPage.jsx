@@ -39,7 +39,7 @@ export default function LoginPage() {
             .then((data) => {
               console.log("Success:", data);
               setToken(data.token);
-              setEmail(data.em);
+              setEmail(data.email);
               alert("User login successfull");
               navigate("/");
               

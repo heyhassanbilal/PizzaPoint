@@ -50,27 +50,27 @@ function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
       useEffect(()=>{console.log(drinks)},[drinks])
 
 
-    const removeItems = (item) => {
-        const updatedItems = cartItems.map((cartItem) => {
-          if (cartItem.id === item.id) {
-            return { ...cartItem, qty: cartItem.qty - 1 };
-          }
-          return cartItem;
-        });
+    // const removeItems = (item) => {
+    //     const updatedItems = cartItems.map((cartItem) => {
+    //       if (cartItem.id === item.id) {
+    //         return { ...cartItem, qty: cartItem.qty - 1 };
+    //       }
+    //       return cartItem;
+    //     });
         
-        setCartItems(updatedItems);
-    };
+    //     setCartItems(updatedItems);
+    // };
 
-    const addItems = (item) => {
-        const updatedItems = cartItems.map((cartItem) => {
-          if (cartItem.id === item.id) {
-            return { ...cartItem, qty: cartItem.qty + 1 };
-          }
-          return cartItem;
-        });
+    // const addItems = (item) => {
+    //     const updatedItems = cartItems.map((cartItem) => {
+    //       if (cartItem.id === item.id) {
+    //         return { ...cartItem, qty: cartItem.qty + 1 };
+    //       }
+    //       return cartItem;
+    //     });
         
-        setCartItems(updatedItems);
-      };
+    //     setCartItems(updatedItems);
+    //   };
 
 
     const scrollLeft = () => {
@@ -84,6 +84,8 @@ function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
         containerRef.current.scrollLeft += 100; // Adjust the scroll distance as needed
         }
     };
+
+    
         
     
   return (
@@ -121,7 +123,7 @@ function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
             {/* Cart Items */}
             <div className='w-full'>
                 {cart && cart.cartItems.map((item) => item.quantity == 0?  null :(
-                    <div className='border-b-2'>
+                    <div className='border-b-2' id={item.id}>
                         <div className='flex p-5 justify-around '>
                             <div className='w-16 h-16 mr-2'>
                                 <img src={item.menuItem.imageUrl} alt="" className="h-full w-full object-cover rounded-md shadow-lg"/>

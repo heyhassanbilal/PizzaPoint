@@ -87,9 +87,10 @@ const SignUp = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
+          // console.log("Success:", data);
           setToken(data.token);
-          setEmail(data.em);
+          // console.log(data.email);
+          setEmail(data.email);
           alert("User registered successfully");
           navigate("/");
         })

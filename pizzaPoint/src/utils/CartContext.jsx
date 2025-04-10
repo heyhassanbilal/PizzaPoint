@@ -21,7 +21,9 @@ export const CartProvider = ({ children }) => {
       const response = await fetch(`http://localhost:8082/api/cart/user-email?email=${encodeURIComponent(email)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response,"-------=====================")
       const data = await response.json();
+      console.log(data,"=====================")
       setCart(data[0]); // Update state with fetched cart
     } catch (error) {
       console.error("Error fetching cart:", error);
