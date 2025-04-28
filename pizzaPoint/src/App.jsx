@@ -1,11 +1,11 @@
 import './App.css'
 import { useEffect } from 'react'
 import BackgroundDeals from './components/BackgroundDeals'
-import ProtectedRoute from './components/ProtectedRoute'
+// import ProtectedRoute from './components/ProtectedRoute'
 import CategoriesList from './components/CategoriesList'
 import Container from './components/Container'
 import Navbar from './components/Navbar'
-import SearchBar from './components/SearchBar'
+// import SearchBar from './components/SearchBar'
 import ViewCartOverlay from './components/ViewCartOverlay'
 import WhatsAppButton from './components/WhatsAppButton'
 import { useState } from 'react'
@@ -24,7 +24,7 @@ import AdminPage from './components/AdminPage'
 import AdminDashboard from './components/AdminDashboard'
 import AddressChange from './components/AddressChange'
 import CheckOut from './components/CheckOut'
-import { useAuth } from './utils/useAuth'
+// import { useAuth } from './utils/useAuth'
 
 function App() {
 
