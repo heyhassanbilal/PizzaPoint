@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react'
-import serve6 from '../assets/imgs/serve6.webp'
-import logoGeneral from '../assets/imgs/logoGeneral.webp'
 import { useAuth } from '../utils/useAuth';
 import { useCart } from '../utils/CartContext';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +8,6 @@ function ReviewCard({item, img,title,Initialprice,description,setCardOpen,size, 
 
     const navigate = useNavigate();
     const [accordianOpen, setAccordianOpen] = useState(false);
-    const [addOns, setAddOns] = useState([{name: 'Extra Cheese', price: 100,img :logoGeneral}, {name: 'Olives', price: 50, img :logoGeneral}, {name: 'Pepperoni', price: 150, img :logoGeneral}]);
     const [qty, setQty] = useState(1);
     const [sizePizza, setPizzaSize] = useState(size);
     const [price, setprice] = useState(Initialprice);

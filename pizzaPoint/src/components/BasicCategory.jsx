@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CardLong from './CardLong'
 import { useAuth } from '../utils/useAuth';
-import { useContext } from 'react'
 import { productService, userService } from '../utils/services'
 
 function BasicCategory({ Banner, items, category }) {

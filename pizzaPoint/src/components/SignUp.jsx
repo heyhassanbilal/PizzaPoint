@@ -2,12 +2,12 @@ import { React, useState, useContext, useEffect } from "react";
 import { Route, useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
-import {
-  getAuth,
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
-import { auth } from "../firebase";
+// import {
+//   getAuth,
+//   RecaptchaVerifier,
+//   signInWithPhoneNumber,
+// } from "firebase/auth";
+// import { auth } from "../firebase";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 

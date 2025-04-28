@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react'
 import Navbar from './Navbar'
-import AddressCard from './AddressCard';
 import { useCart } from '../utils/CartContext';
 import { useAuth } from "../utils/useAuth";
 import { useNavigate } from 'react-router-dom';

@@ -1,10 +1,7 @@
 import React from 'react'
-import Logo from '../assets/imgs/Logo.webp';
 import { useState } from "react";
-import cartLogo from '../assets/imgs/cart-shopping.png';
 import { Link } from 'react-router-dom';
 import { useCart } from '../utils/CartContext';
-import { Switch } from "@material-tailwind/react";
 
 function AdminNavbar() {
     const { cart, loading } = useCart();
