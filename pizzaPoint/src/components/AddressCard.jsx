@@ -3,7 +3,7 @@ import React from 'react'
 function AddressCard({index, address}) {
   return (
     <>
-        <div key={index} className={`${address.selected == 1 ? "border-brandRed" : "border-gray-400"} border-2 flex flex-col justify-evenly w-96 h-44 text-center p-2 rounded-xl hover:scale-105 transform transition hover:cursor-pointer`}>
+        <div key={index} className={`justify-self-center ${address.selected == 1 ? "border-brandRed" : "border-gray-400"} border-2 flex flex-col justify-evenly w-full sm:w-96 h-44 text-center p-2 rounded-xl hover:scale-105 transform transition hover:cursor-pointer`}>
                       <h3 className='text-xl font-semibold text-pretty'>
                         
                         {`${address.street}

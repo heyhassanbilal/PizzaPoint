@@ -1,26 +1,154 @@
-import React from 'react'
-import "../App.css"
-import { Link } from 'react-scroll';
+import React, { useState, useEffect, useRef } from "react";
+import "../App.css";
+
 function CategoriesList() {
+  const [activeSection, setActiveSection] = useState("PIZZA");
+  const observerRef = useRef(null);
+
+  // Function to handle clicking on a menu item
+  const handleMenuClick = (sectionId, e) => {
+    e.preventDefault();
+    // Temporarily disable observer to prevent conflict with scroll
+    if (observerRef.current) {
+      sections.forEach((id) => {
+        const section = document.getElementById(id);
+        if (section) observerRef.current.unobserve(section);
+      });
+    }
+
+    setActiveSection(sectionId);
+
+    // Scroll to the section
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // Re-enable observer after a delay
+    setTimeout(() => {
+      if (observerRef.current) {
+        sections.forEach((id) => {
+          const section = document.getElementById(id);
+          if (section) observerRef.current.observe(section);
+        });
+      }
+    }, 1000);
+  };
+
+  const sections = [
+    "PIZZA",
+    "DRINKS",
+    "BURGER",
+    "FRIES_NUGGETS",
+    "CALZONE",
+  ];
+
+  // Function to check which section is in view and update active state
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-40% 0px -50% 0px", // Adjust these values as needed
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    observerRef.current = observer;
+
+    sections.forEach((sectionId) => {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        observer.observe(section);
+      }
+    });
+
+    return () => {
+      sections.forEach((sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          observer.unobserve(section);
+        }
+      });
+    };
+  }, []);
+
   return (
     <>
-        <ul className='sticky top-0 z-20 scroll_height h-14 pr-2 pl-2 flex flex-nowrap items-center space-x-16 overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500'>
-            <li className='flex-none text-nowrap'><a href="#newYearDeal" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">New Year Deal</a></li>
-            <li className='flex-none text-nowrap'><a href="#serveDeals" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Serve Deals</a></li>
-            <li className='flex-none text-nowrap'><a href="#winterDeals" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Winter Deals</a></li>
-            <li className='flex-none text-nowrap'><a href="#appetizers" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Appetizers</a></li>
-            <li className='flex-none text-nowrap'><a href="#PIZZA" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Classic Pizza</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Premium Pizza</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Special Pizza</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Sandwiches</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Pastas</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Fries</a></li>
-            <li className='flex-none text-nowrap'><a href="" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Dip & Souces</a></li>
-            <li className='flex-none text-nowrap'><a href="#DRINKS" className="px-1 cursor-pointer hover:bg-white hover:text-brandRed rounded-lg hover:py-1 ">Beverages</a></li>
-            
-        </ul>
+      <ul className="sticky top-0 z-20 scroll_height h-14 pr-2 pl-2 flex flex-nowrap items-center justify-center space-x-16 md:space-x-28 overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
+        <li className="flex-none text-nowrap">
+          <a
+            href="#PIZZA"
+            onClick={(e) => handleMenuClick("PIZZA", e)}
+            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+              activeSection === "PIZZA"
+                ? "bg-white text-brandRed"
+                : "hover:bg-white hover:text-brandRed"
+            }`}
+          >
+            Classic Pizza
+          </a>
+        </li>
+        <li className="flex-none text-nowrap">
+          <a
+            href="#DRINKS"
+            onClick={(e) => handleMenuClick("DRINKS", e)}
+            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+              activeSection === "DRINKS"
+                ? "bg-white text-brandRed"
+                : "hover:bg-white hover:text-brandRed"
+            }`}
+          >
+            Beverages
+          </a>
+        </li>
+        <li className="flex-none text-nowrap">
+          <a
+            href="#BURGER"
+            onClick={(e) => handleMenuClick("BURGER", e)}
+            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+              activeSection === "BURGER"
+                ? "bg-white text-brandRed"
+                : "hover:bg-white hover:text-brandRed"
+            }`}
+          >
+            Burgers
+          </a>
+        </li>
+        <li className="flex-none text-nowrap">
+          <a
+            href="#FRIES_NUGGETS"
+            onClick={(e) => handleMenuClick("FRIES_NUGGETS", e)}
+            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+              activeSection === "FRIES_NUGGETS"
+                ? "bg-white text-brandRed"
+                : "hover:bg-white hover:text-brandRed"
+            }`}
+          >
+            Fries
+          </a>
+        </li>
+        <li className="flex-none text-nowrap">
+          <a
+            href="#CALZONE"
+            onClick={(e) => handleMenuClick("CALZONE", e)}
+            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+              activeSection === "CALZONE"
+                ? "bg-white text-brandRed"
+                : "hover:bg-white hover:text-brandRed"
+            }`}
+          >
+            Calzone
+          </a>
+        </li>
+      </ul>
     </>
-  )
+  );
 }
 
-export default CategoriesList
+export default CategoriesList;

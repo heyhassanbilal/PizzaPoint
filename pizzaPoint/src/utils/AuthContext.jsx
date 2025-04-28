@@ -33,6 +33,13 @@ export const AuthProvider = ({ children }) => {
     recaptchaVerifier.render();
     return signInWithPhoneNumber(auth, number,recaptchaVerifier);
   }
+
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('authToken');
+    
+    if (!token) return false;
+    else return true;
+  }
   
   
   const logout = () => {
@@ -41,7 +48,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, email, setToken: updateToken, logout, setEmail: updateEmail, setUpRecaptcha }}>
+    <AuthContext.Provider value={{ token, email, setToken: updateToken, logout, setEmail: updateEmail, setUpRecaptcha, isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

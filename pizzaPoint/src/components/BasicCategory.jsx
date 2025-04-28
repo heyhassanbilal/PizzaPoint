@@ -9,6 +9,7 @@ import serve5 from '../assets/imgs/Serve5.webp'
 import serve6 from '../assets/imgs/Serve6.webp'
 import { useAuth } from '../utils/useAuth';
 import { useContext } from 'react'
+import { productService, userService } from '../utils/services'
 
 function BasicCategory({ Banner, items, category }) {
   const {token} = useAuth();
@@ -28,20 +29,20 @@ function BasicCategory({ Banner, items, category }) {
 
     async function fetchData() {
       try {
-        const response = await fetch(`http://localhost:8082/api/menuItem/get/category/${category}`, {
-          headers: { Authorization: `Bearer ${token}` },
-          signal, // Attach the signal to the fetch request for cancellation
-        });
+        // const response = await fetch(`http://localhost:8082/api/menuItem/get/category/${category}`, {
+        //   headers: { Authorization: `Bearer ${token}` },
+        //   signal, // Attach the signal to the fetch request for cancellation
+        // });
 
-        if (!response.ok) {
-          throw new Error(`Failed to fetch: ${response.statusText}`);
-        }
+        // if (!response.ok) {
+        //   throw new Error(`Failed to fetch: ${response.statusText}`);
+        // }
 
-        const json = await response.json();
+        const json = await productService.getProductByCategory(category);
         setData([ ...json]); // Prevent overwriting data
       } catch (error) {
         if (error.name !== 'AbortError') {
-          console.log("Error fetching data:", error.message);
+          console.log("Error fetching data:", error);
           console.log(token)
         }
       }
@@ -60,7 +61,7 @@ function BasicCategory({ Banner, items, category }) {
     <div id={category}>
 
         <div  className='w-full mt-8'>
-            <img className="rounded-xl" src={Banner} alt="" />
+            <img className="w-full h-[281px] rounded-xl shadow-2xl" src={Banner} alt="" />
         </div>
         <div className='mt-7 grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {data.map((item) => (

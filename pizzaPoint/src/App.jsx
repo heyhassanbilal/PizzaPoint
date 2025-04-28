@@ -1,6 +1,7 @@
 import './App.css'
 import { useEffect } from 'react'
 import BackgroundDeals from './components/BackgroundDeals'
+import ProtectedRoute from './components/ProtectedRoute'
 import CategoriesList from './components/CategoriesList'
 import Container from './components/Container'
 import Navbar from './components/Navbar'
@@ -23,12 +24,13 @@ import AdminPage from './components/AdminPage'
 import AdminDashboard from './components/AdminDashboard'
 import AddressChange from './components/AddressChange'
 import CheckOut from './components/CheckOut'
+import { useAuth } from './utils/useAuth'
 
 function App() {
 
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);
-
+  
   // To open cart
   const openCart = () => setIsCartOpen(true);
 
@@ -54,6 +56,8 @@ function App() {
     { id: 5, name: "Pepsi", price: 99, img: {serve6} }
   ];
 
+  
+
 
   // useEffect(() => {
   //   if (token) {
@@ -69,12 +73,13 @@ function App() {
             <Route path="/" element={
               
               <div className='h-screen overflow-y-auto overflow-x-hidden'>
-                {isCartOpen && <YourCart cartItems={cartItems} 
+                
+                {isCartOpen &&  <YourCart cartItems={cartItems} 
                             popularItems={popularItems} 
                             setCartItems={setCartItems} 
                             isOpen={isCartOpen}
                             onClose={closeCart}
-                            /> }
+                            />}
 
                 {isSideMenuOpen && <SideMenu isSideMenuOpen={isSideMenuOpen} onSideMenuClose={closeSideMenu} />}
                   <div className='flex-col'>
@@ -94,13 +99,13 @@ function App() {
           
             <Route path="/signup" element={
               <>
-                <Navbar setIsCartOpen= {setIsCartOpen} />
+                <Navbar setIsCartOpen= {setIsCartOpen} setSideMenuOpen = {setSideMenuOpen}/>
                 <SignUp />
               </>  
           } />
             <Route path="/login" element={
               <>
-                <Navbar setIsCartOpen= {setIsCartOpen} />
+                <Navbar setIsCartOpen= {setIsCartOpen} setSideMenuOpen = {setSideMenuOpen}/>
                 <LoginPage />
               </>  
           } />

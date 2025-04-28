@@ -9,6 +9,9 @@ import WinterDeals from './WinterDeals'
 import BasicCategory from './BasicCategory'
 import BeveragesBanner from '../assets/imgs/BeveragesBanner.webp'
 import ClassicPizzaBanner from '../assets/imgs/ClassicPizzaBanner.webp'
+import FriesBanner from '../assets/imgs/FriesBanner.webp'
+import burgerBanner from '../assets/imgs/burgerBanner.png'
+import calzoneBanner from '../assets/imgs/calzoneBanner.png'
 import CheeseGarlicBread from '../assets/imgs/CheeseGarlicBread.webp'
 import MeatyGarlicBread from '../assets/imgs/MeatyGarlicBread.webp'
 import CheesyStick from '../assets/imgs/CheesyStick.webp'
@@ -23,17 +26,17 @@ function Container() {
 
   return (
     <>
-        <div className='flex-col w-[77%] h-auto'>
+        <div className='mt-14 flex-col w-[77%] h-auto'>
             {/* <SearchBar /> */}
-            <PopularItems />
-            <NewYearDeal />
+            {/* <PopularItems /> */}
+            {/* <NewYearDeal /> */}
             {/* <ServeDeals /> */}
-            <WinterDeals />
+            {/* <WinterDeals /> */}
             <BasicCategory category={"PIZZA"} Banner={ClassicPizzaBanner}/>
             <BasicCategory category={"DRINKS"} Banner={BeveragesBanner}/>
-            <BasicCategory category={"BURGER"} Banner={BeveragesBanner}/>
-            <BasicCategory category={"FRIES_NUGGETS"} Banner={BeveragesBanner}/>
-            <BasicCategory category={"CALZONE"} Banner={BeveragesBanner}/>
+            <BasicCategory category={"BURGER"} Banner={burgerBanner}/>
+            <BasicCategory category={"FRIES_NUGGETS"} Banner={FriesBanner}/>
+            <BasicCategory category={"CALZONE"} Banner={calzoneBanner}/>
         </div>
     </>
   )
