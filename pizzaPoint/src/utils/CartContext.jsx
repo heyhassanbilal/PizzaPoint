@@ -5,7 +5,7 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
 
-  const BASE_URL = 'https://pizzapoint-c71ca9db8a73.herokuapp.com';
+  const baseUrl = 'https://pizzapoint-c71ca9db8a73.herokuapp.com';
 
   const [cart, setCart] = useState([]);
 //   const [extra, setExtra] = useState([]);
@@ -21,7 +21,7 @@ export const CartProvider = ({ children }) => {
     if (!token) return;
     try {
       setLoading(true);
-      const response = await fetch(`${this.baseUrl}/api/cart/user-email?email=${encodeURIComponent(email)}`, {
+      const response = await fetch(`${baseUrl}/api/cart/user-email?email=${encodeURIComponent(email)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log(response,"-------=====================")
@@ -39,7 +39,7 @@ export const CartProvider = ({ children }) => {
   const addToCart = async (id, qty, extras) => {
     
     try {
-    const response = await fetch(`${this.baseUrl}/api/cart/add-to-cart`, {
+    const response = await fetch(`${baseUrl}/api/cart/add-to-cart`, {
         method: "POST",
         headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -61,7 +61,7 @@ const updateCart = async (id,qty) => {
     const item = cart.cartItems.find((item) => item.id === id); // Find the item in the cart
     // if (!item) return;
     try {
-        const response = await fetch(`${this.baseUrl}/api/cart/update/${id}?quantity=${encodeURIComponent(qty)}`, {
+        const response = await fetch(`${baseUrl}/api/cart/update/${id}?quantity=${encodeURIComponent(qty)}`, {
             method: "PUT",
             headers: {
             Authorization: `Bearer ${token}`,
