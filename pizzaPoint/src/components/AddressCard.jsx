@@ -3,11 +3,11 @@ import { addressService } from "../utils/services";
 
 function AddressCard({ id, address, onAddressSelected }) {
   // Local state to track if this address is selected
-  const [isSelected, setIsSelected] = useState(address.selected === 1);
+  const [isSelected, setIsSelected] = useState(address.selected);
 
   // Update local state if the prop changes
   useEffect(() => {
-    setIsSelected(address.selected === 1);
+    setIsSelected(address.selected);
   }, [address.selected]);
 
   const handleOnClick = async (id) => {
