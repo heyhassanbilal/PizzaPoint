@@ -15,7 +15,7 @@ const SignUp = () => {
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
-  const [formStep, setFormStep] = useState("form"); // "form", "otp"
+  const [formStep, setFormStep] = useState("form");
   const { setToken, setEmail, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -29,15 +29,12 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (isAuthenticated()) {
-      navigate("/");
-    }
+    if (isAuthenticated()) navigate("/");
   }, []);
 
-  useEffect(() => {
+  const setUpRecaptcha = () => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
         "recaptcha-container",
         {
           size: "normal",
@@ -45,13 +42,18 @@ const SignUp = () => {
             console.log("reCAPTCHA solved");
           },
           "expired-callback": () => {
-            setError("reCAPTCHA expired. Refresh and try again.");
+            setError("reCAPTCHA expired. Please refresh and try again.");
+            window.recaptchaVerifier.clear();
+            delete window.recaptchaVerifier;
           },
-        }
+        },
+        auth
       );
-      window.recaptchaVerifier.render();
+      window.recaptchaVerifier.render().then((widgetId) => {
+        window.recaptchaWidgetId = widgetId;
+      });
     }
-  }, []);
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,17 +63,16 @@ const SignUp = () => {
     e.preventDefault();
     setError(null);
 
-    if (formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword)
       return setError("Passwords do not match");
-    }
-    if (formData.password.length < 10) {
+    if (formData.password.length < 10)
       return setError("Password must be at least 10 characters");
-    }
-    if (!phoneNumber) {
+    if (!phoneNumber)
       return setError("Phone number is required");
-    }
 
     try {
+      setUpRecaptcha();
+
       const confirmation = await signInWithPhoneNumber(
         auth,
         phoneNumber,
@@ -80,7 +81,11 @@ const SignUp = () => {
       setConfirmationResult(confirmation);
       setFormStep("otp");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Failed to send SMS");
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        delete window.recaptchaVerifier;
+      }
     }
   };
 
@@ -88,9 +93,7 @@ const SignUp = () => {
     e.preventDefault();
     setError(null);
 
-    if (!verificationCode) {
-      return setError("Please enter the OTP");
-    }
+    if (!verificationCode) return setError("Please enter the OTP");
 
     try {
       const userCredential = await confirmationResult.confirm(verificationCode);
@@ -102,7 +105,7 @@ const SignUp = () => {
       alert("User registered successfully");
       navigate("/");
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Verification failed");
     }
   };
 
@@ -112,6 +115,8 @@ const SignUp = () => {
         <h2 className="text-2xl font-bold text-black text-center mb-4">
           Sign Up
         </h2>
+
+        <div id="recaptcha-container" /> {/* Always rendered */}
 
         {formStep === "form" ? (
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -166,14 +171,13 @@ const SignUp = () => {
               onChange={handleChange}
               required
             />
-            <div id="recaptcha-container" />
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
             >
               Send Verification Code
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="text-red-500">{error}</p>}
           </form>
         ) : (
           <form onSubmit={handleVerifyOTP}>
@@ -192,7 +196,7 @@ const SignUp = () => {
             >
               Verify OTP
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="text-red-500">{error}</p>}
           </form>
         )}
 
