@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 function AddressChange() {
   const { token, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [addresses, setAddresses] = useState([]);
 
   const [formData, setFormData] = useState({
     buildingName: "",
@@ -22,8 +23,10 @@ function AddressChange() {
   });
 
   useEffect(() => {
-    isAuthenticated() ? console.log("User is authenticated") : navigate("/login");
-  }, []);
+    if (!isAuthenticated()) {
+      navigate("/login");
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -40,16 +43,41 @@ function AddressChange() {
       const message = await addressService.addAddress(formData);
       alert(message);
       fetchAddresses(); // Refresh addresses after adding a new one
+      // Reset form fields
+      setFormData({
+        buildingName: "",
+        floor: "",
+        apartmentNo: "",
+        intercom: "",
+        otherInstructions: "",
+        street: "",
+        city: "",
+        zip: "",
+        selected: 1,
+      });
     } catch (err) {
       console.error("Failed to add address", err);
     }
   };
 
-  const [addresses, setAddresses] = useState([]);
+  const fetchAddresses = async () => {
+    try {
+      const data = await addressService.fetchAllAddresses();
+      setAddresses(data);
+    } catch (error) {
+      console.error("Failed to fetch addresses", error);
+    }
+  };
 
-  const fetchAddresses = async() => {
-    const data = await addressService.fetchAllAddresses();
-    setAddresses(data);
+  // This function will be called when an address is selected in AddressCard
+  const handleAddressSelected = (selectedId) => {
+    // Update all addresses to reflect the new selection
+    setAddresses(prevAddresses => 
+      prevAddresses.map(address => ({
+        ...address,
+        selected: address.addressId === selectedId ? 1 : 0
+      }))
+    );
   };
 
   useEffect(() => {
@@ -69,7 +97,12 @@ function AddressChange() {
             {/* Responsive grid layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
               {addresses && addresses.map((address) => (
-                <AddressCard id={address.addressId} address={address} />
+                <AddressCard 
+                  key={address.addressId} 
+                  id={address.addressId} 
+                  address={address} 
+                  onAddressSelected={handleAddressSelected}
+                />
               ))}
             </div>
           </div>
