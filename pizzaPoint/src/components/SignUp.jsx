@@ -37,8 +37,7 @@ const SignUp = () => {
   useEffect(() => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
+        "recaptcha-container", // <-- string
         {
           size: "normal",
           callback: () => {
@@ -47,11 +46,13 @@ const SignUp = () => {
           "expired-callback": () => {
             setError("reCAPTCHA expired. Refresh and try again.");
           },
-        }
+        },
+        auth // <-- pass auth here
       );
       window.recaptchaVerifier.render();
     }
   }, []);
+  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
