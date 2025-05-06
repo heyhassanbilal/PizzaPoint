@@ -1,7 +1,7 @@
 import React from "react";
 import { addressService } from "../utils/services";
 
-function AddressCard({ key, address }) {
+function AddressCard({ id, address }) {
   const handleOnClick = async (id) => {
     try {
       const message = await addressService.selectAddress(id);
@@ -13,12 +13,13 @@ function AddressCard({ key, address }) {
   return (
     <>
       <div
-        key={key}
+        key={id}
+        id={id}
         className={`justify-self-center ${
           address.selected == 1 ? "border-brandRed" : "border-gray-400"
         } border-2 flex flex-col justify-evenly w-full sm:w-96 h-44 text-center p-2
          rounded-xl hover:scale-105 transform transition hover:cursor-pointer`}
-        onClick={()=>{handleOnClick(key)}}
+        onClick={()=>{handleOnClick(id)}}
       >
         <h3 className="text-xl font-semibold text-pretty">
           {`${address.street}

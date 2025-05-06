@@ -69,7 +69,7 @@ function AddressChange() {
             {/* Responsive grid layout */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
               {addresses && addresses.map((address) => (
-                <AddressCard key={address.addressId} address={address} />
+                <AddressCard id={address.addressId} address={address} />
               ))}
             </div>
           </div>
