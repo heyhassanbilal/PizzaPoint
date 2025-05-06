@@ -43,31 +43,33 @@ const SignUp = () => {
   const setUpRecaptcha = async (number) => {
     window.recaptchaVerifier = new RecaptchaVerifier(
       auth,
-      'recaptcha-container',
+      "recaptcha-container",
       {
-        size: 'normal',
+        size: "normal",
         callback: () => {
           console.log("reCAPTCHA verified successfully");
           // reCAPTCHA solved, allow signInWithPhoneNumber.
         },
-        'expired-callback': () => {
+        "expired-callback": () => {
           // Response expired. Ask user to solve reCAPTCHA again.
           setError("reCAPTCHA expired. Please refresh and try again.");
-        }
+        },
       }
     );
     window.recaptchaVerifier.render();
 
-    try{
-        const confirmationResult = await signInWithPhoneNumber(auth, number, window.recaptchaVerifier);
-        setConfirmationResult(confirmationResult);
-        setFlag(true);
-        return confirmationResult;
-
-    }catch(error){
-        setError(error.message);
+    try {
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        number,
+        window.recaptchaVerifier
+      );
+      setConfirmationResult(confirmationResult);
+      setFlag(true);
+      return confirmationResult;
+    } catch (error) {
+      setError(error.message);
     }
-
   };
 
   const handleSubmit = async (e) => {
@@ -104,7 +106,7 @@ const SignUp = () => {
     try {
       await setUpRecaptcha(phoneNumber);
     } catch (error) {
-        setError(error.message);
+      setError(error.message);
     }
   };
 
@@ -118,8 +120,8 @@ const SignUp = () => {
     }
 
     if (!verificationCode) {
-        setError("Please enter the verification code.");
-        return;
+      setError("Please enter the verification code.");
+      return;
     }
 
     try {
@@ -145,7 +147,7 @@ const SignUp = () => {
           setError(error.message);
         });
     } catch (error) {
-        setError(error.message);
+      setError(error.message);
     }
   };
 
@@ -193,7 +195,10 @@ const SignUp = () => {
             defaultCountry="HU"
             placeholder="Phone"
             className="w-full p-2 border rounded"
-            onChange={(value) => setFormData({ ...formData, phone: value })}
+            onChange={(value) => {
+              setPhoneNumber(value); // ← this line fixes the Firebase error
+              setFormData({ ...formData, phone: value });
+            }}
             required
           />
           <input
@@ -222,7 +227,10 @@ const SignUp = () => {
               onChange={(e) => setVerificationCode(e.target.value)}
               placeholder="Verification Code"
             />
-            <button type="submit" className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">
+            <button
+              type="submit"
+              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
+            >
               Verify OTP
             </button>
             {error && <p style={{ color: "red" }}>{error}</p>}
