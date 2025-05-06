@@ -2,12 +2,12 @@ import { React, useState, useContext, useEffect } from "react";
 import { Route, useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
-// import {
-//   getAuth,
-//   RecaptchaVerifier,
-//   signInWithPhoneNumber,
-// } from "firebase/auth";
-// import { auth } from "../firebase";
+import {
+  getAuth,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+} from "firebase/auth";
+import { auth } from "../firebase";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
@@ -40,35 +40,35 @@ const SignUp = () => {
     }
   }, []);
 
-  // const setUpRecaptcha = async (number) => {
-  //   window.recaptchaVerifier = new RecaptchaVerifier(
-  //     auth,
-  //     'recaptcha-container',
-  //     {
-  //       size: 'normal',
-  //       callback: () => {
-  //         console.log("reCAPTCHA verified successfully");
-  //         // reCAPTCHA solved, allow signInWithPhoneNumber.
-  //       },
-  //       'expired-callback': () => {
-  //         // Response expired. Ask user to solve reCAPTCHA again.
-  //         setError("reCAPTCHA expired. Please refresh and try again.");
-  //       }
-  //     }
-  //   );
-  //   window.recaptchaVerifier.render();
+  const setUpRecaptcha = async (number) => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      'recaptcha-container',
+      {
+        size: 'normal',
+        callback: () => {
+          console.log("reCAPTCHA verified successfully");
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+        },
+        'expired-callback': () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          setError("reCAPTCHA expired. Please refresh and try again.");
+        }
+      }
+    );
+    window.recaptchaVerifier.render();
 
-  //   try{
-  //       const confirmationResult = await signInWithPhoneNumber(auth, number, window.recaptchaVerifier);
-  //       setConfirmationResult(confirmationResult);
-  //       setFlag(true);
-  //       return confirmationResult;
+    try{
+        const confirmationResult = await signInWithPhoneNumber(auth, number, window.recaptchaVerifier);
+        setConfirmationResult(confirmationResult);
+        setFlag(true);
+        return confirmationResult;
 
-  //   }catch(error){
-  //       setError(error.message);
-  //   }
+    }catch(error){
+        setError(error.message);
+    }
 
-  // };
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,8 +87,8 @@ const SignUp = () => {
     }
 
     try {
-      // const userCredential = await confirmationResult.confirm(verificationCode);
-      // console.log("userCredential:", userCredential);
+      const userCredential = await confirmationResult.confirm(verificationCode);
+      console.log("userCredential:", userCredential);
       setIsLoading(true);
       const data = await authService.signup(formData);
       console.log(data);
@@ -101,53 +101,53 @@ const SignUp = () => {
       setError(error.message);
     }
 
-    // try {
-    //   await setUpRecaptcha(phoneNumber);
-    // } catch (error) {
-    //     setError(error.message);
-    // }
+    try {
+      await setUpRecaptcha(phoneNumber);
+    } catch (error) {
+        setError(error.message);
+    }
   };
 
-  // const handleVerifyOTP = async (e) => {
-  //   e.preventDefault();
-  //   setError(null); // Clear any existing errors
+  const handleVerifyOTP = async (e) => {
+    e.preventDefault();
+    setError(null); // Clear any existing errors
 
-  //   if (!confirmationResult) {
-  //     setError("No confirmation result found. Please try again.");
-  //     return;
-  //   }
+    if (!confirmationResult) {
+      setError("No confirmation result found. Please try again.");
+      return;
+    }
 
-  //   if (!verificationCode) {
-  //       setError("Please enter the verification code.");
-  //       return;
-  //   }
+    if (!verificationCode) {
+        setError("Please enter the verification code.");
+        return;
+    }
 
-  //   try {
-  //     const userCredential = await confirmationResult.confirm(verificationCode);
-  //     console.log("userCredential:", userCredential);
+    try {
+      const userCredential = await confirmationResult.confirm(verificationCode);
+      console.log("userCredential:", userCredential);
 
-  //     await fetch("http://localhost:8082/auth/signup", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     })
-  //       .then((response) => response.json())
-  //       .then((data) => {
-  //         console.log("Success:", data);
-  //         setToken(data.token);
-  //         setEmail(data.em);
-  //         alert("User registered successfully");
-  //         navigate("/");
-  //       })
-  //       .catch((error) => {
-  //         setError(error.message);
-  //       });
-  //   } catch (error) {
-  //       setError(error.message);
-  //   }
-  // };
+      await fetch("http://localhost:8082/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          setToken(data.token);
+          setEmail(data.em);
+          alert("User registered successfully");
+          navigate("/");
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    } catch (error) {
+        setError(error.message);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center min-h-[93.5vh] bg-[#ef4444]">
@@ -204,7 +204,7 @@ const SignUp = () => {
             onChange={handleChange}
             required
           />
-          {/* <div id="recaptcha-container" /> */}
+          <div id="recaptcha-container" />
           <button
             type="submit"
             className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
@@ -213,7 +213,7 @@ const SignUp = () => {
           </button>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
-        {/* {flag && (
+        {flag && (
           <form onSubmit={handleVerifyOTP}>
             <input
               type="text"
@@ -227,7 +227,7 @@ const SignUp = () => {
             </button>
             {error && <p style={{ color: "red" }}>{error}</p>}
           </form>
-        )} */}
+        )}
         <p className="mt-3">
           Already have an account?{" "}
           <span

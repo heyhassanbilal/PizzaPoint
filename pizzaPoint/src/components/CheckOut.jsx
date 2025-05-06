@@ -14,6 +14,8 @@ function CheckOut() {
     let paymentMethod = "CASH";
     const {cart} = useCart();
     const {email, token} = useAuth(); 
+    // const BASE_URL = 'http://localhost:8082';
+    const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
 
     useEffect(() => {
         const fetchAddresses = async() => {
@@ -27,7 +29,7 @@ function CheckOut() {
 
     async function getSelectedAddress() {
         try {
-            const response = await fetch('http://localhost:8082/api/address/selected?isSelected=true', {
+            const response = await fetch(`${BASE_URL}/api/address/selected?isSelected=true`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ function CheckOut() {
     
         const runCheckout = async () => {
             try {
-                const response = await fetch('http://localhost:8082/api/orders/checkout', {
+                const response = await fetch(`${BASE_URL}/api/orders/checkout`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -87,8 +89,8 @@ function CheckOut() {
 
     const handlePlaceOrder = async () => {
         try {
-            console.log(cart, "cart first-----------------");
-            const response = await fetch(`http://localhost:8082/api/orders/placeorder`, {
+            // console.log(cart, "cart first-----------------");
+            const response = await fetch(`${BASE_URL}/api/orders/placeorder`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
@@ -98,7 +100,7 @@ function CheckOut() {
                 credentials: 'include',
             });
 
-            console.log(cart, "cart-----------------");
+            // console.log(cart, "cart-----------------");
     
             if (!response.ok) {
                 const errorData = await response.text();
@@ -107,6 +109,8 @@ function CheckOut() {
             } else {
                 const data = await response.json();
                 console.log("✅ Success:", data);
+                alert("Order placed successfully!"); 
+                navigate("/");
             }
         } catch (error) {
             console.error('Error placing order:', error);
@@ -238,8 +242,7 @@ function CheckOut() {
                             className='w-full h-10 lg:h-12 bg-brandRed text-white font-bold rounded-lg mt-4 text-sm lg:text-base' 
                             onClick={() => {
                                 handlePlaceOrder();
-                                alert("Order placed successfully!"); 
-                                navigate("/")
+                                
                             }}
                         >
                             Place order

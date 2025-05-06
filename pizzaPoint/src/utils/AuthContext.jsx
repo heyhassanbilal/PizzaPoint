@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem('authToken');
     
     if (!token) return false;
-    else return true;
+    else {console.log(token);return true;}
   }
   
   
