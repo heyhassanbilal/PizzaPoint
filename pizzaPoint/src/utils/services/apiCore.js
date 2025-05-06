@@ -2,7 +2,8 @@
 
 import { useAuth } from "../useAuth";
 
-const BASE_URL = 'https://pizzapoint-c71ca9db8a73.herokuapp.com';
+// const BASE_URL = 'http://localhost:8082';
+const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
 
 class ApiCore {
   constructor() {

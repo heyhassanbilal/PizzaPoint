@@ -31,6 +31,7 @@ function BasicCategory({ Banner, items, category }) {
         // }
 
         const json = await productService.getProductByCategory(category);
+        console.log(category, json);
         setData([ ...json]); // Prevent overwriting data
       } catch (error) {
         if (error.name !== 'AbortError') {

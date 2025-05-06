@@ -25,6 +25,7 @@ import AdminDashboard from './components/AdminDashboard'
 import AddressChange from './components/AddressChange'
 import CheckOut from './components/CheckOut'
 // import { useAuth } from './utils/useAuth'
+import MyOrders from './components/MyOrders'
 
 function App() {
 
@@ -131,6 +132,11 @@ function App() {
             <Route path="/checkout" element={
               <>
                 <CheckOut />
+              </>  
+            } />
+            <Route path="/orders" element={
+              <>
+                <MyOrders />
               </>  
             } />
 
