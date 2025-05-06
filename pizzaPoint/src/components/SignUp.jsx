@@ -34,11 +34,7 @@ const SignUp = () => {
     }
   }, []);
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const setUpRecaptcha = () => {
+  useEffect(() => {
     if (!window.recaptchaVerifier) {
       window.recaptchaVerifier = new RecaptchaVerifier(
         auth,
@@ -55,6 +51,10 @@ const SignUp = () => {
       );
       window.recaptchaVerifier.render();
     }
+  }, []);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -72,7 +72,6 @@ const SignUp = () => {
     }
 
     try {
-      setUpRecaptcha();
       const confirmation = await signInWithPhoneNumber(
         auth,
         phoneNumber,
