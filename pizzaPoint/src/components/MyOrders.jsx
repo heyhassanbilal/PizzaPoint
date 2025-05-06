@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 const MyOrders = () => {
   
-  const MyOrders = () => {
+  
     const [orders, setOrders] = useState([{
       "id": "123",
       "date": "2025-05-05",
@@ -13,7 +13,19 @@ const MyOrders = () => {
         { "name": "Margherita", "quantity": 1, "price": 10.99 },
         { "name": "Pepsi", "quantity": 2, "price": 2.50 }
       ]
-    }]);
+    },
+    {
+      "id": "123",
+      "date": "2025-05-05",
+      "status": "Delivered",
+      "total": 25.99,
+      "address": "123 Pizza Street, Debrecen",
+      "items": [
+        { "name": "Margherita", "quantity": 1, "price": 10.99 },
+        { "name": "Pepsi", "quantity": 2, "price": 2.50 }
+      ]
+    }
+  ]);
     const [expandedOrderId, setExpandedOrderId] = useState(null);
   
     // useEffect(() => {
@@ -96,6 +108,5 @@ const MyOrders = () => {
       </div>
     );
   };
-}
   
   export default MyOrders;
