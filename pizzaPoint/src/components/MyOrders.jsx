@@ -1,46 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../utils/useAuth';
+import { myOrdersService } from '../utils/services'; // Adjust the import path as necessary
+import { productService } from '../utils/services';
 
 const MyOrders = () => {
   
+  const {email} = useAuth();
   
-    const [orders, setOrders] = useState([{
-      "id": "123",
-      "date": "2025-05-05",
-      "status": "Delivered",
-      "total": 25.99,
-      "address": "123 Pizza Street, Debrecen",
-      "items": [
-        { "name": "Margherita", "quantity": 1, "price": 10.99 },
-        { "name": "Pepsi", "quantity": 2, "price": 2.50 }
-      ]
-    },
-    {
-      "id": "123",
-      "date": "2025-05-05",
-      "status": "Delivered",
-      "total": 25.99,
-      "address": "123 Pizza Street, Debrecen",
-      "items": [
-        { "name": "Margherita", "quantity": 1, "price": 10.99 },
-        { "name": "Pepsi", "quantity": 2, "price": 2.50 }
-      ]
-    }
-  ]);
+    const [orders, setOrders] = useState([]);
     const [expandedOrderId, setExpandedOrderId] = useState(null);
   
-    // useEffect(() => {
-    //   const fetchOrders = async () => {
-    //     try {
-    //       const res = await fetch('/api/orders'); // Replace with your actual endpoint
-    //       const data = await res.json();
-    //       setOrders(data);
-    //     } catch (err) {
-    //       console.error('Failed to fetch orders:', err);
-    //     }
-    //   };
+    useEffect(() => {
+      const fetchOrders = async () => {
+        try {
+          const res = await myOrdersService.getMyOrders(email);
+          const data = await res.json();
+          setOrders(data);
+        } catch (err) {
+          console.error('Failed to fetch orders:', err);
+        }
+      };
   
-    //   fetchOrders();
-    // }, []);
+      fetchOrders();
+    }, []);
   
     const toggleExpand = (id) => {
       setExpandedOrderId(id === expandedOrderId ? null : id);
@@ -56,15 +38,15 @@ const MyOrders = () => {
           <div className="space-y-4">
             {orders.map((order) => (
               <div
-                key={order.id}
+                key={order.orderId}
                 className="bg-white dark:bg-zinc-900 rounded-2xl shadow-md transition hover:shadow-lg border border-zinc-200 dark:border-zinc-700"
               >
                 <button
-                  onClick={() => toggleExpand(order.id)}
+                  onClick={() => toggleExpand(order.orderId)}
                   className="w-full px-6 py-4 flex justify-between items-center text-left"
                 >
                   <div>
-                    <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">Order #{order.id}</p>
+                    <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">Order #{order.orderSequence}</p>
                     <p className="text-sm text-zinc-500">{order.date}</p>
                   </div>
                   <div className="text-right">
@@ -79,7 +61,8 @@ const MyOrders = () => {
                     >
                       {order.status}
                     </p>
-                    <p className="font-semibold text-zinc-800 dark:text-zinc-100">${order.total.toFixed(2)}</p>
+                    <p className="font-semibold text-zinc-800 dark:text-zinc-100">${order.totalPrice}</p>
+                    <p className="font-semibold text-zinc-800 dark:text-zinc-100">Payment: {order.paymentMethod}</p>
                   </div>
                 </button>
   
@@ -88,15 +71,20 @@ const MyOrders = () => {
                     <div className="border-t border-zinc-200 dark:border-zinc-700 pt-3">
                       <p className="font-medium mb-1">Items:</p>
                       <ul className="list-disc ml-5 space-y-1">
-                        {order.items.map((item, idx) => (
-                          <li key={idx}>
-                            {item.name} × {item.quantity} — ${item.price}
+                        {order.orderItems.map(async (item) => {
+                          const res = await productService.getProductById(item.menuItemId);
+                          const product = await res.json();
+                          return (
+                          <li key={item.id}>
+                            {product.size} {product.name} × {item.quantity} — {item.pricePerItem}
                           </li>
-                        ))}
+                          )
+                        }
+                        )}
                       </ul>
   
                       <p className="mt-4">
-                        <span className="font-medium">Delivery Address:</span> {order.address}
+                        <span className="font-medium">Delivery Address:</span> {`${order.address.buildingName} ${order.address.street} floor: ${order.address.floor} intercom: ${order.address.intercom} apartment: ${order.address.apartmentNo}`}
                       </p>
                     </div>
                   </div>

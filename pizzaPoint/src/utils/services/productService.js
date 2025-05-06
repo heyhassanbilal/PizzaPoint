@@ -6,6 +6,7 @@ export const productService = {
   getProductByNameAndSize: (params = {}) => apiCore.get('/api/menuItem/get/name/size', params),
   getExtras: () => apiCore.get('/api/extras/get/all'),
   getExtraById: (extraId) => apiCore.get(`/api/extras/get/${extraId}`),
+  getProductById: (id) => apiCore.get(`/api/menuItem/get/${id}`),
   getProductByCategory: (category) => apiCore.get(`/api/menuItem/get/category/${category}`),
   // createProduct: (productData) => apiCore.post('/products', productData),
   // updateProduct: (id, productData) => apiCore.put(`/products/${id}`, productData),
