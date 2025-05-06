@@ -64,7 +64,7 @@ function AdminDashboard() {
   const updateOrderStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/orders/${id}/status`,
+        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/orders/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -96,7 +96,7 @@ function AdminDashboard() {
   const fetchMenuData = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:8082/api/menuItem/get/${id}`,
+        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/menuItem/get/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -123,7 +123,7 @@ function AdminDashboard() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `http://localhost:8082/api/orders/all/orders`,
+          `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/orders/all/orders`,
           {
             headers: { Authorization: `Bearer ${token}` },
             signal,
