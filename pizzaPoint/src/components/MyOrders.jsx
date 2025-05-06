@@ -13,8 +13,8 @@ const MyOrders = () => {
     useEffect(() => {
       const fetchOrders = async () => {
         try {
-          const res = await myOrdersService.getMyOrders(email);
-          const data = await res.json();
+          const data = await myOrdersService.getMyOrders(email);
+          // const data = await res.json();
           setOrders(data);
         } catch (err) {
           console.error('Failed to fetch orders:', err);
@@ -72,8 +72,8 @@ const MyOrders = () => {
                       <p className="font-medium mb-1">Items:</p>
                       <ul className="list-disc ml-5 space-y-1">
                         {order.orderItems.map(async (item) => {
-                          const res = await productService.getProductById(item.menuItemId);
-                          const product = await res.json();
+                          const product = await productService.getProductById(item.menuItemId);
+                          // const product = await res.json();
                           return (
                           <li key={item.id}>
                             {product.size} {product.name} × {item.quantity} — {item.pricePerItem}
