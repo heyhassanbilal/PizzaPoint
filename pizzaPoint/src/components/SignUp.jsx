@@ -32,25 +32,59 @@ const SignUp = () => {
     if (isAuthenticated()) {
       navigate("/");
     }
-  }, []);
+  }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        "recaptcha-container", // <-- string
-        {
-          size: "normal",
-          callback: () => {
-            console.log("reCAPTCHA solved");
-          },
-          "expired-callback": () => {
-            setError("reCAPTCHA expired. Refresh and try again.");
-          },
-        },
-        auth // <-- pass auth here
-      );
-      window.recaptchaVerifier.render();
+    // Clear any existing reCAPTCHA widget
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (error) {
+        console.error("Error clearing recaptcha:", error);
+      }
+      window.recaptchaVerifier = null;
     }
+    
+    // Create a new reCAPTCHA verifier
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: "normal",
+        callback: () => {
+          console.log("reCAPTCHA solved");
+        },
+        'expired-callback': () => {
+          setError("reCAPTCHA expired. Refresh and try again.");
+        }
+      });
+      
+      // Only render if the container exists
+      const container = document.getElementById('recaptcha-container');
+      if (container) {
+        window.recaptchaVerifier.render()
+          .then(widgetId => {
+            window.recaptchaWidgetId = widgetId;
+          })
+          .catch(error => {
+            console.error("Error rendering reCAPTCHA:", error);
+            setError("Error loading reCAPTCHA. Please refresh the page.");
+          });
+      }
+    } catch (error) {
+      console.error("Error initializing reCAPTCHA:", error);
+      setError("Error setting up verification. Please refresh the page.");
+    }
+
+    // Cleanup function
+    return () => {
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+          window.recaptchaVerifier = null;
+        } catch (error) {
+          console.error("Error clearing recaptcha during cleanup:", error);
+        }
+      }
+    };
   }, []);
   
 
@@ -81,7 +115,30 @@ const SignUp = () => {
       setConfirmationResult(confirmation);
       setFormStep("otp");
     } catch (err) {
+      console.error("Error during phone verification:", err);
       setError(err.message);
+      
+      // Reset reCAPTCHA on error
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+          window.recaptchaVerifier = null;
+          
+          // Re-initialize reCAPTCHA
+          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            size: "normal",
+            callback: () => {
+              console.log("reCAPTCHA solved");
+            },
+            'expired-callback': () => {
+              setError("reCAPTCHA expired. Refresh and try again.");
+            }
+          });
+          window.recaptchaVerifier.render();
+        } catch (error) {
+          console.error("Error resetting reCAPTCHA:", error);
+        }
+      }
     }
   };
 
@@ -103,6 +160,7 @@ const SignUp = () => {
       alert("User registered successfully");
       navigate("/");
     } catch (err) {
+      console.error("Error confirming OTP:", err);
       setError(err.message);
     }
   };
@@ -167,7 +225,7 @@ const SignUp = () => {
               onChange={handleChange}
               required
             />
-            <div id="recaptcha-container" />
+            <div id="recaptcha-container" className="mb-2"></div>
             <button
               type="submit"
               className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
