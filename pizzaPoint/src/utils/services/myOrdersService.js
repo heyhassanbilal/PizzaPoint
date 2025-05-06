@@ -1,6 +1,6 @@
 // src/services/myOrderService.js
 import { apiCore } from './apiCore';
 
-export const myOrderService = {
+export const myOrdersService = {
   getMyOrders: (email) => apiCore.get(`/api/orders/history/all-orders/${email}`),
 };
