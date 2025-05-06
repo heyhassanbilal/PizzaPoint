@@ -111,7 +111,7 @@ function CheckOut() {
                 const data = await response.json();
                 console.log("✅ Success:", data);
                 alert("Order placed successfully!"); 
-                navigate("/");
+                navigate("/orders");
             }
         } catch (error) {
             console.error('Error placing order:', error);
