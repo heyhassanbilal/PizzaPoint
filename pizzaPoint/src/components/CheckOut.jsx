@@ -9,6 +9,7 @@ function CheckOut() {
     const navigate = useNavigate();
     const [selectedAddresses, setSelectedAddresses] = useState([]);
     const [check, setCheck] = useState();
+    // const [data, setData] = useState();
     
     let orderType = "DELIVERY";
     let paymentMethod = "CASH";
@@ -96,7 +97,7 @@ function CheckOut() {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     Authorization: `Bearer ${token}`,
                 },
-                body: new URLSearchParams({ paymentMethod: paymentMethod, orderType: orderType }),
+                body: new URLSearchParams({ orderId: check.orderId,paymentMethod: paymentMethod, orderType: orderType }),
                 credentials: 'include',
             });
 
