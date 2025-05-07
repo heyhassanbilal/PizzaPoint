@@ -85,7 +85,7 @@ const MyOrders = () => {
               <div className="px-6 py-4">
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">Order {order.orderSequence}</p>
+                    <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">{order.orderSequence}</p>
                     <p className="text-sm text-zinc-500 mb-3">{order.date}</p>
                   </div>
                   <div className="text-right">
