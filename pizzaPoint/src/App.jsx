@@ -139,6 +139,9 @@ function App() {
                 <MyOrders />
               </>  
             } />
+            <Route path="/orders/:orderId" element=
+              {<OrderDetails />} 
+            />
 
           </Routes>
         </Router>

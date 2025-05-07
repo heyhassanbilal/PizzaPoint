@@ -66,15 +66,26 @@ const MyOrders = () => {
                 className="w-full px-6 py-4 flex justify-between items-center text-left"
               >
                 <div>
-                  <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">Order {order.orderSequence}</p>
+                  <p className="font-semibold text-lg text-zinc-800 dark:text-zinc-100">{order.orderSequence}</p>
                   <p className="text-sm text-zinc-500">{order.date}</p>
+                  <ul className="list-disc ml-5 space-y-1">
+                    {order.orderItems.map((item) => (
+                      <li key={item.id || `${item.menuItemId}-${item.quantity}`}>
+                        {productDetails[item.menuItemId] ? 
+                          `${productDetails[item.menuItemId].size} ${productDetails[item.menuItemId].name} × ${item.quantity} — ${item.pricePerItem} HUF` : 
+                          `Loading... × ${item.quantity} — ${item.pricePerItem} HUF`
+                        }
+                      </li>
+                    ))}
+                  </ul>
+                  
                 </div>
                 <div className="text-right">
                   <p
                     className={`text-sm font-bold ${
-                      order.status === 'Delivered'
+                      order.status === 'DELIVERED'
                         ? 'text-green-600'
-                        : order.status === 'Pending'
+                        : order.status === 'PENDING'
                         ? 'text-yellow-500'
                         : 'text-red-500'
                     }`}
@@ -86,7 +97,7 @@ const MyOrders = () => {
                 </div>
               </button>
 
-              {expandedOrderId === order.orderId && (
+              {/* {expandedOrderId === order.orderId && (
                 <div className="px-6 pb-4 text-sm text-zinc-700 dark:text-zinc-300 animate-fade-in">
                   <div className="border-t border-zinc-200 dark:border-zinc-700 pt-3">
                     <p className="font-medium mb-1">Items:</p>
@@ -106,7 +117,7 @@ const MyOrders = () => {
                     </p>
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
           ))}
         </div>
