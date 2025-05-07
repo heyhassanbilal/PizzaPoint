@@ -21,6 +21,10 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
     setIsMenuOpen(false);
     logout();
   };
+  const handleMyOrders = () => {
+    setIsMenuOpen(false);
+    navigate("/orders");
+  };
 
   // Close menu when clicking outside or scrolling
   useEffect(() => {
@@ -129,12 +133,22 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
                   </Link>
                 </>
               ) : (
-                <button
-                  onClick={handleLogout}
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"
-                >
-                  Logout
-                </button>
+                <>
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"
+                  >
+                    Logout
+                  </button>
+                  <button
+                    onClick={handleMyOrders}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"
+                  >
+                    My Orders
+                  </button>
+
+      
+                </>
               )}
             </div>
           )}
