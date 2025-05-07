@@ -15,12 +15,19 @@ export default function OrderDetails() {
     const fetchOrderDetails = async () => {
       try {
         setLoading(true);
-        // Assuming there's a method to get a specific order
-        const orderData = await myOrdersService.getOrderById(orderId, email);
-        setOrder(orderData);
+        const orders = await myOrdersService.getMyOrders(email);
+        const matchedOrder = orders.find((o) => o.orderId === orderId);
+
+        if (!matchedOrder) {
+          setOrder(null);
+          setLoading(false);
+          return;
+        }
+
+        setOrder(matchedOrder);
 
         // Fetch product details for all items
-        const productPromises = orderData.orderItems.map(async (item) => {
+        const productPromises = matchedOrder.orderItems.map(async (item) => {
           try {
             const product = await productService.getProductById(item.menuItemId);
             return { id: item.menuItemId, product };
@@ -85,11 +92,11 @@ export default function OrderDetails() {
     );
   }
 
-  // Calculate total price from items
   const subtotal = order.orderItems.reduce(
-    (sum, item) => sum + item.quantity * parseInt(item.pricePerItem), 
+    (sum, item) => sum + item.quantity * parseFloat(item.pricePerItem),
     0
   );
+
 
   return (
     <div className="flex items-center justify-center min-h-[93.5vh] bg-[#dc2626]">
