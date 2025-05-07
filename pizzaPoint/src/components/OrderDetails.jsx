@@ -102,7 +102,7 @@ export default function OrderDetails() {
     <div className="flex items-center justify-center min-h-[93.5vh] bg-[#dc2626]">
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">Order #{order.orderSequence}</h2>
+          <h2 className="text-2xl font-bold">{order.orderSequence}</h2>
           <span className={`text-sm font-bold px-3 py-1 rounded-full ${
             order.status === 'DELIVERED' ? 'bg-green-100 text-green-600' :
             order.status === 'PENDING' ? 'bg-yellow-100 text-yellow-600' :

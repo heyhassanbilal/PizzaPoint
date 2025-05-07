@@ -110,8 +110,8 @@ function CheckOut() {
             } else {
                 const data = await response.json();
                 console.log("✅ Success:", data);
-                alert("Order placed successfully!"); 
-                navigate("/orders");
+                // alert("Order placed successfully!"); 
+                navigate(`/orders/${check.orderId}`);
             }
         } catch (error) {
             console.error('Error placing order:', error);
