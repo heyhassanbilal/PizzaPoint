@@ -62,7 +62,7 @@ export default function OrderDetails() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[93.5vh] bg-[#dc2626]">
+      <div className="flex items-center justify-center min-h-screen bg-[#dc2626]">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
           <h2 className="text-2xl font-bold text-center mb-4">Order Details</h2>
           <div className="text-center py-10">
@@ -75,7 +75,7 @@ export default function OrderDetails() {
 
   if (!order) {
     return (
-      <div className="flex items-center justify-center min-h-[93.5vh] bg-[#dc2626]">
+      <div className="flex items-center justify-center min-h-screen bg-[#dc2626]">
         <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
           <h2 className="text-2xl font-bold text-center mb-4">Order Not Found</h2>
           <div className="text-center py-10">
