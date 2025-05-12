@@ -235,7 +235,7 @@ function CheckOut() {
                             </div>
                             <div className='flex justify-between text-brandRed font-bold'>
                                 <h4 className='text-sm lg:text-base'>Total</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {cart.totalPrice}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? cart.totalPrice : 0}</h4>
                             </div>
                         </div>
 
