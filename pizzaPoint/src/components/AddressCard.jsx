@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { addressService } from "../utils/services";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function AddressCard({ id, address, onAddressSelected }) {
   // Local state to track if this address is selected
   const [isSelected, setIsSelected] = useState(address.selected);
 
-  const navigate = Navigate();
+  const navigate = useNavigate();
 
   // Update local state if the prop changes
   useEffect(() => {
