@@ -38,7 +38,7 @@ export default function LoginPage() {
           console.log("Success:", data);
           setToken(data.token);
           setEmail(data.email);
-          alert("User login successfull");
+          // alert("User login successfull");
           navigate("/");
         // });
     } catch (error) {

@@ -157,7 +157,7 @@ const SignUp = () => {
       const response = await authService.signup(formData);
       setToken(response.token);
       setEmail(response.email);
-      alert("User registered successfully");
+      // alert("User registered successfully");
       navigate("/");
     } catch (err) {
       console.error("Error confirming OTP:", err);
