@@ -156,12 +156,20 @@ export default function OrderDetails() {
               <p className="font-medium">{order.paymentMethod}</p>
             </div>
             <div className="flex justify-between mb-2">
-              <p>Subtotal</p>
-              <p className="font-medium">{subtotal} HUF</p>
+              <p>Item Subtotal</p>
+              <p className="font-medium">{order.totalCartAmount} HUF</p>
             </div>
             <div className="flex justify-between mb-2">
               <p>Delivery Fee</p>
-              <p className="font-medium">{order.totalPrice - subtotal} HUF</p>
+              <p className="font-medium">{order.deliveryFee} HUF</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p>Service fee</p>
+              <p className="font-medium">{order.serviceFee} HUF</p>
+            </div>
+            <div className="flex justify-between mb-2">
+              <p>Bottle Deposit</p>
+              <p className="font-medium">{order.bottleDepositFee} HUF</p>
             </div>
             <div className="flex justify-between pt-2 border-t border-gray-200">
               <p className="font-bold">Total</p>
