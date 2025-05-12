@@ -215,16 +215,16 @@ function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
         <div className='p-5'>
           <div className='flex justify-between mb-2'>
             <h3 className='text-base'>Total</h3>
-            <h3 className='text-base'>{cart ? cart.totalPrice-400 : 0} HUF</h3>
+            <h3 className='text-base'>{cart ? cart.totalPrice : 0} HUF</h3>
           </div>
-          <div className='flex justify-between mb-2'>
+          {/* <div className='flex justify-between mb-2'>
             <h3 className='text-base'>Delivery Fee</h3>
             <h3 className='text-base'>{cart ? 400 : 0} HUF</h3>
           </div>
           <div className='flex justify-between mb-2'>
             <h3 className='text-base font-semibold'>Grand Total</h3>
-            <h3 className='text-base font-semibold'>{cart ? cart.totalPrice : 0} HUF</h3>
-          </div>
+            <h3 className='text-base font-semibold'>{cart ? cart.totalPrice+400 : 0} HUF</h3>
+          </div> */}
         </div>
         
         {/* Checkout */}
