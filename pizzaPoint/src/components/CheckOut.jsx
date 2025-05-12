@@ -219,23 +219,23 @@ function CheckOut() {
                         <div className='flex flex-col mt-3 lg:mt-4 gap-2 lg:gap-4'>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Item Subtotal</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? check.totalCartAmount: 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check != undefined ? check.totalCartAmount: 0}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Bottle Deposit</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? check.bottleDepositFee : 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.bottleDepositFee : 0}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Service fee</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? check.serviceFee : 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.serviceFee : 0}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Delivery</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? check.deliveryFee : 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.deliveryFee : 0}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed font-bold'>
                                 <h4 className='text-sm lg:text-base'>Total</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check ==undefined ? cart.totalPrice : 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? cart.totalPrice : 0}</h4>
                             </div>
                         </div>
 
