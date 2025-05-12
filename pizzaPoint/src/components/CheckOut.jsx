@@ -4,6 +4,7 @@ import { useCart } from '../utils/CartContext';
 import { useAuth } from "../utils/useAuth";
 import { useNavigate } from 'react-router-dom';
 import { addressService } from "../utils/services";
+import { Link } from 'react-router-dom';
 
 function CheckOut() {
     const navigate = useNavigate();
@@ -193,7 +194,7 @@ function CheckOut() {
                                 ))}
                             </div>
                         </div>
-                        <a href="" className='mt-2 text-sm lg:text-base'>+ Add more items</a>
+                        <Link to="/" className="mt-2 text-sm lg:text-base">+ Add more items</Link>
 
                         {/* Payment Section */}
                         <h2 className='text-xl lg:text-2xl font-semibold mt-6 lg:mt-8 mb-3 lg:mb-4'>Payment</h2>
