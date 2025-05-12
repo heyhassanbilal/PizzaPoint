@@ -11,7 +11,7 @@ function CheckOut() {
     const [check, setCheck] = useState();
     // const [data, setData] = useState();
     
-    let orderType = "DELIVERY";
+    const [orderType,setOrderType] = useState("DELIVERY");
     let paymentMethod = "CASH";
     const {cart} = useCart();
     const {email, token} = useAuth(); 
@@ -128,10 +128,10 @@ function CheckOut() {
                 <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-end mt-20 lg:mt-32 mb-8'>
                     {/* Delivery/Pickup Toggle */}
                     <div className='flex w-full max-w-md lg:max-w-xl h-12 rounded-full bg-white items-center p-1'>
-                        <div className='bg-brandRed text-white w-1/2 h-full rounded-full text-center flex items-center justify-center'>
+                        <div className={`${orderType == "DELIVERY" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 h-full rounded-full text-center flex items-center justify-center`} onClick={() => setOrderType("DELIVERY")}>
                             <h3>Delivery</h3>
                         </div>
-                        <div className='text-brandRed w-1/2 rounded-full h-full flex items-center justify-center'>
+                        <div className={`${orderType == "PICKUP" ? "bg-brandRed text-white": "text-brandRed"}text-brandRed w-1/2 rounded-full h-full flex items-center justify-center` } onClick={() => setOrderType("PICKUP")}>
                             <h3>Pickup</h3>
                         </div>
                     </div>
