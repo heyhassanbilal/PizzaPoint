@@ -1,22 +1,28 @@
-import {useState, useEffect} from 'react'
-import Navbar from './Navbar'
-import { useCart } from '../utils/CartContext';
-import { useAuth } from "../utils/useAuth";
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../utils/CartContext';
 import { addressService } from "../utils/services";
+import { useAuth } from "../utils/useAuth";
+import Navbar from './Navbar';
 
 function CheckOut() {
     const navigate = useNavigate();
     const [selectedAddresses, setSelectedAddresses] = useState([]);
-    const [check, setCheck] = useState();
-    // const [data, setData] = useState();
+    const [check, setCheck] = useState(null);
+    const [orderSummary, setOrderSummary] = useState({
+        totalCartAmount: 0,
+        deliveryFee: 0,
+        serviceFee: 0,
+        bottleDepositFee: 0,
+        totalPrice: 0
+    });
     
     let orderType = "DELIVERY";
     let paymentMethod = "CASH";
     const {cart} = useCart();
     const {email, token} = useAuth(); 
     // const BASE_URL = 'http://localhost:8082';
-    const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
+    const BASE_URL = 'https://pizzapoint-c71ca9db8a73.herokuapp.com';
 
     useEffect(() => {
         const fetchAddresses = async() => {
@@ -26,6 +32,7 @@ function CheckOut() {
             }
         };
         fetchAddresses();
+        getSelectedAddress();
     },[])
 
     async function getSelectedAddress() {
@@ -74,6 +81,16 @@ function CheckOut() {
     
                 const data = await response.json();
                 setCheck(data);
+                
+                // Set the complete order summary from backend data
+                setOrderSummary({
+                    totalCartAmount: data.totalCartAmount || 0,
+                    deliveryFee: data.deliveryFee || 0,
+                    serviceFee: data.serviceFee || 0,
+                    bottleDepositFee: data.bottleDepositFee || 0,
+                    totalPrice: data.totalPrice || 0
+                });
+                
                 console.log(data, "Checkout successful");
             } catch (error) {
                 if (error.name !== 'AbortError') {
@@ -90,18 +107,19 @@ function CheckOut() {
 
     const handlePlaceOrder = async () => {
         try {
-            // console.log(cart, "cart first-----------------");
             const response = await fetch(`${BASE_URL}/api/orders/placeorder`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
                     Authorization: `Bearer ${token}`,
                 },
-                body: new URLSearchParams({ orderId: check.orderId,paymentMethod: paymentMethod, orderType: orderType }),
+                body: new URLSearchParams({ 
+                    orderId: check.orderId,
+                    paymentMethod: paymentMethod, 
+                    orderType: orderType 
+                }),
                 credentials: 'include',
             });
-
-            // console.log(cart, "cart-----------------");
     
             if (!response.ok) {
                 const errorData = await response.text();
@@ -110,7 +128,6 @@ function CheckOut() {
             } else {
                 const data = await response.json();
                 console.log("✅ Success:", data);
-                // alert("Order placed successfully!"); 
                 navigate(`/orders/${check.orderId}`);
             }
         } catch (error) {
@@ -119,6 +136,11 @@ function CheckOut() {
     };
 
     const cartItems = cart && cart.cartItems ? cart.cartItems : [];
+
+    // Format price to include thousand separators
+    const formatPrice = (price) => {
+        return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    };
 
     return (
         <>
@@ -145,8 +167,8 @@ function CheckOut() {
                             <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => {navigate("/address")}}>
                                 <div className='flex items-center'>
                                     <i className="fa-solid fa-house text-sm lg:text-base"></i>
-                                    <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5>
-                                    <p className='text-xs lg:text-sm text-gray-300'>Petofi ter 6</p>
+                                    <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName || "Add address"}</h5>
+                                    <p className='text-xs lg:text-sm text-gray-300'>{selectedAddresses.street || ""}</p>
                                 </div>
                                 <p><i className="fa-solid fa-chevron-right"></i></p>
                             </div>
@@ -180,10 +202,10 @@ function CheckOut() {
                                             <img src={item.menuItem.imageUrl} alt="food" className='w-14 h-14 lg:w-16 lg:h-16 rounded-lg object-cover'/>
                                             <div className='flex flex-col ml-2 lg:ml-4 justify-center'>
                                                 <h3 className='text-white font-bold text-sm lg:text-base'>{item.menuItem.name}</h3>
-                                                {item.extras[0] && <h5 className='text-xs lg:text-sm text-gray-300'>
+                                                {item.extras && item.extras.length > 0 && <h5 className='text-xs lg:text-sm text-gray-300'>
                                                     Extras: {item.extras.map((extra) => extra.name).join(", ")}
                                                 </h5>}
-                                                <h5 className='text-xs lg:text-sm text-gray-300'>HUF {item.totalPrice}</h5>
+                                                <h5 className='text-xs lg:text-sm text-gray-300'>HUF {formatPrice(item.totalPrice)}</h5>
                                             </div>
                                         </div>
                                         <div className='flex items-center'>
@@ -193,7 +215,7 @@ function CheckOut() {
                                 ))}
                             </div>
                         </div>
-                        <a href="" className='mt-2 text-sm lg:text-base'>+ Add more items</a>
+                        <a href="/menu" className='mt-2 text-sm lg:text-base'>+ Add more items</a>
 
                         {/* Payment Section */}
                         <h2 className='text-xl lg:text-2xl font-semibold mt-6 lg:mt-8 mb-3 lg:mb-4'>Payment</h2>
@@ -219,32 +241,30 @@ function CheckOut() {
                         <div className='flex flex-col mt-3 lg:mt-4 gap-2 lg:gap-4'>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Item Subtotal</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {cart.totalPrice}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {formatPrice(orderSummary.totalCartAmount)}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Bottle Deposit</h4>
-                                <h4 className='text-sm lg:text-base'>HUF 0</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {formatPrice(orderSummary.bottleDepositFee)}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Service fee</h4>
-                                <h4 className='text-sm lg:text-base'>HUF 0</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {formatPrice(orderSummary.serviceFee)}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Delivery</h4>
-                                <h4 className='text-sm lg:text-base'>HUF 0</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {formatPrice(orderSummary.deliveryFee)}</h4>
                             </div>
                             <div className='flex justify-between text-brandRed font-bold'>
                                 <h4 className='text-sm lg:text-base'>Total</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {cart.totalPrice}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF {formatPrice(orderSummary.totalPrice)}</h4>
                             </div>
                         </div>
 
                         <button 
                             className='w-full h-10 lg:h-12 bg-brandRed text-white font-bold rounded-lg mt-4 text-sm lg:text-base' 
-                            onClick={() => {
-                                handlePlaceOrder();
-                                
-                            }}
+                            onClick={handlePlaceOrder}
+                            disabled={!check?.orderId}
                         >
                             Place order
                         </button>
