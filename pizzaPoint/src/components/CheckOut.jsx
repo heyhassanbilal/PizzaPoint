@@ -131,7 +131,7 @@ function CheckOut() {
                         <div className={`${orderType == "DELIVERY" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 h-full rounded-full text-center flex items-center justify-center`} onClick={() => setOrderType("DELIVERY")}>
                             <h3>Delivery</h3>
                         </div>
-                        <div className={`${orderType == "PICKUP" ? "bg-brandRed text-white": "text-brandRed"}text-brandRed w-1/2 rounded-full h-full flex items-center justify-center` } onClick={() => setOrderType("PICKUP")}>
+                        <div className={`${orderType == "PICKUP" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 rounded-full h-full flex items-center justify-center` } onClick={() => setOrderType("PICKUP")}>
                             <h3>Pickup</h3>
                         </div>
                     </div>
