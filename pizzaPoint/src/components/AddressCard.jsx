@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { addressService } from "../utils/services";
+import { Navigate } from "react-router-dom";
 
 function AddressCard({ id, address, onAddressSelected }) {
   // Local state to track if this address is selected
   const [isSelected, setIsSelected] = useState(address.selected);
+
+  const navigate = Navigate();
 
   // Update local state if the prop changes
   useEffect(() => {
@@ -23,6 +26,8 @@ function AddressCard({ id, address, onAddressSelected }) {
       }
       
       alert(message);
+      navigate("/checkout");
+      
     } catch (err) {
       console.error("Failed to select address", err);
     }
