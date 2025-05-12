@@ -54,7 +54,7 @@ function BasicCategory({ Banner, items, category }) {
     <div id={category}>
 
         <div  className='w-full mt-8'>
-            <img className="w-full h-[281px] rounded-xl shadow-2xl" src={Banner} alt="" />
+            <img className="w-full h-auto max-h-[281px] object-cover rounded-xl shadow-2xl" src={Banner} alt="" />
         </div>
         <div className='mt-7 grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {data.map((item) => (
