@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
-import {
-  RecaptchaVerifier,
-  signInWithPhoneNumber,
-} from "firebase/auth";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
@@ -44,27 +41,32 @@ const SignUp = () => {
       }
       window.recaptchaVerifier = null;
     }
-    
+
     // Create a new reCAPTCHA verifier
     try {
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        size: "normal",
-        callback: () => {
-          console.log("reCAPTCHA solved");
-        },
-        'expired-callback': () => {
-          setError("reCAPTCHA expired. Refresh and try again.");
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "normal",
+          callback: () => {
+            console.log("reCAPTCHA solved");
+          },
+          "expired-callback": () => {
+            setError("reCAPTCHA expired. Refresh and try again.");
+          },
         }
-      });
-      
+      );
+
       // Only render if the container exists
-      const container = document.getElementById('recaptcha-container');
+      const container = document.getElementById("recaptcha-container");
       if (container) {
-        window.recaptchaVerifier.render()
-          .then(widgetId => {
+        window.recaptchaVerifier
+          .render()
+          .then((widgetId) => {
             window.recaptchaWidgetId = widgetId;
           })
-          .catch(error => {
+          .catch((error) => {
             console.error("Error rendering reCAPTCHA:", error);
             setError("Error loading reCAPTCHA. Please refresh the page.");
           });
@@ -86,7 +88,6 @@ const SignUp = () => {
       }
     };
   }, []);
-  
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -102,8 +103,20 @@ const SignUp = () => {
     if (formData.password.length < 10) {
       return setError("Password must be at least 10 characters");
     }
+    if (!/[A-Z]/.test(formData.password)) {
+      return setError("Password must contain at least one uppercase letter");
+    }
+    if (!/[0-9]/.test(formData.password)) {
+      return setError("Password must contain at least one number");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
+      return setError("Password must contain at least one special character");
+    }
     if (!phoneNumber) {
       return setError("Phone number is required");
+    }
+    if (authService.emailExists(formData.email)) {
+      return setError("Email already exists");
     }
 
     try {
@@ -117,23 +130,27 @@ const SignUp = () => {
     } catch (err) {
       console.error("Error during phone verification:", err);
       setError(err.message);
-      
+
       // Reset reCAPTCHA on error
       if (window.recaptchaVerifier) {
         try {
           window.recaptchaVerifier.clear();
           window.recaptchaVerifier = null;
-          
+
           // Re-initialize reCAPTCHA
-          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-            size: "normal",
-            callback: () => {
-              console.log("reCAPTCHA solved");
-            },
-            'expired-callback': () => {
-              setError("reCAPTCHA expired. Refresh and try again.");
+          window.recaptchaVerifier = new RecaptchaVerifier(
+            auth,
+            "recaptcha-container",
+            {
+              size: "normal",
+              callback: () => {
+                console.log("reCAPTCHA solved");
+              },
+              "expired-callback": () => {
+                setError("reCAPTCHA expired. Refresh and try again.");
+              },
             }
-          });
+          );
           window.recaptchaVerifier.render();
         } catch (error) {
           console.error("Error resetting reCAPTCHA:", error);

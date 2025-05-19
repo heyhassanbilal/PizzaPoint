@@ -7,4 +7,5 @@ export const authService = {
   refreshToken: () => apiCore.post('/auth/refresh-token'),
   signup: (userData) => apiCore.post('/auth/signup', userData),
   getCurrentUser: () => apiCore.get('/auth/me'),
+  emailExists: (email) => apiCore.get(`/auth/check-email?email=${email}`),
 };
