@@ -95,6 +95,7 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const [isValid, setValid] = useState(false);
     setError(null);
 
     const { password, confirmPassword, email } = formData;
@@ -141,6 +142,8 @@ const SignUp = () => {
       if (emailAlreadyExists) {
         setError("Email already exists");
         return; // Exit early without attempting phone authentication
+      }else {
+        setValid(true);
       }
     } catch (err) {
       console.error("Error checking if email exists:", err);
@@ -149,44 +152,47 @@ const SignUp = () => {
     }
 
     // Only proceed with phone authentication if all validations pass
-    try {
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        window.recaptchaVerifier
-      );
-      setConfirmationResult(confirmation);
-      setFormStep("otp");
-    } catch (err) {
-      console.error("Error during phone verification:", err);
-      setError(err.message);
-
-      // Reset reCAPTCHA on error
-      if (window.recaptchaVerifier) {
+    useEffect( async() => {
+      if (isValid) {
         try {
-          window.recaptchaVerifier.clear();
-          window.recaptchaVerifier = null;
-
-          // Re-initialize reCAPTCHA
-          window.recaptchaVerifier = new RecaptchaVerifier(
+          const confirmation = await signInWithPhoneNumber(
             auth,
-            "recaptcha-container",
-            {
-              size: "normal",
-              callback: () => {
-                console.log("reCAPTCHA solved");
-              },
-              "expired-callback": () => {
-                setError("reCAPTCHA expired. Refresh and try again.");
-              },
-            }
+            phoneNumber,
+            window.recaptchaVerifier
           );
-          window.recaptchaVerifier.render();
-        } catch (error) {
-          console.error("Error resetting reCAPTCHA:", error);
+          setConfirmationResult(confirmation);
+          setFormStep("otp");
+        } catch (err) {
+          console.error("Error during phone verification:", err);
+          setError(err.message);
+    
+          // Reset reCAPTCHA on error
+          if (window.recaptchaVerifier) {
+            try {
+              window.recaptchaVerifier.clear();
+              window.recaptchaVerifier = null;
+    
+              // Re-initialize reCAPTCHA
+              window.recaptchaVerifier = new RecaptchaVerifier(
+                auth,
+                "recaptcha-container",
+                {
+                  size: "normal",
+                  callback: () => {
+                    console.log("reCAPTCHA solved");
+                  },
+                  "expired-callback": () => {
+                    setError("reCAPTCHA expired. Refresh and try again.");
+                  },
+                }
+              );
+              window.recaptchaVerifier.render();
+            } catch (error) {
+              console.error("Error resetting reCAPTCHA:", error);
+            }
+          }
         }
-      }
-    }
+      }}, [isValid]);
   };
 
   const handleVerifyOTP = async (e) => {
