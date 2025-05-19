@@ -93,13 +93,14 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
   setError(null);
 
   const { password, confirmPassword, email } = formData;
 
-  const validations = [
+  // Non-async validations first
+  const synchronousValidations = [
     {
       condition: password !== confirmPassword,
       message: "Passwords do not match",
@@ -124,19 +125,30 @@ const SignUp = () => {
       condition: !phoneNumber,
       message: "Phone number is required",
     },
-    {
-      condition: authService.emailExists(email),
-      message: "Email already exists",
-    },
   ];
 
-  for (let v of validations) {
+  // Check all synchronous validations first
+  for (let v of synchronousValidations) {
     if (v.condition) {
       setError(v.message);
-      return;
+      return; // Exit early without attempting phone authentication
     }
   }
+  
+  // Check if email exists (async operation)
+  try {
+    const emailAlreadyExists = await authService.emailExists(email);
+    if (emailAlreadyExists) {
+      setError("Email already exists");
+      return; // Exit early without attempting phone authentication
+    }
+  } catch (err) {
+    console.error("Error checking if email exists:", err);
+    setError("Error checking email availability. Please try again.");
+    return;
+  }
 
+  // Only proceed with phone authentication if all validations pass
   try {
     const confirmation = await signInWithPhoneNumber(
       auth,
@@ -175,6 +187,7 @@ const SignUp = () => {
       }
     }
   }
+};
 };
 
 
