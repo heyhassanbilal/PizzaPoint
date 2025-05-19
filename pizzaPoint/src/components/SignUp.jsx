@@ -94,70 +94,89 @@ const SignUp = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
+  e.preventDefault();
+  setError(null);
 
-    if (formData.password !== formData.confirmPassword) {
-      return setError("Passwords do not match");
-    }
-    if (formData.password.length < 10) {
-      return setError("Password must be at least 10 characters");
-    }
-    if (!/[A-Z]/.test(formData.password)) {
-      return setError("Password must contain at least one uppercase letter");
-    }
-    if (!/[0-9]/.test(formData.password)) {
-      return setError("Password must contain at least one number");
-    }
-    if (!/[!@#$%^&*(),.?":{}|<>]/.test(formData.password)) {
-      return setError("Password must contain at least one special character");
-    }
-    if (!phoneNumber) {
-      return setError("Phone number is required");
-    }
-    if (authService.emailExists(formData.email)) {
-      return setError("Email already exists");
-    }
+  const { password, confirmPassword, email } = formData;
 
-    try {
-      const confirmation = await signInWithPhoneNumber(
-        auth,
-        phoneNumber,
-        window.recaptchaVerifier
-      );
-      setConfirmationResult(confirmation);
-      setFormStep("otp");
-    } catch (err) {
-      console.error("Error during phone verification:", err);
-      setError(err.message);
+  const validations = [
+    {
+      condition: password !== confirmPassword,
+      message: "Passwords do not match",
+    },
+    {
+      condition: password.length < 10,
+      message: "Password must be at least 10 characters",
+    },
+    {
+      condition: !/[A-Z]/.test(password),
+      message: "Password must contain at least one uppercase letter",
+    },
+    {
+      condition: !/[0-9]/.test(password),
+      message: "Password must contain at least one number",
+    },
+    {
+      condition: !/[!@#$%^&*(),.?\":{}|<>]/.test(password),
+      message: "Password must contain at least one special character",
+    },
+    {
+      condition: !phoneNumber,
+      message: "Phone number is required",
+    },
+    {
+      condition: authService.emailExists(email),
+      message: "Email already exists",
+    },
+  ];
 
-      // Reset reCAPTCHA on error
-      if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-          window.recaptchaVerifier = null;
+  for (let v of validations) {
+    if (v.condition) {
+      setError(v.message);
+      return;
+    }
+  }
 
-          // Re-initialize reCAPTCHA
-          window.recaptchaVerifier = new RecaptchaVerifier(
-            auth,
-            "recaptcha-container",
-            {
-              size: "normal",
-              callback: () => {
-                console.log("reCAPTCHA solved");
-              },
-              "expired-callback": () => {
-                setError("reCAPTCHA expired. Refresh and try again.");
-              },
-            }
-          );
-          window.recaptchaVerifier.render();
-        } catch (error) {
-          console.error("Error resetting reCAPTCHA:", error);
-        }
+  try {
+    const confirmation = await signInWithPhoneNumber(
+      auth,
+      phoneNumber,
+      window.recaptchaVerifier
+    );
+    setConfirmationResult(confirmation);
+    setFormStep("otp");
+  } catch (err) {
+    console.error("Error during phone verification:", err);
+    setError(err.message);
+
+    // Reset reCAPTCHA on error
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier = null;
+
+        // Re-initialize reCAPTCHA
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "normal",
+            callback: () => {
+              console.log("reCAPTCHA solved");
+            },
+            "expired-callback": () => {
+              setError("reCAPTCHA expired. Refresh and try again.");
+            },
+          }
+        );
+        window.recaptchaVerifier.render();
+      } catch (error) {
+        console.error("Error resetting reCAPTCHA:", error);
       }
     }
-  };
+  }
+};
+
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
