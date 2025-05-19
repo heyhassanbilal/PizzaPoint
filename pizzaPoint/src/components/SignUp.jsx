@@ -93,103 +93,101 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError(null);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
 
-  const { password, confirmPassword, email } = formData;
+    const { password, confirmPassword, email } = formData;
 
-  // Non-async validations first
-  const synchronousValidations = [
-    {
-      condition: password !== confirmPassword,
-      message: "Passwords do not match",
-    },
-    {
-      condition: password.length < 10,
-      message: "Password must be at least 10 characters",
-    },
-    {
-      condition: !/[A-Z]/.test(password),
-      message: "Password must contain at least one uppercase letter",
-    },
-    {
-      condition: !/[0-9]/.test(password),
-      message: "Password must contain at least one number",
-    },
-    {
-      condition: !/[!@#$%^&*(),.?\":{}|<>]/.test(password),
-      message: "Password must contain at least one special character",
-    },
-    {
-      condition: !phoneNumber,
-      message: "Phone number is required",
-    },
-  ];
+    // Non-async validations first
+    const synchronousValidations = [
+      {
+        condition: password !== confirmPassword,
+        message: "Passwords do not match",
+      },
+      {
+        condition: password.length < 10,
+        message: "Password must be at least 10 characters",
+      },
+      {
+        condition: !/[A-Z]/.test(password),
+        message: "Password must contain at least one uppercase letter",
+      },
+      {
+        condition: !/[0-9]/.test(password),
+        message: "Password must contain at least one number",
+      },
+      {
+        condition: !/[!@#$%^&*(),.?\":{}|<>]/.test(password),
+        message: "Password must contain at least one special character",
+      },
+      {
+        condition: !phoneNumber,
+        message: "Phone number is required",
+      },
+    ];
 
-  // Check all synchronous validations first
-  for (let v of synchronousValidations) {
-    if (v.condition) {
-      setError(v.message);
-      return; // Exit early without attempting phone authentication
-    }
-  }
-  
-  // Check if email exists (async operation)
-  try {
-    const emailAlreadyExists = await authService.emailExists(email);
-    if (emailAlreadyExists) {
-      setError("Email already exists");
-      return; // Exit early without attempting phone authentication
-    }
-  } catch (err) {
-    console.error("Error checking if email exists:", err);
-    setError("Error checking email availability. Please try again.");
-    return;
-  }
-
-  // Only proceed with phone authentication if all validations pass
-  try {
-    const confirmation = await signInWithPhoneNumber(
-      auth,
-      phoneNumber,
-      window.recaptchaVerifier
-    );
-    setConfirmationResult(confirmation);
-    setFormStep("otp");
-  } catch (err) {
-    console.error("Error during phone verification:", err);
-    setError(err.message);
-
-    // Reset reCAPTCHA on error
-    if (window.recaptchaVerifier) {
-      try {
-        window.recaptchaVerifier.clear();
-        window.recaptchaVerifier = null;
-
-        // Re-initialize reCAPTCHA
-        window.recaptchaVerifier = new RecaptchaVerifier(
-          auth,
-          "recaptcha-container",
-          {
-            size: "normal",
-            callback: () => {
-              console.log("reCAPTCHA solved");
-            },
-            "expired-callback": () => {
-              setError("reCAPTCHA expired. Refresh and try again.");
-            },
-          }
-        );
-        window.recaptchaVerifier.render();
-      } catch (error) {
-        console.error("Error resetting reCAPTCHA:", error);
+    // Check all synchronous validations first
+    for (let v of synchronousValidations) {
+      if (v.condition) {
+        setError(v.message);
+        return; // Exit early without attempting phone authentication
       }
     }
-  }
-};
-};
+    
+    // Check if email exists (async operation)
+    try {
+      const emailAlreadyExists = await authService.emailExists(email);
+      if (emailAlreadyExists) {
+        setError("Email already exists");
+        return; // Exit early without attempting phone authentication
+      }
+    } catch (err) {
+      console.error("Error checking if email exists:", err);
+      setError("Error checking email availability. Please try again.");
+      return;
+    }
 
+    // Only proceed with phone authentication if all validations pass
+    try {
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        phoneNumber,
+        window.recaptchaVerifier
+      );
+      setConfirmationResult(confirmation);
+      setFormStep("otp");
+    } catch (err) {
+      console.error("Error during phone verification:", err);
+      setError(err.message);
+
+      // Reset reCAPTCHA on error
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+          window.recaptchaVerifier = null;
+
+          // Re-initialize reCAPTCHA
+          window.recaptchaVerifier = new RecaptchaVerifier(
+            auth,
+            "recaptcha-container",
+            {
+              size: "normal",
+              callback: () => {
+                console.log("reCAPTCHA solved");
+              },
+              "expired-callback": () => {
+                setError("reCAPTCHA expired. Refresh and try again.");
+              },
+            }
+          );
+          window.recaptchaVerifier.render();
+        } catch (error) {
+          console.error("Error resetting reCAPTCHA:", error);
+        }
+      }
+    }
+  };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
@@ -316,6 +314,6 @@ const SignUp = () => {
       </div>
     </div>
   );
-
+};
 
 export default SignUp;
