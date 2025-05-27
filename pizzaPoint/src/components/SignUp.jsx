@@ -15,7 +15,6 @@ const SignUp = () => {
   const [formStep, setFormStep] = useState("form"); // "form", "otp"
   const { setToken, setEmail, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [isValid, setValid] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -33,59 +32,38 @@ const SignUp = () => {
   }, [isAuthenticated, navigate]);
 
   useEffect(() => {
-    // Clear any existing reCAPTCHA widget
-    if (window.recaptchaVerifier) {
+    const initializeRecaptcha = async () => {
       try {
-        window.recaptchaVerifier.clear();
-      } catch (error) {
-        console.error("Error clearing recaptcha:", error);
-      }
-      window.recaptchaVerifier = null;
-    }
-
-    // Create a new reCAPTCHA verifier
-    try {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "normal",
-          callback: () => {
-            console.log("reCAPTCHA solved");
-          },
-          "expired-callback": () => {
-            setError("reCAPTCHA expired. Refresh and try again.");
-          },
+        if (window.recaptchaVerifier) {
+          window.recaptchaVerifier.clear();
         }
-      );
 
-      // Only render if the container exists
-      const container = document.getElementById("recaptcha-container");
-      if (container) {
-        window.recaptchaVerifier
-          .render()
-          .then((widgetId) => {
-            window.recaptchaWidgetId = widgetId;
-          })
-          .catch((error) => {
-            console.error("Error rendering reCAPTCHA:", error);
-            setError("Error loading reCAPTCHA. Please refresh the page.");
-          });
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          "recaptcha-container",
+          {
+            size: "normal",
+            callback: () => {
+              console.log("reCAPTCHA solved");
+            },
+            "expired-callback": () => {
+              setError("reCAPTCHA expired. Please try again.");
+            },
+          },
+          auth
+        );
+
+        await window.recaptchaVerifier.render();
+      } catch (error) {
+        console.error("reCAPTCHA initialization error:", error);
+        setError("Error initializing reCAPTCHA. Please refresh the page.");
       }
-    } catch (error) {
-      console.error("Error initializing reCAPTCHA:", error);
-      setError("Error setting up verification. Please refresh the page.");
-    }
+    };
 
-    // Cleanup function
+    initializeRecaptcha();
+
     return () => {
       if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-          window.recaptchaVerifier = null;
-        } catch (error) {
-          console.error("Error clearing recaptcha during cleanup:", error);
-        }
+        window.recaptchaVerifier.clear();
       }
     };
   }, []);
@@ -100,104 +78,58 @@ const SignUp = () => {
 
     const { password, confirmPassword, email } = formData;
 
-    // Non-async validations first
-    const synchronousValidations = [
-      {
-        condition: password !== confirmPassword,
-        message: "Passwords do not match",
-      },
-      {
-        condition: password.length < 10,
-        message: "Password must be at least 10 characters",
-      },
-      {
-        condition: !/[A-Z]/.test(password),
-        message: "Password must contain at least one uppercase letter",
-      },
-      {
-        condition: !/[0-9]/.test(password),
-        message: "Password must contain at least one number",
-      },
-      {
-        condition: !/[!@#$%^&*(),.?\":{}|<>]/.test(password),
-        message: "Password must contain at least one special character",
-      },
-      {
-        condition: !phoneNumber,
-        message: "Phone number is required",
-      },
-    ];
-
-    // Check all synchronous validations first
-    for (let v of synchronousValidations) {
-      if (v.condition) {
-        setError(v.message);
-        return; // Exit early without attempting phone authentication
-      }
+    // Validation checks
+    if (password !== confirmPassword) {
+      return setError("Passwords do not match");
+    }
+    if (password.length < 10) {
+      return setError("Password must be at least 10 characters");
+    }
+    if (!/[A-Z]/.test(password)) {
+      return setError("Password must contain at least one uppercase letter");
+    }
+    if (!/[0-9]/.test(password)) {
+      return setError("Password must contain at least one number");
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return setError("Password must contain at least one special character");
+    }
+    if (!phoneNumber) {
+      return setError("Phone number is required");
     }
 
-    // Check if email exists (async operation)
     try {
+      // Check if email exists
       const emailAlreadyExists = await authService.emailExists(email);
       if (emailAlreadyExists.exists) {
-        setError("Email already exists");
-        console.log("Email already exists");
-        return; // Exit early without attempting phone authentication
-      } else {
-        setValid(true);
+        return setError("Email already exists");
       }
+
+      // Format phone number for Firebase
+      const formattedPhone = phoneNumber.startsWith('+') 
+        ? phoneNumber 
+        : `+${phoneNumber.replace(/\D/g, '')}`;
+
+      // Send verification code
+      const confirmation = await signInWithPhoneNumber(
+        auth,
+        formattedPhone,
+        window.recaptchaVerifier
+      );
+      
+      setConfirmationResult(confirmation);
+      setFormStep("otp");
     } catch (err) {
-      console.error("Error checking if email exists:", err);
-      setError("Error checking email availability. Please try again.");
-      return;
-    }
-
-    
-  };
-
-  // Only proceed with phone authentication if all validations pass
-    useEffect(async () => {
-      if (isValid) {
-        try {
-          const confirmation = await signInWithPhoneNumber(
-            auth,
-            phoneNumber,
-            window.recaptchaVerifier
-          );
-          setConfirmationResult(confirmation);
-          setFormStep("otp");
-        } catch (err) {
-          console.error("Error during phone verification:", err);
-          setError(err.message);
-
-          // Reset reCAPTCHA on error
-          if (window.recaptchaVerifier) {
-            try {
-              window.recaptchaVerifier.clear();
-              window.recaptchaVerifier = null;
-
-              // Re-initialize reCAPTCHA
-              window.recaptchaVerifier = new RecaptchaVerifier(
-                auth,
-                "recaptcha-container",
-                {
-                  size: "normal",
-                  callback: () => {
-                    console.log("reCAPTCHA solved");
-                  },
-                  "expired-callback": () => {
-                    setError("reCAPTCHA expired. Refresh and try again.");
-                  },
-                }
-              );
-              window.recaptchaVerifier.render();
-            } catch (error) {
-              console.error("Error resetting reCAPTCHA:", error);
-            }
-          }
-        }
+      console.error("Phone verification error:", err);
+      setError(err.message || "Failed to send verification code");
+      
+      // Reset reCAPTCHA on error
+      if (window.recaptchaVerifier) {
+        window.recaptchaVerifier.clear();
+        window.recaptchaVerifier.render();
       }
-    }, [isValid]);
+    }
+  };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
@@ -214,11 +146,10 @@ const SignUp = () => {
       const response = await authService.signup(formData);
       setToken(response.token);
       setEmail(response.email);
-      // alert("User registered successfully");
       navigate("/");
     } catch (err) {
       console.error("Error confirming OTP:", err);
-      setError(err.message);
+      setError(err.message || "Invalid verification code");
     }
   };
 
@@ -289,17 +220,17 @@ const SignUp = () => {
             >
               Send Verification Code
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         ) : (
-          <form onSubmit={handleVerifyOTP}>
+          <form onSubmit={handleVerifyOTP} className="space-y-4">
             <input
               type="text"
               name="otp"
               value={verificationCode}
               onChange={(e) => setVerificationCode(e.target.value)}
               placeholder="Verification Code"
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border rounded"
               required
             />
             <button
@@ -308,14 +239,14 @@ const SignUp = () => {
             >
               Verify OTP
             </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
           </form>
         )}
 
-        <p className="mt-3">
+        <p className="mt-4 text-center">
           Already have an account?{" "}
           <span
-            className="text-blue-500 cursor-pointer"
+            className="text-blue-500 cursor-pointer hover:underline"
             onClick={() => navigate("/login")}
           >
             Login
