@@ -8,4 +8,6 @@ export const authService = {
   signup: (userData) => apiCore.post('/auth/signup', userData),
   getCurrentUser: () => apiCore.get('/auth/me'),
   emailExists: (email) => apiCore.get(`/auth/check-email?email=${email}`),
+  adminLogin: (credentials) => apiCore.post('/auth/admin-login', credentials),
+  adminOTPcheck: (credentials) => apiCore.post('/auth/verify-otp', credentials),
 };

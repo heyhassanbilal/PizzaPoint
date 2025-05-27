@@ -27,6 +27,7 @@ import CheckOut from "./components/CheckOut";
 // import { useAuth } from './utils/useAuth'
 import MyOrders from "./components/MyOrders";
 import OrderDetails from "./components/OrderDetails";
+import AdminLogin from "./components/AdminLogin";
 
 function App() {
   // In your parent component
@@ -166,6 +167,15 @@ function App() {
               element={
                 <>
                   <AddressChange />
+                </>
+              }
+            />
+
+            <Route
+              path="/adminLogin"
+              element={
+                <>
+                  <AdminLogin />
                 </>
               }
             />
