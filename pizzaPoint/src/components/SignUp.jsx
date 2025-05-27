@@ -141,6 +141,7 @@ const SignUp = () => {
       const emailAlreadyExists = await authService.emailExists(email);
       if (emailAlreadyExists) {
         setError("Email already exists");
+        console.log("Email already exists");
         return; // Exit early without attempting phone authentication
       }else {
         setValid(true);
