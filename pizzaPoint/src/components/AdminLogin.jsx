@@ -69,7 +69,7 @@ export default function AdminLogin() {
         email: formData.email,
         otp,
       });
-      if (data.status) {
+      if (data.token) {
         setToken(data.token);
         setEmail(data.email);
         navigate("/adminP");
