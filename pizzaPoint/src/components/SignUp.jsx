@@ -15,6 +15,7 @@ const SignUp = () => {
   const [formStep, setFormStep] = useState("form"); // "form", "otp"
   const { setToken, setEmail, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const [isValid, setValid] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -95,7 +96,6 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const [isValid, setValid] = useState(false);
     setError(null);
 
     const { password, confirmPassword, email } = formData;
@@ -135,7 +135,7 @@ const SignUp = () => {
         return; // Exit early without attempting phone authentication
       }
     }
-    
+
     // Check if email exists (async operation)
     try {
       const emailAlreadyExists = await authService.emailExists(email);
@@ -143,7 +143,7 @@ const SignUp = () => {
         setError("Email already exists");
         console.log("Email already exists");
         return; // Exit early without attempting phone authentication
-      }else {
+      } else {
         setValid(true);
       }
     } catch (err) {
@@ -153,7 +153,7 @@ const SignUp = () => {
     }
 
     // Only proceed with phone authentication if all validations pass
-    useEffect( async() => {
+    useEffect(async () => {
       if (isValid) {
         try {
           const confirmation = await signInWithPhoneNumber(
@@ -166,13 +166,13 @@ const SignUp = () => {
         } catch (err) {
           console.error("Error during phone verification:", err);
           setError(err.message);
-    
+
           // Reset reCAPTCHA on error
           if (window.recaptchaVerifier) {
             try {
               window.recaptchaVerifier.clear();
               window.recaptchaVerifier = null;
-    
+
               // Re-initialize reCAPTCHA
               window.recaptchaVerifier = new RecaptchaVerifier(
                 auth,
@@ -193,7 +193,8 @@ const SignUp = () => {
             }
           }
         }
-      }}, [isValid]);
+      }
+    }, [isValid]);
   };
 
   const handleVerifyOTP = async (e) => {
