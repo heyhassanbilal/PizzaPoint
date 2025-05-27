@@ -152,7 +152,10 @@ const SignUp = () => {
       return;
     }
 
-    // Only proceed with phone authentication if all validations pass
+    
+  };
+
+  // Only proceed with phone authentication if all validations pass
     useEffect(async () => {
       if (isValid) {
         try {
@@ -195,7 +198,6 @@ const SignUp = () => {
         }
       }
     }, [isValid]);
-  };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
