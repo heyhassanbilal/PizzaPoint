@@ -86,7 +86,7 @@ function AddressChange() {
 
   return (
     <>
-      <Navbar />
+      
       <div className="flex justify-center items-center min-h-screen bg-brandRed px-4 py-6 sm:py-8">
         <div className="flex flex-col w-full max-w-7xl bg-white shadow-lg rounded-xl mt-16 sm:mt-20 p-4 sm:p-6">
           <div className="flex-col justify-between">
