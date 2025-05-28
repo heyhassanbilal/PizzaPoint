@@ -10,4 +10,5 @@ export const authService = {
   emailExists: (email) => apiCore.get(`/auth/check-email?email=${email}`),
   adminLogin: (credentials) => apiCore.post('/auth/admin-login', credentials),
   adminOTPcheck: (credentials) => apiCore.post('/auth/verify-otp', credentials),
+  resetPassword: (credentials) => apiCore.post('/auth/resetPassword', credentials),
 };

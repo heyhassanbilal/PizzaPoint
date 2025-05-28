@@ -28,6 +28,7 @@ import CheckOut from "./components/CheckOut";
 import MyOrders from "./components/MyOrders";
 import OrderDetails from "./components/OrderDetails";
 import AdminLogin from "./components/AdminLogin";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   // In your parent component
@@ -197,6 +198,7 @@ function App() {
               }
             />
             <Route path="/orders/:orderId" element={<OrderDetails />} />
+            <Route path="/resetPassword" element={<ResetPassword/>} />
           </Routes>
         </Router>
       </CartProvider>
