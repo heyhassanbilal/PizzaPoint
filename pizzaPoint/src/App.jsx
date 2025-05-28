@@ -167,6 +167,10 @@ function App() {
               path="/address"
               element={
                 <>
+                  <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
                   <AddressChange />
                 </>
               }
@@ -198,7 +202,16 @@ function App() {
               }
             />
             <Route path="/orders/:orderId" element={<OrderDetails />} />
-            <Route path="/resetPassword" element={<ResetPassword/>} />
+            <Route path="/resetPassword" element={
+              <>
+                <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
+                <ResetPassword/>
+              </>
+              
+              } />
           </Routes>
         </Router>
       </CartProvider>
