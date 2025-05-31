@@ -94,7 +94,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
       {/* Center - Logo */}
       <div className="absolute left-1/2 transform -translate-x-1/2 top-0 z-10">
         <Link to="/" onClick={handleLogoClick}>
-          <div className="w-16 h-16 md:w-20 md:h-20 lg:w-28 lg:h-28 rounded-full hover:blur-[1px] transition duration-300 ease-in-out">
+          <div className="w-16 h-16 md:w-20 md:h-20 lg:w-28 lg:h-28 rounded-full transition duration-300 ease-in-out hover:blur-[1px] motion-safe:hover:blur-[1px]">
             <img
               src={Logo}
               alt="Logo"

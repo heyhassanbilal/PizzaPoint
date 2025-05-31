@@ -53,7 +53,8 @@ function CheckOut() {
 
             } catch (error) {
                 console.error('Error fetching selected address:', error);
-                alert('Error fetching selected address: ' + error.message);
+                navigate("/address")
+                // alert('Error fetching selected address: ' + error.message);
             }
         }
         getSelectedAddress();
