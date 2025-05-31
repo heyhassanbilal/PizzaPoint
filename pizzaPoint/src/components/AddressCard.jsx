@@ -25,7 +25,7 @@ function AddressCard({ id, address, onAddressSelected }) {
         onAddressSelected(id);
       }
       
-      alert(message);
+      // alert(message);
       navigate("/checkout");
       
     } catch (err) {
