@@ -28,6 +28,14 @@ function AdminDashboard() {
     FAILED: "Failed",
   };
 
+  const options = {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
   const toggleRow = (id) => {
     setOpenRows((prevOpenRows) =>
       prevOpenRows.includes(id)
@@ -291,7 +299,12 @@ function AdminDashboard() {
                         onClick={() => toggleRow(item.orderId)}
                       >
                         <td className="py-4">#{item.orderId}</td>
-                        <td className="py-4">{item.createdAt}</td>
+                        <td className="py-4">
+                          {new Date(item.createdAt).toLocaleString(
+                            "en-US",
+                            options
+                          )}
+                        </td>
                         <td className="py-4">{item.user.name}</td>
                         <td className="py-4">{item.address.buildingName}</td>
                         <td className="py-4">{item.totalPrice} HUF</td>
