@@ -8,6 +8,9 @@ import { Link } from 'react-router-dom';
 
 function CheckOut() {
     const navigate = useNavigate();
+    const mapsUrl =
+    "https://www.google.com/maps/dir//Debrecen,+Bajcsy-Zsilinszky+u.+2,+4025/@47.5299425,21.5413505,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47470f3d86380899:0xfa6293ed61880b6!2m2!1d21.623751!2d47.529972?entry=ttu&g_ep=EgoyMDI1MDQyMC4wIKXMDSoASAFQAw%3D%3D";
+
     const [selectedAddresses, setSelectedAddresses] = useState([]);
     const [check, setCheck] = useState();
     // const [data, setData] = useState();
@@ -147,7 +150,7 @@ function CheckOut() {
 
                         {orderType === "PICKUP" && (
                             <div className='w-full flex flex-col mt-3 lg:mt-4 px-3 lg:px-4 rounded-xl border-2 border-white'>
-                                <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => {navigate("/address")}}>
+                                <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => window.open(mapsUrl, "_blank")}>
                                     <div className='flex items-center'>
                                         {/* <i className="fa-solid fa-house text-sm lg:text-base"></i> */}
                                         {/* <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5> */}
