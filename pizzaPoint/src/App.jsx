@@ -240,6 +240,26 @@ function App() {
               path="/checkout"
               element={
                 <>
+                  {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+                  <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
                   <CheckOut />
                 </>
               }
@@ -248,13 +268,72 @@ function App() {
               path="/orders"
               element={
                 <>
+                  {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+                  <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
                   <MyOrders />
                 </>
               }
             />
-            <Route path="/orders/:orderId" element={<OrderDetails />} />
+            <Route path="/orders/:orderId" element={<>
+              {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+                  <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
+              <OrderDetails />
+            </>
+            } />
             <Route path="/resetPassword" element={
               <>
+              {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
                 <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
