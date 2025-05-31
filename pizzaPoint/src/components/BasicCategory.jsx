@@ -33,6 +33,7 @@ function BasicCategory({ Banner, items, category, setIsLoading }) {
         const json = await productService.getProductByCategory(category);
         console.log(category, json);
         setData([ ...json]); // Prevent overwriting data
+        setIsLoading(false); 
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.log("Error fetching data:", error);
