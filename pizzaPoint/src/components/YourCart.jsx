@@ -6,7 +6,7 @@ import { useAuth } from '../utils/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { productService } from '../utils/services';
 
-function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
+function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose,setIsCartOpen }) {
   const { email, token, isAuthenticated } = useAuth();
   const { cart, updateCart, addToCart } = useCart();
   const containerRef = useRef(null);
@@ -231,7 +231,7 @@ function YourCart({ cartItems, popularItems, setCartItems, isOpen, onClose }) {
         <div className='p-5'>
           <button 
             className='w-full h-10 bg-brandRed text-white rounded-lg hover:bg-red-700 transition-colors' 
-            onClick={() => navigate("checkout")}
+            onClick={() => {navigate("checkout");setIsCartOpen(false);}}
           >
             Checkout
           </button> 

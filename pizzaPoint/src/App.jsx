@@ -90,6 +90,8 @@ function App() {
                 <div className="h-screen overflow-y-auto overflow-x-hidden">
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
+                      
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -127,6 +129,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -156,6 +159,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -204,6 +208,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -243,6 +248,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -271,6 +277,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -299,6 +306,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
@@ -327,6 +335,7 @@ function App() {
                 <>
                   {isCartOpen && (
                     <YourCart
+                      setIsCartOpen={setIsCartOpen}
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}
