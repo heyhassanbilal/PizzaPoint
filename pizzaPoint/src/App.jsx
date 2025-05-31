@@ -124,6 +124,23 @@ function App() {
               path="/signup"
               element={
                 <>
+                  {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+
                   <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
@@ -136,6 +153,23 @@ function App() {
               path="/login"
               element={
                 <>
+                  {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+
                   <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
@@ -167,6 +201,23 @@ function App() {
               path="/address"
               element={
                 <>
+                  {isCartOpen && (
+                    <YourCart
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+
                   <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
