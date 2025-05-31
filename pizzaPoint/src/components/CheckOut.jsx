@@ -167,7 +167,7 @@ function CheckOut() {
                                     <div className='flex items-center'>
                                         <i className="fa-solid fa-house text-sm lg:text-base"></i>
                                         <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5>
-                                        <p className='text-xs lg:text-sm text-gray-300'>Petofi ter 6</p>
+                                        {/* <p className='text-xs lg:text-sm text-gray-300'>Petofi ter 6</p> */}
                                     </div>
                                     <p><i className="fa-solid fa-chevron-right"></i></p>
                                 </div>
