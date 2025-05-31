@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import Logo from "../assets/imgs/Logo.webp";
+import Logo from "../assets/imgs/logo.png";
 import cartLogo from "../assets/imgs/cart-shopping.png";
 import { Link } from "react-router-dom";
 import { useCart } from "../utils/CartContext";
