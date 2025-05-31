@@ -35,13 +35,7 @@ function CategoriesList() {
     }, 1000);
   };
 
-  const sections = [
-    "PIZZA",
-    "DRINKS",
-    "BURGER",
-    "FRIES_NUGGETS",
-    "CALZONE",
-  ];
+  const sections = ["PIZZA", "DRINKS", "BURGER", "FRIES_NUGGETS", "CALZONE"];
 
   // Function to check which section is in view and update active state
   useEffect(() => {
@@ -80,38 +74,39 @@ function CategoriesList() {
 
   return (
     <>
-      <ul className="sticky top-0 z-20 h-14 px-2 flex items-center overflow-x-auto bg-red-600 text-white whitespace-nowrap scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
+      <ul className="sticky top-0 z-20 scroll_height h-14 pr-2 pl-2 flex flex-nowrap items-center justify-start sm:justify-center space-x-4 sm:space-x-8 md:space-x-16 lg:space-x-28 overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
         <li className="flex-none text-nowrap">
           <a
             href="#PIZZA"
             onClick={(e) => handleMenuClick("PIZZA", e)}
-            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
               activeSection === "PIZZA"
                 ? "bg-white text-brandRed"
                 : "hover:bg-white hover:text-brandRed"
             }`}
           >
-            Classic Pizza
+            <span className="hidden sm:inline">Classic </span>Pizza
           </a>
         </li>
         <li className="flex-none text-nowrap">
           <a
             href="#DRINKS"
             onClick={(e) => handleMenuClick("DRINKS", e)}
-            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
               activeSection === "DRINKS"
                 ? "bg-white text-brandRed"
                 : "hover:bg-white hover:text-brandRed"
             }`}
           >
-            Beverages
+            <span className="hidden sm:inline">Beverages</span>
+            <span className="sm:hidden">Drinks</span>
           </a>
         </li>
         <li className="flex-none text-nowrap">
           <a
             href="#BURGER"
             onClick={(e) => handleMenuClick("BURGER", e)}
-            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
               activeSection === "BURGER"
                 ? "bg-white text-brandRed"
                 : "hover:bg-white hover:text-brandRed"
@@ -124,7 +119,7 @@ function CategoriesList() {
           <a
             href="#FRIES_NUGGETS"
             onClick={(e) => handleMenuClick("FRIES_NUGGETS", e)}
-            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
               activeSection === "FRIES_NUGGETS"
                 ? "bg-white text-brandRed"
                 : "hover:bg-white hover:text-brandRed"
@@ -137,7 +132,7 @@ function CategoriesList() {
           <a
             href="#CALZONE"
             onClick={(e) => handleMenuClick("CALZONE", e)}
-            className={`px-1 cursor-pointer rounded-lg py-1 transition-colors ${
+            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
               activeSection === "CALZONE"
                 ? "bg-white text-brandRed"
                 : "hover:bg-white hover:text-brandRed"
