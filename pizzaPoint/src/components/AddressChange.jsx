@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import AddressCard from "./AddressCard";
 import { useAuth } from "../utils/useAuth";
 import { addressService } from "../utils/services";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function AddressChange() {
   const { token, isAuthenticated } = useAuth();
@@ -72,10 +72,10 @@ function AddressChange() {
   // This function will be called when an address is selected in AddressCard
   const handleAddressSelected = (selectedId) => {
     // Update all addresses to reflect the new selection
-    setAddresses(prevAddresses => 
-      prevAddresses.map(address => ({
+    setAddresses((prevAddresses) =>
+      prevAddresses.map((address) => ({
         ...address,
-        selected: address.addressId === selectedId ? 1 : 0
+        selected: address.addressId === selectedId ? 1 : 0,
       }))
     );
   };
@@ -86,33 +86,37 @@ function AddressChange() {
 
   return (
     <>
-      
       <div className="flex justify-center items-center min-h-screen bg-brandRed px-4 py-6 sm:py-8">
         <div className="flex flex-col w-full max-w-7xl bg-white shadow-lg rounded-xl mt-16 sm:mt-20 p-4 sm:p-6">
-          {addresses && <div className="flex-col justify-between">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center my-2">
-              Select Address
-            </h2>
-            
-            {/* Responsive grid layout */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
-              {addresses && addresses.map((address) => (
-                <AddressCard 
-                  key={address.addressId} 
-                  id={address.addressId} 
-                  address={address} 
-                  onAddressSelected={handleAddressSelected}
-                />
-              ))}
+          {addresses[0] && (
+            <div className="flex-col justify-between">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center my-2">
+                Select Address
+              </h2>
+
+              {/* Responsive grid layout */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
+                {addresses &&
+                  addresses.map((address) => (
+                    <AddressCard
+                      key={address.addressId}
+                      id={address.addressId}
+                      address={address}
+                      onAddressSelected={handleAddressSelected}
+                    />
+                  ))}
+              </div>
             </div>
-          </div>
-          }
+          )}
 
           <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center mt-6 sm:mt-8">
             Add New Address
           </h2>
-          
-          <form onSubmit={handleSubmit} className="w-full sm:w-4/5 md:w-3/5 self-center space-y-4">
+
+          <form
+            onSubmit={handleSubmit}
+            className="w-full sm:w-4/5 md:w-3/5 self-center space-y-4"
+          >
             {/* Street Address */}
             <input
               type="text"
@@ -187,7 +191,7 @@ function AddressChange() {
               Add New Address
             </button>
           </form>
-          
+
           {/* Add padding at the bottom for mobile */}
           <div className="h-4 sm:h-6"></div>
         </div>
