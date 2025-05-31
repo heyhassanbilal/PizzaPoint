@@ -298,7 +298,7 @@ function AdminDashboard() {
                         className="border-t cursor-pointer hover:bg-gray-100"
                         onClick={() => toggleRow(item.orderId)}
                       >
-                        <td className="py-4">#{item.orderSequence}</td>
+                        <td className="py-4">{item.orderSequence}</td>
                         <td className="py-4">
                           {new Date(item.createdAt).toLocaleString(
                             "en-US",
