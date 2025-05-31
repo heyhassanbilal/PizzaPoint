@@ -43,7 +43,7 @@ export default function LoginPage() {
           navigate("/");
         // });
     } catch (error) {
-      setError(error.message);
+      setError("Invalid email or password");
       console.error("Error:", error);
     }
   };

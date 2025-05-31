@@ -17,7 +17,7 @@ function CheckOut() {
     
     const [orderType,setOrderType] = useState("DELIVERY");
     let paymentMethod = "CASH";
-    const {cart} = useCart();
+    const {cart, setCart} = useCart();
     const {email, token} = useAuth(); 
     // const BASE_URL = 'http://localhost:8082';
     const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
@@ -119,6 +119,8 @@ function CheckOut() {
                 console.log("✅ Success:", data);
                 // alert("Order placed successfully!"); 
                 navigate(`/orders/${check.orderId}`);
+                localStorage.removeItem("cart");
+                setCart([]);
             }
         } catch (error) {
             console.error('Error placing order:', error);

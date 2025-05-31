@@ -120,7 +120,7 @@ const updateCart = async (id,qty) => {
 //   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, updateCart, loading }}>
+    <CartContext.Provider value={{ cart,setCart, addToCart, updateCart, loading }}>
       {children}
     </CartContext.Provider>
   );
