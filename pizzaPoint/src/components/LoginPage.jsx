@@ -6,6 +6,7 @@ import { authService } from "../utils/services";
 export default function LoginPage() {
   const { setToken, setEmail } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -42,6 +43,7 @@ export default function LoginPage() {
           navigate("/");
         // });
     } catch (error) {
+      setError(error);
       console.error("Error:", error);
     }
   };
@@ -81,6 +83,7 @@ export default function LoginPage() {
           >
             Login
           </button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
         <p className="mt-4 text-sm text-center text-gray-600">
           Don't have an account?{" "}
