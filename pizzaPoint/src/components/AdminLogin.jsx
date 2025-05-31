@@ -70,9 +70,10 @@ export default function AdminLogin() {
         otp,
       });
       if (data.token) {
+        localStorage.setItem('adminToken', data.token);
         setToken(data.token);
         setEmail(data.email);
-        navigate("/adminP");
+        navigate("/admin");
       } else {
         setError("Invalid OTP");
       }

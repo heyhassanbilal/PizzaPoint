@@ -291,7 +291,7 @@ function AdminDashboard() {
                         onClick={() => toggleRow(item.orderId)}
                       >
                         <td className="py-4">#{item.orderId}</td>
-                        <td className="py-4">{item.date}</td>
+                        <td className="py-4">{item.created_at}</td>
                         <td className="py-4">{item.user.name}</td>
                         <td className="py-4">{item.address.buildingName}</td>
                         <td className="py-4">{item.totalPrice} HUF</td>

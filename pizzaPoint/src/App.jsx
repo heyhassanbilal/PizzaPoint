@@ -29,6 +29,7 @@ import MyOrders from "./components/MyOrders";
 import OrderDetails from "./components/OrderDetails";
 import AdminLogin from "./components/AdminLogin";
 import ResetPassword from "./components/ResetPassword";
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 function App() {
   // In your parent component
@@ -179,21 +180,21 @@ function App() {
               }
             />
 
-            <Route
+            {/* <Route
               path="/admin"
               element={
                 <>
                   <AdminPage />
                 </>
               }
-            />
+            /> */}
 
             <Route
-              path="/adminP"
+              path="/admin"
               element={
-                <>
+                <AdminProtectedRoute>
                   <AdminDashboard />
-                </>
+                </AdminProtectedRoute>
               }
             />
 
@@ -292,8 +293,11 @@ function App() {
                 </>
               }
             />
-            <Route path="/orders/:orderId" element={<>
-              {isCartOpen && (
+            <Route
+              path="/orders/:orderId"
+              element={
+                <>
+                  {isCartOpen && (
                     <YourCart
                       cartItems={cartItems}
                       popularItems={popularItems}
@@ -313,12 +317,15 @@ function App() {
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
                   />
-              <OrderDetails />
-            </>
-            } />
-            <Route path="/resetPassword" element={
-              <>
-              {isCartOpen && (
+                  <OrderDetails />
+                </>
+              }
+            />
+            <Route
+              path="/resetPassword"
+              element={
+                <>
+                  {isCartOpen && (
                     <YourCart
                       cartItems={cartItems}
                       popularItems={popularItems}
@@ -334,14 +341,14 @@ function App() {
                       onSideMenuClose={closeSideMenu}
                     />
                   )}
-                <Navbar
+                  <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
                   />
-                <ResetPassword/>
-              </>
-              
-              } />
+                  <ResetPassword />
+                </>
+              }
+            />
           </Routes>
         </Router>
       </CartProvider>

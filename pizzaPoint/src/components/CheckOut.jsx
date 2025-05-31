@@ -123,7 +123,7 @@ function CheckOut() {
 
     return (
         <>
-            <Navbar />
+            {/* <Navbar /> */}
             <div className='w-full min-h-screen flex flex-col lg:flex-row bg-brandRed px-4'>
                 {/* Left Column - Order Details */}
                 <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-end mt-20 lg:mt-32 mb-8'>
