@@ -30,8 +30,37 @@ import OrderDetails from "./components/OrderDetails";
 import AdminLogin from "./components/AdminLogin";
 import ResetPassword from "./components/ResetPassword";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import { authService } from "./utils/services";
 
 function App() {
+  useEffect(() => {
+    const checkToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const text = await authService.validateToken();
+        // const text = await res.text();
+
+        if (text.toLowerCase().includes("invalid")) {
+          console.warn("Token invalid, logging out.");
+          localStorage.removeItem("token");
+          if (window.location.pathname !== "/login") {
+            window.location.href = "/login";
+          }
+        }
+      } catch (err) {
+        console.error("Error validating token:", err);
+        localStorage.removeItem("token");
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      }
+    };
+
+    checkToken();
+  }, []);
+
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -91,7 +120,6 @@ function App() {
                   {isCartOpen && (
                     <YourCart
                       setIsCartOpen={setIsCartOpen}
-                      
                       cartItems={cartItems}
                       popularItems={popularItems}
                       setCartItems={setCartItems}

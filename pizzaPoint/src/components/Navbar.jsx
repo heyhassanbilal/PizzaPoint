@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useCart } from "../utils/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
+import { authService } from "../utils/services";
 
 function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const { cart, loading } = useCart();
@@ -15,6 +16,8 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const buttonRef = useRef(null);
 
   const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated());
+
+  
 
   const handleLogout = () => {
     setIsLoggedIn(false);
