@@ -95,7 +95,8 @@ function AddressChange() {
               </h2>
 
               {/* Responsive grid layout */}
-              <div className="grid justify-center grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-16">
+              <div className={`grid gap-4 sm:gap-6 mb-8 sm:mb-16 justify-center 
+    ${addresses?.length === 1 ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
                 {addresses &&
                   addresses.map((address) => (
                     <AddressCard
