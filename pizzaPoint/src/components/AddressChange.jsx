@@ -89,7 +89,7 @@ function AddressChange() {
       
       <div className="flex justify-center items-center min-h-screen bg-brandRed px-4 py-6 sm:py-8">
         <div className="flex flex-col w-full max-w-7xl bg-white shadow-lg rounded-xl mt-16 sm:mt-20 p-4 sm:p-6">
-          <div className="flex-col justify-between">
+          {addresses && <div className="flex-col justify-between">
             <h2 className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center my-2">
               Select Address
             </h2>
@@ -106,9 +106,10 @@ function AddressChange() {
               ))}
             </div>
           </div>
+          }
 
           <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center mt-6 sm:mt-8">
-            Or Add New Address
+            Add New Address
           </h2>
           
           <form onSubmit={handleSubmit} className="w-full sm:w-4/5 md:w-3/5 self-center space-y-4">

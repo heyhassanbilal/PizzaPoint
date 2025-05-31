@@ -63,7 +63,7 @@ export default function OrderDetails() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#dc2626]">
-        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
+        <div className="bg-white mt-24 p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
           <h2 className="text-2xl font-bold text-center mb-4">Order Details</h2>
           <div className="text-center py-10">
             <p className="text-gray-600">Loading order details...</p>
@@ -76,7 +76,7 @@ export default function OrderDetails() {
   if (!order) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#dc2626]">
-        <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
+        <div className="bg-white mt-24 p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
           <h2 className="text-2xl font-bold text-center mb-4">Order Not Found</h2>
           <div className="text-center py-10">
             <p className="text-gray-600">The order you're looking for doesn't exist or you don't have access.</p>
@@ -100,7 +100,7 @@ export default function OrderDetails() {
 
   return (
     <div className="flex items-center justify-center min-h-[93.5vh] bg-[#dc2626]">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
+      <div className="bg-white mt-24 p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">{order.orderSequence}</h2>
           <span className={`text-sm font-bold px-3 py-1 rounded-full ${
