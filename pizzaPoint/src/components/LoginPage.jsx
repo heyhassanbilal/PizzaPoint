@@ -43,7 +43,7 @@ export default function LoginPage() {
           navigate("/");
         // });
     } catch (error) {
-      setError(error);
+      setError(error.message);
       console.error("Error:", error);
     }
   };
