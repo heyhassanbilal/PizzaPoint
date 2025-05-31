@@ -3,7 +3,7 @@ import CardLong from './CardLong'
 import { useAuth } from '../utils/useAuth';
 import { productService, userService } from '../utils/services'
 
-function BasicCategory({ Banner, items, category }) {
+function BasicCategory({ Banner, items, category, setIsLoading }) {
   const {token} = useAuth();
   // console.log(AuthData);
   // const data = fetch('http://localhost:8082/api/menuItem/get/category/PIZZA', {
@@ -38,6 +38,8 @@ function BasicCategory({ Banner, items, category }) {
           console.log("Error fetching data:", error);
           console.log(token)
         }
+      } finally {
+        setIsLoading(false); // Set loading state to false after fetching data
       }
     }
 

@@ -12,6 +12,7 @@ import ClassicPizzaBanner from '../assets/imgs/ClassicPizzaBanner.webp'
 import FriesBanner from '../assets/imgs/FriesBanner.webp'
 import burgerBanner from '../assets/imgs/burgerBanner.png'
 import calzoneBanner from '../assets/imgs/calzoneBanner.png'
+import PizzaPointLoader from './PizzaPointLoader'
 // import CheeseGarlicBread from '../assets/imgs/CheeseGarlicBread.webp'
 // import MeatyGarlicBread from '../assets/imgs/MeatyGarlicBread.webp'
 // import CheesyStick from '../assets/imgs/CheesyStick.webp'
@@ -23,16 +24,18 @@ import calzoneBanner from '../assets/imgs/calzoneBanner.png'
 function Container() {
 
   // const { token, setAuthToken } = useAuth(); // ✅ Token directly mil jayega
+  const [isLoading, setIsLoading] = React.useState(true);
 
   return (
     <>
+      <PizzaPointLoader isLoading={isLoading} />
         <div className='mt-14 flex-col w-[77%] h-auto'>
             {/* <SearchBar /> */}
             {/* <PopularItems /> */}
             {/* <NewYearDeal /> */}
             {/* <ServeDeals /> */}
             {/* <WinterDeals /> */}
-            <BasicCategory category={"PIZZA"} Banner={ClassicPizzaBanner}/>
+            <BasicCategory category={"PIZZA"} Banner={ClassicPizzaBanner} setIsLoading={setIsLoading}/>
             <BasicCategory category={"DRINKS"} Banner={BeveragesBanner}/>
             <BasicCategory category={"BURGER"} Banner={burgerBanner}/>
             <BasicCategory category={"FRIES_NUGGETS"} Banner={FriesBanner}/>
