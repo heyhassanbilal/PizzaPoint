@@ -29,29 +29,32 @@ function CheckOut() {
         fetchAddresses();
     },[])
 
-    async function getSelectedAddress() {
-        try {
-            const response = await fetch(`${BASE_URL}/api/address/selected?isSelected=true`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+    useEffect(() => {
+        async function getSelectedAddress() {
+            try {
+                const response = await fetch(`${BASE_URL}/api/address/selected?isSelected=true`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-            if (!response.ok) {
-                throw new Error('Error fetching selected address');
+                if (!response.ok) {
+                    throw new Error('Error fetching selected address');
+                }
+
+                const data = await response.json();
+                setSelectedAddresses(data);
+                console.log(data, "selectedAddresses-----------------");
+
+            } catch (error) {
+                console.error('Error fetching selected address:', error);
+                alert('Error fetching selected address: ' + error.message);
             }
-
-            const data = await response.json();
-            setSelectedAddresses(data);
-            console.log(data, "selectedAddresses-----------------");
-
-        } catch (error) {
-            console.error('Error fetching selected address:', error);
-            alert('Error fetching selected address: ' + error.message);
         }
-    }
+        getSelectedAddress();
+    },[])
 
     useEffect(() => {
         const controller = new AbortController();
@@ -142,26 +145,42 @@ function CheckOut() {
                         {/* Where Section */}
                         <h2 className='text-xl lg:text-2xl font-semibold'>Where?</h2>
 
-                        <div className='w-full flex flex-col mt-3 lg:mt-4 px-3 lg:px-4 rounded-xl border-2 border-white'>
-                            <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => {navigate("/address")}}>
-                                <div className='flex items-center'>
-                                    <i className="fa-solid fa-house text-sm lg:text-base"></i>
-                                    <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5>
-                                    <p className='text-xs lg:text-sm text-gray-300'>Petofi ter 6</p>
+                        {orderType === "PICKUP" && (
+                            <div className='w-full flex flex-col mt-3 lg:mt-4 px-3 lg:px-4 rounded-xl border-2 border-white'>
+                                <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => {navigate("/address")}}>
+                                    <div className='flex items-center'>
+                                        {/* <i className="fa-solid fa-house text-sm lg:text-base"></i> */}
+                                        {/* <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5> */}
+                                        <p className='text-xs lg:text-sm text-gray-300'>Debrecen, Bajcsy-Zsilinszky u. 2, 4025</p>
+                                    </div>
+                                    {/* <p><i className="fa-solid fa-chevron-right"></i></p> */}
                                 </div>
-                                <p><i className="fa-solid fa-chevron-right"></i></p>
                             </div>
-                            <div className='flex justify-between py-3 lg:py-5'>
-                                <div className='flex items-center'>
-                                    <i className="fa-solid fa-house text-sm lg:text-base"></i>
-                                    <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>Leave at the door</h5>
+
+                        )}
+                        {orderType === "DELIVERY" && (
+                            <div className='w-full flex flex-col mt-3 lg:mt-4 px-3 lg:px-4 rounded-xl border-2 border-white'>
+                                <div className='flex justify-between py-3 lg:py-5 border-b-[1px] border-gray-400 hover:cursor-pointer' onClick={() => {navigate("/address")}}>
+                                    <div className='flex items-center'>
+                                        <i className="fa-solid fa-house text-sm lg:text-base"></i>
+                                        <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>{selectedAddresses.buildingName}</h5>
+                                        <p className='text-xs lg:text-sm text-gray-300'>Petofi ter 6</p>
+                                    </div>
+                                    <p><i className="fa-solid fa-chevron-right"></i></p>
                                 </div>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer"/>
-                                    <div className="w-9 lg:w-11 h-5 lg:h-6 border-[1px] border-gray-400 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-brandRed peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 lg:after:h-5 after:w-4 lg:after:w-5 after:transition-all"></div>
-                                </label>
+                                <div className='flex justify-between py-3 lg:py-5'>
+                                    <div className='flex items-center'>
+                                        <i className="fa-solid fa-house text-sm lg:text-base"></i>
+                                        <h5 className='ml-3 lg:ml-7 mr-2 lg:mr-5 text-sm lg:text-base'>Leave at the door</h5>
+                                    </div>
+                                    <label className="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" className="sr-only peer"/>
+                                        <div className="w-9 lg:w-11 h-5 lg:h-6 border-[1px] border-gray-400 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-brandRed peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 lg:after:h-5 after:w-4 lg:after:w-5 after:transition-all"></div>
+                                    </label>
+                                </div>
                             </div>
-                        </div>
+                            
+                        )}
 
                         {/* When Section */}
                         <h2 className='text-xl lg:text-2xl font-semibold mt-6 lg:mt-8'>When?</h2>
