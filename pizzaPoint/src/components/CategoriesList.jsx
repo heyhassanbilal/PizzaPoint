@@ -80,7 +80,7 @@ function CategoriesList() {
 
   return (
     <>
-      <ul className="sticky top-0 z-20 scroll_height h-14 pr-2 pl-2 flex flex-nowrap items-center justify-center space-x-16 md:space-x-28 overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
+      <ul className="sticky top-0 z-20 h-14 px-2 flex items-center overflow-x-auto bg-red-600 text-white whitespace-nowrap scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
         <li className="flex-none text-nowrap">
           <a
             href="#PIZZA"

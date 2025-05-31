@@ -28,7 +28,7 @@ function Container() {
   return (
     <>
       <PizzaPointLoader isLoading={isLoading} />
-      <div className="mt-14 mb-4 flex-col w-[77%] h-auto">
+      <div className="mt-14 mb-10 flex-col w-[77%] h-auto">
         {/* <SearchBar /> */}
         {/* <PopularItems /> */}
         {/* <NewYearDeal /> */}

@@ -97,6 +97,12 @@ function ReviewCard({item, img,title,Initialprice,description,setCardOpen,size, 
             }
         }
 
+        function changeSizeToRegular() {
+            if (sizePizza !== "REGULAR") {
+                setPizzaSize("REGULAR");
+            }
+        }
+
         function handleAddToCart(){
             console.log(isAuthenticated())
             if (isAuthenticated()) {
