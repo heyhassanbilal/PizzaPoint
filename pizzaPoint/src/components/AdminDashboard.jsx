@@ -306,7 +306,7 @@ function AdminDashboard() {
                           )}
                         </td>
                         <td className="py-4">{item.user.name}</td>
-                        <td className="py-4">{item.address.buildingName}</td>
+                        <td className="py-4">{item.address?.buildingName || "N/A"}</td>
                         <td className="py-4">{item.totalPrice} HUF</td>
                         <td className="py-4">
                           <select
