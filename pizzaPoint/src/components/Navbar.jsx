@@ -58,17 +58,27 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
     };
   }, []);
 
+  // const handleLogoClick = (e) => {
+  //   // Only prevent default if we need to override
+  //   if (location.state?.from) {
+  //     e.preventDefault();
+  //     navigate("/", { 
+  //       replace: true,
+  //       state: null // Clear navigation state
+  //     });
+  //   }
+  //   // Otherwise let the Link handle it normally
+  // };
+
   const handleLogoClick = (e) => {
-    // Only prevent default if we need to override
-    if (location.state?.from) {
-      e.preventDefault();
-      navigate("/", { 
-        replace: true,
-        state: null // Clear navigation state
-      });
-    }
-    // Otherwise let the Link handle it normally
-  };
+  if (location.pathname === "/") {
+    e.preventDefault();
+    window.location.reload(); // Reload the page
+  } else {
+    // Optional: clear state and navigate if you’re using route state elsewhere
+    navigate("/", { state: null });
+  }
+};
 
   return (
     <nav className="w-full py-2 px-2 md:px-4 flex items-center justify-between relative z-20">
