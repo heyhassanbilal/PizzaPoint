@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { myOrdersService, productService } from "../utils/services";
+import PizzaPointLoader from "./PizzaPointLoader";
 
 export default function OrderDetails() {
   const { orderId } = useParams();
@@ -62,14 +63,7 @@ export default function OrderDetails() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#dc2626]">
-        <div className="bg-white mt-24 p-8 rounded-2xl shadow-lg w-full max-w-2xl text-black">
-          <h2 className="text-2xl font-bold text-center mb-4">Order Details</h2>
-          <div className="text-center py-10">
-            <p className="text-gray-600">Loading order details...</p>
-          </div>
-        </div>
-      </div>
+      <PizzaPointLoader isLoading={loading}/>
     );
   }
 
