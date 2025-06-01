@@ -12,7 +12,12 @@ import { useState } from "react";
 import YourCart from "./components/YourCart";
 import SignUp from "./components/SignUp";
 import serve6 from "./assets/imgs/serve6.webp";
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./firebase";
 // import { AuthContext } from './utils/AuthContext'
 // import AuthContext from './utils/AuthContext'
@@ -24,7 +29,7 @@ import AdminPage from "./components/AdminPage";
 import AdminDashboard from "./components/AdminDashboard";
 import AddressChange from "./components/AddressChange";
 import CheckOut from "./components/CheckOut";
-import { useAuth } from './utils/useAuth'
+import { useAuth } from "./utils/useAuth";
 import MyOrders from "./components/MyOrders";
 import OrderDetails from "./components/OrderDetails";
 import AdminLogin from "./components/AdminLogin";
@@ -33,39 +38,61 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 
 function App() {
-  const { token, setToken } = useAuth(); // ✅ Token directly mil jayega
-  // const navigate = useNavigate();
+  const { token, setToken } = useAuth();
+
+  const handleTokenInvalid = () => {
+    console.warn("Token invalid, logging out.");
+    setToken(null);
+    localStorage.removeItem("authToken"); // Clean up localStorage too
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
+  };
+
+  const checkToken = async () => {
+    const tokenToCheck = token || localStorage.getItem("authToken");
+    if (!tokenToCheck) return;
+
+    try {
+      const text = await authService.validateToken();
+
+      if (text.toLowerCase().includes("invalid")) {
+        handleTokenInvalid();
+      }
+    } catch (err) {
+      console.error("Error validating token:", err);
+      handleTokenInvalid();
+    }
+  };
+
   useEffect(() => {
-    const checkToken = async () => {
-      // const token = localStorage.getItem("authToken");
-      if (!token) return;
+    // Initial check when app mounts
+    checkToken();
 
-      try {
-        const text = await authService.validateToken();
-        // const text = await res.text();
+    // Set up periodic validation every 5 minutes
+    const interval = setInterval(checkToken, 5 * 60 * 1000);
 
-        if (text.toLowerCase().includes("invalid")) {
-          console.warn("Token invalid, logging out.");
-          // localStorage.removeItem("authToken");
-          setToken(null); // Clear the token in context
-          if (window.location.pathname !== "/login") {
-            // navigate("/login");
-            window.location.href = "/login";
-          }
-        }
-      } catch (err) {
-        console.error("Error validating token:", err);
-        // localStorage.removeItem("authToken");
-        setToken(null); // Clear the token in context
-        if (window.location.pathname !== "/login") {
-          window.location.href = "/login";
-          // navigate("/login");
-        }
+    // Check token when user becomes active (returns to tab/window)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkToken();
       }
     };
 
-    checkToken();
-  }, []);
+    const handleFocus = () => {
+      checkToken();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("focus", handleFocus);
+
+    // Cleanup
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [token]); // Include token in deps so it re-runs when token changes
 
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);
