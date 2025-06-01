@@ -9,10 +9,15 @@ function CategoriesList() {
   const handleMenuClick = (sectionId, e) => {
     e.preventDefault();
     
-    // Scroll to the section - let observer handle active state
+    // Scroll to the section
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
+      
+      // Force update the active section after a brief moment to ensure clean transition
+      setTimeout(() => {
+        setActiveSection(sectionId);
+      }, 100);
     }
   };
 
