@@ -59,7 +59,8 @@ function BasicCategory({ Banner, items, category, setIsLoading }) {
         <div  className='w-full mt-8'>
             <img className="w-full h-auto max-h-[281px] object-cover rounded-xl shadow-2xl" src={Banner} alt="" />
         </div>
-        <div className='mt-7 grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        {/* <div className='mt-7 grid grid-cols-1 justify-items-center gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'> */}
+        <div className='mt-7 grid justify-items-center gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {data.map((item) => (
             item.size == "MEDIUM" || item.size =="REGULAR" ? <CardLong item={item} key={item.id} img={item.imageUrl} title={item.name} price={item.price} description={item.description} size={item.size} id={item.id}/> : null
           ))}
