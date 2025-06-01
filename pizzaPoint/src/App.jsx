@@ -37,7 +37,7 @@ function App() {
   // const navigate = useNavigate();
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem("authToken");
+      // const token = localStorage.getItem("authToken");
       if (!token) return;
 
       try {
@@ -46,7 +46,7 @@ function App() {
 
         if (text.toLowerCase().includes("invalid")) {
           console.warn("Token invalid, logging out.");
-          localStorage.removeItem("authToken");
+          // localStorage.removeItem("authToken");
           setToken(null); // Clear the token in context
           if (window.location.pathname !== "/login") {
             // navigate("/login");
@@ -55,7 +55,7 @@ function App() {
         }
       } catch (err) {
         console.error("Error validating token:", err);
-        localStorage.removeItem("authToken");
+        // localStorage.removeItem("authToken");
         setToken(null); // Clear the token in context
         if (window.location.pathname !== "/login") {
           window.location.href = "/login";
