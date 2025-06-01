@@ -130,6 +130,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -168,6 +169,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -198,6 +200,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -247,6 +250,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -287,6 +291,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -316,6 +321,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -345,6 +351,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />
@@ -374,6 +381,7 @@ function App() {
 
                   {isSideMenuOpen && (
                     <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
                       isSideMenuOpen={isSideMenuOpen}
                       onSideMenuClose={closeSideMenu}
                     />

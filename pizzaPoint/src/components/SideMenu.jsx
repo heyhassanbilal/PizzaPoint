@@ -2,7 +2,7 @@ import {React} from "react";
 import { Route, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-function SideMenu({ isSideMenuOpen, onSideMenuClose }) {
+function SideMenu({ isSideMenuOpen, onSideMenuClose, setSideMenuOpen }) {
   const navigate = useNavigate();
   const mapsUrl =
     "https://www.google.com/maps/dir//Debrecen,+Bajcsy-Zsilinszky+u.+2,+4025/@47.5299425,21.5413505,12z/data=!4m8!4m7!1m0!1m5!1m1!1s0x47470f3d86380899:0xfa6293ed61880b6!2m2!1d21.623751!2d47.529972?entry=ttu&g_ep=EgoyMDI1MDQyMC4wIKXMDSoASAFQAw%3D%3D";
@@ -44,19 +44,19 @@ function SideMenu({ isSideMenuOpen, onSideMenuClose }) {
         <div className="flex flex-col gap-2 justify-center items-center mt-6">
           <button
             className="w-5/6 h-9 bg-white text-brandRed rounded-lg"
-            onClick={() => window.open(mapsUrl, "_blank")}
+            onClick={() => {window.open(mapsUrl, "_blank"); setSideMenuOpen(false);}}
           >
             Our Location
           </button>
           <button
             className="w-5/6 h-9 bg-white text-brandRed rounded-lg"
-            onClick={() => navigate("/orders")}
+            onClick={() => {navigate("/orders"); setSideMenuOpen(false);}}
           >
             My Orders
           </button>
           <button
             className="block md:hidden w-5/6 h-9 bg-white text-brandRed rounded-lg"
-            onClick={() => navigate("/login")}
+            onClick={() => {navigate("/login"); setSideMenuOpen(false);}}
           >
             Login/Sign Up
           </button>
