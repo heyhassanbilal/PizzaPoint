@@ -43,6 +43,7 @@ function App() {
   const handleTokenInvalid = () => {
     console.warn("Token invalid, logging out.");
     setToken(null);
+    console.log(token, "logged out due to invalid token");
     localStorage.removeItem("authToken"); // Clean up localStorage too
     if (window.location.pathname !== "/login") {
       window.location.href = "/login";
