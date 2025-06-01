@@ -8,14 +8,12 @@ function CategoriesList() {
   // Simplified function to handle clicking on a menu item
   const handleMenuClick = (sectionId, e) => {
     e.preventDefault();
-    setActiveSection(sectionId); // Immediate visual feedback
     
-    // Scroll to the section
+    // Scroll to the section - let observer handle active state
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
-    // Let the observer handle the rest naturally
   };
 
   const sections = ["PIZZA", "DRINKS", "BURGER", "FRIES_NUGGETS", "CALZONE"];
