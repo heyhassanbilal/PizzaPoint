@@ -54,6 +54,12 @@ function SideMenu({ isSideMenuOpen, onSideMenuClose }) {
           >
             My Orders
           </button>
+          <button
+            className="block md:hidden w-5/6 h-9 bg-white text-brandRed rounded-lg"
+            onClick={() => navigate("/login")}
+          >
+            Login/Sign Up
+          </button>
         </div>
       </motion.div>
     </>
