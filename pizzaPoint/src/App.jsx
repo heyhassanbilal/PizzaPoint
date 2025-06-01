@@ -12,7 +12,7 @@ import { useState } from "react";
 import YourCart from "./components/YourCart";
 import SignUp from "./components/SignUp";
 import serve6 from "./assets/imgs/serve6.webp";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
 import "./firebase";
 // import { AuthContext } from './utils/AuthContext'
 // import AuthContext from './utils/AuthContext'
@@ -33,9 +33,11 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 
 function App() {
+  const { token, setAuthToken } = useAuth(); // ✅ Token directly mil jayega
+  const navigate = useNavigate();
   useEffect(() => {
     const checkToken = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       if (!token) return;
 
       try {
@@ -44,16 +46,20 @@ function App() {
 
         if (text.toLowerCase().includes("invalid")) {
           console.warn("Token invalid, logging out.");
-          localStorage.removeItem("token");
+          localStorage.removeItem("authToken");
+          setAuthToken(null); // Clear the token in context
           if (window.location.pathname !== "/login") {
-            window.location.href = "/login";
+            navigate("/login");
+            // window.location.href = "/login";
           }
         }
       } catch (err) {
         console.error("Error validating token:", err);
-        localStorage.removeItem("token");
+        localStorage.removeItem("authToken");
+        setAuthToken(null); // Clear the token in context
         if (window.location.pathname !== "/login") {
-          window.location.href = "/login";
+          // window.location.href = "/login";
+          navigate("/login");
         }
       }
     };
