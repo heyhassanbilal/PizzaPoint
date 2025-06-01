@@ -56,21 +56,20 @@ const WhatsAppButton = () => {
         {/* WhatsApp Button */}
         <button
           onClick={handleWhatsApp}
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-105 overflow-hidden p-0 border-0"
+          className="w-12 h-12 sm:w-14 sm:h-14 bg-green-500 rounded-full shadow-lg transition-all duration-200 transform hover:scale-105 overflow-hidden p-2 sm:p-2.5 border-0 flex items-center justify-center"
         >
-          {/* Add your WhatsApp logo here */}
-          <img src={whatsapp} alt="WhatsApp" className="w-full h-full object-cover" />
+          <img src={whatsapp} alt="WhatsApp" className="w-full h-full object-contain" />
         </button>
 
         {/* Viber Button */}
         <button
           onClick={handleViber}
-          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full shadow-lg transition-all duration-200 transform hover:scale-105 overflow-hidden p-0 border-0"
+          className="w-12 h-12 sm:w-14 sm:h-14 bg-purple-500 rounded-full shadow-lg transition-all duration-200 transform hover:scale-105 overflow-hidden p-2 sm:p-2.5 border-0 flex items-center justify-center"
         >
-          {/* Add your Viber logo here */}
-          <img src={viber} alt="WhatsApp" className="w-full h-full object-fill" />
+          <img src={viber} alt="Viber" className="w-full h-full object-contain" />
         </button>
       </div>
+      
 
       {/* Main FAB Button */}
       <button
