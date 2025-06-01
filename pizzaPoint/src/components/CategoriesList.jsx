@@ -5,34 +5,17 @@ function CategoriesList() {
   const [activeSection, setActiveSection] = useState("PIZZA");
   const observerRef = useRef(null);
 
-  // Function to handle clicking on a menu item
+  // Simplified function to handle clicking on a menu item
   const handleMenuClick = (sectionId, e) => {
     e.preventDefault();
-    // Temporarily disable observer to prevent conflict with scroll
-    if (observerRef.current) {
-      sections.forEach((id) => {
-        const section = document.getElementById(id);
-        if (section) observerRef.current.unobserve(section);
-      });
-    }
-
-    setActiveSection(sectionId);
-
+    setActiveSection(sectionId); // Immediate visual feedback
+    
     // Scroll to the section
     const section = document.getElementById(sectionId);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
     }
-
-    // Re-enable observer after a delay
-    setTimeout(() => {
-      if (observerRef.current) {
-        sections.forEach((id) => {
-          const section = document.getElementById(id);
-          if (section) observerRef.current.observe(section);
-        });
-      }
-    }, 1000);
+    // Let the observer handle the rest naturally
   };
 
   const sections = ["PIZZA", "DRINKS", "BURGER", "FRIES_NUGGETS", "CALZONE"];
@@ -41,7 +24,7 @@ function CategoriesList() {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-40% 0px -50% 0px", // Adjust these values as needed
+      rootMargin: "-30% 0px -60% 0px", // Adjusted for better mobile experience
       threshold: 0,
     };
 
@@ -74,68 +57,72 @@ function CategoriesList() {
 
   return (
     <>
-      <ul className="sticky top-0 z-20 scroll_height h-14 pr-2 pl-2 flex flex-nowrap items-center justify-start sm:justify-center space-x-4 sm:space-x-8 md:space-x-16 lg:space-x-28 overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500">
-        <li className="flex-none text-nowrap">
+      <ul className="sticky top-0 z-20 scroll_height h-12 sm:h-14 px-3 sm:px-4 flex flex-nowrap items-center justify-start overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500 shadow-md">
+        <li className="flex-shrink-0">
           <a
             href="#PIZZA"
             onClick={(e) => handleMenuClick("PIZZA", e)}
-            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
+            className={`inline-block px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 cursor-pointer rounded-lg transition-all duration-200 text-sm sm:text-base font-medium whitespace-nowrap ${
               activeSection === "PIZZA"
-                ? "bg-white text-brandRed"
-                : "hover:bg-white hover:text-brandRed"
+                ? "bg-white text-red-600 shadow-sm"
+                : "hover:bg-white/20 active:bg-white/30"
             }`}
           >
             <span className="hidden sm:inline">Classic </span>Pizza
           </a>
         </li>
-        <li className="flex-none text-nowrap">
+        
+        <li className="flex-shrink-0 ml-2 sm:ml-4">
           <a
             href="#DRINKS"
             onClick={(e) => handleMenuClick("DRINKS", e)}
-            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
+            className={`inline-block px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 cursor-pointer rounded-lg transition-all duration-200 text-sm sm:text-base font-medium whitespace-nowrap ${
               activeSection === "DRINKS"
-                ? "bg-white text-brandRed"
-                : "hover:bg-white hover:text-brandRed"
+                ? "bg-white text-red-600 shadow-sm"
+                : "hover:bg-white/20 active:bg-white/30"
             }`}
           >
             <span className="hidden sm:inline">Beverages</span>
             <span className="sm:hidden">Drinks</span>
           </a>
         </li>
-        <li className="flex-none text-nowrap">
+        
+        <li className="flex-shrink-0 ml-2 sm:ml-4">
           <a
             href="#BURGER"
             onClick={(e) => handleMenuClick("BURGER", e)}
-            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
+            className={`inline-block px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 cursor-pointer rounded-lg transition-all duration-200 text-sm sm:text-base font-medium whitespace-nowrap ${
               activeSection === "BURGER"
-                ? "bg-white text-brandRed"
-                : "hover:bg-white hover:text-brandRed"
+                ? "bg-white text-red-600 shadow-sm"
+                : "hover:bg-white/20 active:bg-white/30"
             }`}
           >
             Burgers
           </a>
         </li>
-        <li className="flex-none text-nowrap">
+        
+        <li className="flex-shrink-0 ml-2 sm:ml-4">
           <a
             href="#FRIES_NUGGETS"
             onClick={(e) => handleMenuClick("FRIES_NUGGETS", e)}
-            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
+            className={`inline-block px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 cursor-pointer rounded-lg transition-all duration-200 text-sm sm:text-base font-medium whitespace-nowrap ${
               activeSection === "FRIES_NUGGETS"
-                ? "bg-white text-brandRed"
-                : "hover:bg-white hover:text-brandRed"
+                ? "bg-white text-red-600 shadow-sm"
+                : "hover:bg-white/20 active:bg-white/30"
             }`}
           >
-            Fries
+            <span className="hidden sm:inline">Fries & </span>Nuggets
           </a>
         </li>
-        <li className="flex-none text-nowrap">
+        
+        <li className="flex-shrink-0 ml-2 sm:ml-4">
           <a
             href="#CALZONE"
             onClick={(e) => handleMenuClick("CALZONE", e)}
-            className={`px-2 sm:px-3 md:px-4 cursor-pointer rounded-lg py-1 sm:py-2 transition-colors text-xs sm:text-sm md:text-base whitespace-nowrap ${
+            className={`inline-block px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 cursor-pointer rounded-lg transition-all duration-200 text-sm sm:text-base font-medium whitespace-nowrap ${
               activeSection === "CALZONE"
-                ? "bg-white text-brandRed"
-                : "hover:bg-white hover:text-brandRed"
+                ? "bg-white text-red-600 shadow-sm"
+                : "hover:bg-white/20 active:bg-white/30"
             }`}
           >
             Calzone
