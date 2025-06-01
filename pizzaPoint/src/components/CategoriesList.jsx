@@ -12,12 +12,20 @@ function CategoriesList() {
     // Scroll to the section
     const section = document.getElementById(sectionId);
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      // Use a more mobile-friendly scroll approach
+      const headerOffset = 60; // Account for sticky header height
+      const elementPosition = section.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
       
       // Force update the active section after a brief moment to ensure clean transition
       setTimeout(() => {
         setActiveSection(sectionId);
-      }, 100);
+      }, 150);
     }
   };
 
@@ -60,7 +68,14 @@ function CategoriesList() {
 
   return (
     <>
-      <ul className="sticky top-0 z-20 scroll_height h-12 sm:h-14 px-3 sm:px-4 flex flex-nowrap items-center justify-start sm:justify-center overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500 shadow-md">
+      <ul 
+        className="sticky top-0 z-20 scroll_height h-12 sm:h-14 px-3 sm:px-4 flex flex-nowrap items-center justify-start sm:justify-center overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500 shadow-md"
+        style={{ 
+          willChange: 'transform',
+          backfaceVisibility: 'hidden',
+          transform: 'translateZ(0)' // Force hardware acceleration
+        }}
+      >
         <li className="flex-shrink-0">
           <a
             href="#PIZZA"
