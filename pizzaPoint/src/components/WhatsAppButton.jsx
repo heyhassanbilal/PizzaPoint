@@ -42,7 +42,7 @@ const WhatsAppButton = () => {
   };
 
   const handleViber = () => {
-    const viberUrl = `viber://chat?number=${phoneNumber}`;
+    const viberUrl = `viber://add?number=${phoneNumber}`;
     window.open(viberUrl, '_blank');
     setIsOpen(false);
   };
