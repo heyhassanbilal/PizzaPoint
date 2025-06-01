@@ -33,7 +33,7 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 
 function App() {
-  const { token, setAuthToken } = useAuth(); // ✅ Token directly mil jayega
+  const { token, setToken } = useAuth(); // ✅ Token directly mil jayega
   const navigate = useNavigate();
   useEffect(() => {
     const checkToken = async () => {
@@ -47,7 +47,7 @@ function App() {
         if (text.toLowerCase().includes("invalid")) {
           console.warn("Token invalid, logging out.");
           localStorage.removeItem("authToken");
-          setAuthToken(null); // Clear the token in context
+          setToken(null); // Clear the token in context
           if (window.location.pathname !== "/login") {
             navigate("/login");
             // window.location.href = "/login";
@@ -56,7 +56,7 @@ function App() {
       } catch (err) {
         console.error("Error validating token:", err);
         localStorage.removeItem("authToken");
-        setAuthToken(null); // Clear the token in context
+        setToken(null); // Clear the token in context
         if (window.location.pathname !== "/login") {
           // window.location.href = "/login";
           navigate("/login");
