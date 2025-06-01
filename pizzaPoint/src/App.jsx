@@ -34,7 +34,7 @@ import { authService } from "./utils/services";
 
 function App() {
   const { token, setToken } = useAuth(); // ✅ Token directly mil jayega
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     const checkToken = async () => {
       const token = localStorage.getItem("authToken");
@@ -49,8 +49,8 @@ function App() {
           localStorage.removeItem("authToken");
           setToken(null); // Clear the token in context
           if (window.location.pathname !== "/login") {
-            navigate("/login");
-            // window.location.href = "/login";
+            // navigate("/login");
+            window.location.href = "/login";
           }
         }
       } catch (err) {
@@ -58,8 +58,8 @@ function App() {
         localStorage.removeItem("authToken");
         setToken(null); // Clear the token in context
         if (window.location.pathname !== "/login") {
-          // window.location.href = "/login";
-          navigate("/login");
+          window.location.href = "/login";
+          // navigate("/login");
         }
       }
     };
