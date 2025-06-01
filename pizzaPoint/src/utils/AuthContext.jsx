@@ -35,37 +35,37 @@ export const AuthProvider = ({ children }) => {
   }
 
   const isAuthenticated = () => {
-    const token = token || localStorage.getItem('authToken');
+    // const token = token || localStorage.getItem('authToken');
 
-     const checkToken = async () => {
-          // const token = localStorage.getItem("authToken");
-          if (!token) return;
+    //  const checkToken = async () => {
+    //       // const token = localStorage.getItem("authToken");
+    //       if (!token) return;
     
-          try {
-            const text = await authService.validateToken();
-            // const text = await res.text();
+    //       try {
+    //         const text = await authService.validateToken();
+    //         // const text = await res.text();
     
-            if (text.toLowerCase().includes("invalid")) {
-              console.warn("Token invalid, logging out.");
-              // localStorage.removeItem("authToken");
-              setToken(null); // Clear the token in context
-              // if (window.location.pathname !== "/login") {
-              //   // navigate("/login");
-              //   window.location.href = "/login";
-              // }
-            }
-          } catch (err) {
-            console.error("Error validating token:", err);
-            // localStorage.removeItem("authToken");
-            setToken(null); // Clear the token in context
-            // if (window.location.pathname !== "/login") {
-            //   window.location.href = "/login";
-            //   // navigate("/login");
-            // }
-          }
-        };
+    //         if (text.toLowerCase().includes("invalid")) {
+    //           console.warn("Token invalid, logging out.");
+    //           // localStorage.removeItem("authToken");
+    //           setToken(null); // Clear the token in context
+    //           // if (window.location.pathname !== "/login") {
+    //           //   // navigate("/login");
+    //           //   window.location.href = "/login";
+    //           // }
+    //         }
+    //       } catch (err) {
+    //         console.error("Error validating token:", err);
+    //         // localStorage.removeItem("authToken");
+    //         setToken(null); // Clear the token in context
+    //         // if (window.location.pathname !== "/login") {
+    //         //   window.location.href = "/login";
+    //         //   // navigate("/login");
+    //         // }
+    //       }
+    //     };
     
-    checkToken();
+    // checkToken();
 
     if (!token) return false;
     else {console.log(token);return true;}
