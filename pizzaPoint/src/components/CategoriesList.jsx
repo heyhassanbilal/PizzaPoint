@@ -57,7 +57,7 @@ function CategoriesList() {
 
   return (
     <>
-      <ul className="sticky top-0 z-20 scroll_height h-12 sm:h-14 px-3 sm:px-4 flex flex-nowrap items-center justify-start overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500 shadow-md">
+      <ul className="sticky top-0 z-20 scroll_height h-12 sm:h-14 px-3 sm:px-4 flex flex-nowrap items-center justify-start sm:justify-center overflow-x-auto bg-red-600 text-white scrollbar-thin scrollbar-thumb-red-400 scrollbar-track-red-500 shadow-md">
         <li className="flex-shrink-0">
           <a
             href="#PIZZA"
@@ -72,7 +72,7 @@ function CategoriesList() {
           </a>
         </li>
         
-        <li className="flex-shrink-0 ml-2 sm:ml-4">
+        <li className="flex-shrink-0 ml-0 sm:ml-4 md:ml-6 lg:ml-8">
           <a
             href="#DRINKS"
             onClick={(e) => handleMenuClick("DRINKS", e)}
@@ -87,7 +87,7 @@ function CategoriesList() {
           </a>
         </li>
         
-        <li className="flex-shrink-0 ml-2 sm:ml-4">
+        <li className="flex-shrink-0 ml-2 sm:ml-4 md:ml-6 lg:ml-8">
           <a
             href="#BURGER"
             onClick={(e) => handleMenuClick("BURGER", e)}
@@ -101,7 +101,7 @@ function CategoriesList() {
           </a>
         </li>
         
-        <li className="flex-shrink-0 ml-2 sm:ml-4">
+        <li className="flex-shrink-0 ml-2 sm:ml-4 md:ml-6 lg:ml-8">
           <a
             href="#FRIES_NUGGETS"
             onClick={(e) => handleMenuClick("FRIES_NUGGETS", e)}
@@ -115,7 +115,7 @@ function CategoriesList() {
           </a>
         </li>
         
-        <li className="flex-shrink-0 ml-2 sm:ml-4">
+        <li className="flex-shrink-0 ml-2 sm:ml-4 md:ml-6 lg:ml-8">
           <a
             href="#CALZONE"
             onClick={(e) => handleMenuClick("CALZONE", e)}
