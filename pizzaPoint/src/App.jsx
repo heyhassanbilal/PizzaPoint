@@ -43,8 +43,7 @@ function App() {
   const handleTokenInvalid = () => {
     console.warn("Token invalid, logging out.");
     setToken(null);
-    console.log(token, "logged out due to invalid token");
-    localStorage.removeItem("authToken"); // Clean up localStorage too
+    localStorage.removeItem("authToken");
     if (window.location.pathname !== "/login") {
       window.location.href = "/login";
     }
@@ -93,7 +92,7 @@ function App() {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("focus", handleFocus);
     };
-  }, [token]); // Include token in deps so it re-runs when token changes
+  }, []); // Empty dependency array - only run once on mount
 
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);
