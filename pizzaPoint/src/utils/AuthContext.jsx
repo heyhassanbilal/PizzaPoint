@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
             logout();
           }
 
-    if (!token) return false;
+    if (token == null) return false;
     else {console.log(token);return true;}
   }
   
