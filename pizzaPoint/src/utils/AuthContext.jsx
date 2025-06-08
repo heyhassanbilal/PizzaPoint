@@ -34,26 +34,36 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAuthenticated = async () => {
-    if (!token || !email) return false;
-    try {
-      const response = await authService.validateToken(email);
-      if (response.status != "valid") {
-        console.warn("Token invalid, logging out.");
-        logout();
-        return false; // Token was invalid
-      }
-      // If we get here, token is valid
-      return true;
-    } catch (err) {
-      console.error("Error validating token:", err);
+  if (!token || !email) {
+    console.warn("Missing token or email");
+    return false;
+  }
+
+  try {
+    const response = await authService.validateToken(token, email);
+    console.log("Validation response:", response); // ✅ Add this
+
+    if (response.status !== "valid") {
+      console.warn("Token invalid, logging out.");
       logout();
-      return false; // Error occurred
+      return false;
     }
-  };
+
+    return true;
+  } catch (err) {
+    console.error("Error validating token:", err);
+    logout();
+    return false;
+  }
+};
+
 
   const logout = () => {
+    console.log("Logging out..."); // ✅ Add this
     setToken(null);
-    localStorage.removeItem("authToken"); // Remove token from localStorage
+    setEmail(null);
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("email");
   };
 
   return (
