@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   try {
-    const response = await authService.validateToken(token, email);
+    const response = await authService.validateToken(email);
     console.log("Validation response:", response); // ✅ Add this
 
     if (response.status !== "valid") {
