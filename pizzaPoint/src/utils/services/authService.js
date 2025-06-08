@@ -11,5 +11,5 @@ export const authService = {
   adminLogin: (credentials) => apiCore.post('/auth/admin-login', credentials),
   adminOTPcheck: (credentials) => apiCore.post('/auth/verify-otp', credentials),
   resetPassword: (credentials) => apiCore.post('/auth/resetPassword', credentials),
-  validateToken: (email) => apiCore.get(`/auth/valid-token/${email}`),
+  validateToken: (email) => apiCore.get(`/auth/validate-token/${email}`),
 };
