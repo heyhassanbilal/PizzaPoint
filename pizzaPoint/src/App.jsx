@@ -47,8 +47,8 @@ function App() {
         if (response.status != "valid") {
           console.warn("Token invalid, logging out.");
           // localStorage.removeItem("authToken");
-          setToken(null); // Clear the token in context
-          setEmail(null); // Clear the token in context
+          setToken(undefined); // Clear the token in context
+          setEmail(undefined); // Clear the token in context
           // if (window.location.pathname !== "/login") {
             //   // navigate("/login");
             //   window.location.href = "/login";
@@ -57,8 +57,8 @@ function App() {
         } catch (err) {
           console.error("Error validating token:", err);
           // localStorage.removeItem("authToken");
-          setToken(null); // Clear the token in context
-          setEmail(null); // Clear the token in context
+          setToken(undefined); // Clear the token in context
+          setEmail(undefined); // Clear the token in context
         // if (window.location.pathname !== "/login") {
         //   window.location.href = "/login";
           // navigate("/login");
