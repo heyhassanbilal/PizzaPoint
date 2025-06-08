@@ -51,6 +51,7 @@ function App() {
 
         if (response.status != "valid") {
           console.warn("Token invalid, logging out.");
+          console.log("-----------------------Token invalid, logging out.");
           // localStorage.removeItem("authToken");
           logout(); // Call the logout function to clear context and localStorage
           // setToken(undefined); // Clear the token in context
