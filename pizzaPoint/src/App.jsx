@@ -33,39 +33,46 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 
 function App() {
-  // const { token, setToken } = useAuth(); // ✅ Token directly mil jayega
-  // // const navigate = useNavigate();
-  // useEffect(() => {
-  //   const checkToken = async () => {
-  //     // const token = localStorage.getItem("authToken");
-  //     if (!token) return;
+  const { token, setToken } = useAuth(); // ✅ Token directly mil jayega
+  // const navigate = useNavigate();
+  useEffect(() => {
+    const checkToken = async () => {
+      // const token = localStorage.getItem("authToken");
+      if (!token) return;
 
-  //     try {
-  //       const text = await authService.validateToken();
-  //       // const text = await res.text();
+      try {
+        const response = await authService.validateToken();
+        // const text = await res.text();
 
-  //       if (text.toLowerCase().includes("invalid")) {
-  //         console.warn("Token invalid, logging out.");
-  //         // localStorage.removeItem("authToken");
-  //         setToken(null); // Clear the token in context
-  //         if (window.location.pathname !== "/login") {
-  //           // navigate("/login");
-  //           window.location.href = "/login";
-  //         }
-  //       }
-  //     } catch (err) {
-  //       console.error("Error validating token:", err);
-  //       // localStorage.removeItem("authToken");
-  //       setToken(null); // Clear the token in context
-  //       if (window.location.pathname !== "/login") {
-  //         window.location.href = "/login";
-  //         // navigate("/login");
-  //       }
-  //     }
-  //   };
+        if (response.status != "valid") {
+          console.warn("Token invalid, logging out.");
+          // localStorage.removeItem("authToken");
+          setToken(null); // Clear the token in context
+          // if (window.location.pathname !== "/login") {
+          //   // navigate("/login");
+          //   window.location.href = "/login";
+          // }
+        }
+      } catch (err) {
+        console.error("Error validating token:", err);
+        // localStorage.removeItem("authToken");
+        setToken(null); // Clear the token in context
+        // if (window.location.pathname !== "/login") {
+        //   window.location.href = "/login";
+          // navigate("/login");
+        // }
+      }
+    };
 
-  //   checkToken();
-  // }, []);
+    checkToken();
+
+
+      // Add periodic check to handle the 1-hour expiry issue
+    const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
+    
+    return () => clearInterval(interval);
+
+  }, []);
 
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);
