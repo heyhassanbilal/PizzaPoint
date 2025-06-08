@@ -12,7 +12,12 @@ import { useState } from "react";
 import YourCart from "./components/YourCart";
 import SignUp from "./components/SignUp";
 import serve6 from "./assets/imgs/serve6.webp";
-import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import "./firebase";
 // import { AuthContext } from './utils/AuthContext'
 // import AuthContext from './utils/AuthContext'
@@ -24,7 +29,7 @@ import AdminPage from "./components/AdminPage";
 import AdminDashboard from "./components/AdminDashboard";
 import AddressChange from "./components/AddressChange";
 import CheckOut from "./components/CheckOut";
-import { useAuth } from './utils/useAuth'
+import { useAuth } from "./utils/useAuth";
 import MyOrders from "./components/MyOrders";
 import OrderDetails from "./components/OrderDetails";
 import AdminLogin from "./components/AdminLogin";
@@ -33,7 +38,7 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 
 function App() {
-  const { token, setToken, email, setEmail,logout } = useAuth(); // ✅ Token directly mil jayega
+  const { token, setToken, email, setEmail, logout } = useAuth(); // ✅ Token directly mil jayega
   // const navigate = useNavigate();
   useEffect(() => {
     const checkToken = async () => {
@@ -51,32 +56,37 @@ function App() {
           // setToken(undefined); // Clear the token in context
           // setEmail(undefined); // Clear the token in context
           // if (window.location.pathname !== "/login") {
-            //   // navigate("/login");
-            //   window.location.href = "/login";
-            // }
-          }
-        } catch (err) {
-          console.error("Error validating token:", err);
-          console.log("--------------------------------------------------erorrrr", err);
-          // localStorage.removeItem("authToken");
-          logout(); // Call the logout function to clear context and localStorage
-          // setToken(undefined); // Clear the token in context
-          // setEmail(undefined); // Clear the token in context
+          //   // navigate("/login");
+          //   window.location.href = "/login";
+          // }
+        }
+      } catch (err) {
+        console.error("Error validating token:", err);
+
+        // Only logout on specific auth-related errors
+        if (
+          err.message.includes("401") ||
+          err.message.includes("403") ||
+          err.message.includes("Unauthorized") ||
+          err.message.includes("Invalid token")
+        ) {
+          logout();
+        } // Call the logout function to clear context and localStorage
+        // setToken(undefined); // Clear the token in context
+        // setEmail(undefined); // Clear the token in context
         // if (window.location.pathname !== "/login") {
         //   window.location.href = "/login";
-          // navigate("/login");
+        // navigate("/login");
         // }
       }
     };
 
     checkToken();
 
-
-      // Add periodic check to handle the 1-hour expiry issue
+    // Add periodic check to handle the 1-hour expiry issue
     // const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
-    
-    // return () => clearInterval(interval);
 
+    // return () => clearInterval(interval);
   }, []);
 
   // In your parent component
