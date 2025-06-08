@@ -36,20 +36,20 @@ export const AuthProvider = ({ children }) => {
 
   const isAuthenticated = async() => {
     if (!token) return;
-          try {
-            const response = await authService.validateToken(email);
-            if (response.status != "valid") {
-              console.warn("Token invalid, logging out.");
-              console.log("-----------------------Token invalid, logging out.");
-              logout(); // Call the logout function to clear context and localStorage
-            }
-          } catch (err) {
-            console.error("Error validating token:", err);
-            console.log(
-              "-----------------------Token invalid due to catch block, logging out."
-            );
-            logout();
-          }
+    try {
+      const response = await authService.validateToken(email);
+      if (response.status != "valid") {
+        console.warn("Token invalid, logging out.");
+        console.log("-----------------------Token invalid, logging out.");
+        logout(); // Call the logout function to clear context and localStorage
+      }
+    } catch (err) {
+      console.error("Error validating token:", err);
+      console.log(
+        "-----------------------Token invalid due to catch block, logging out."
+      );
+      logout();
+    }
 
     if (token == null) return false;
     else {console.log(token);return true;}
