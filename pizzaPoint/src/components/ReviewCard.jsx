@@ -19,6 +19,16 @@ function ReviewCard({item, img,title,Initialprice,description,setCardOpen,size, 
 
     const { token, isAuthenticated } = useAuth() // ✅ Token directly mil jayega
 
+    const [authenticated, setAuthenticated] = React.useState(false);
+        useEffect(() => {
+        const checkAuth = async () => {
+            const result = await isAuthenticated();
+            setAuthenticated(result);
+            console.log("User is authenticated:", result);
+        };
+        checkAuth();
+        }, []);
+
     const handleCheckboxChange = (event, id, money) => {
         if (event.target.checked) {
             setSelectedExtras((prevExtras) => [...prevExtras, id]);
@@ -104,8 +114,8 @@ function ReviewCard({item, img,title,Initialprice,description,setCardOpen,size, 
         }
 
         function handleAddToCart(){
-            console.log(isAuthenticated())
-            if (isAuthenticated()) {
+            console.log(authenticated)
+            if (authenticated) {
                 addToCart(id, qty, selectedExtras);
                 setCardOpen(false)
             }else{
