@@ -57,6 +57,7 @@ function App() {
           }
         } catch (err) {
           console.error("Error validating token:", err);
+          console.log("--------------------------------------------------erorrrr", err);
           // localStorage.removeItem("authToken");
           logout(); // Call the logout function to clear context and localStorage
           // setToken(undefined); // Clear the token in context
