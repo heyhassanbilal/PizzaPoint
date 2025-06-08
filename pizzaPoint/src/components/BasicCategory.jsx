@@ -3,7 +3,7 @@ import CardLong from './CardLong'
 import { useAuth } from '../utils/useAuth';
 import { productService, userService } from '../utils/services'
 
-function BasicCategory({ Banner, items, category, setIsLoading }) {
+function BasicCategory({ Banner, items, category}) {
   const {token} = useAuth();
   // console.log(AuthData);
   // const data = fetch('http://localhost:8082/api/menuItem/get/category/PIZZA', {
@@ -33,14 +33,11 @@ function BasicCategory({ Banner, items, category, setIsLoading }) {
         const json = await productService.getProductByCategory(category);
         console.log(category, json);
         setData([ ...json]); // Prevent overwriting data
-        setIsLoading(false); 
       } catch (error) {
         if (error.name !== 'AbortError') {
           console.log("Error fetching data:", error);
           console.log(token)
         }
-      } finally {
-        setIsLoading(false); // Set loading state to false after fetching data
       }
     }
 
