@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const isAuthenticated = async () => {
-    if (!token) return false;
+    if (!token || !email) return false;
     try {
       const response = await authService.validateToken(email);
       if (response.status != "valid") {
