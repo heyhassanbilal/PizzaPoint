@@ -63,6 +63,9 @@ function App() {
         }
       } catch (err) {
         console.error("Error validating token:", err);
+        console.log(
+          "-----------------------Token invalid due to catch block, logging out."
+        );
 
         // Only logout on specific auth-related errors
         // if (
@@ -71,7 +74,7 @@ function App() {
         //   err.message.includes("Unauthorized") ||
         //   err.message.includes("Invalid token")
         // ) {
-          logout();
+        logout();
         // } // Call the logout function to clear context and localStorage
         // setToken(undefined); // Clear the token in context
         // setEmail(undefined); // Clear the token in context
