@@ -73,9 +73,9 @@ function App() {
 
 
       // Add periodic check to handle the 1-hour expiry issue
-    const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
+    // const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
     
-    return () => clearInterval(interval);
+    // return () => clearInterval(interval);
 
   }, []);
 
