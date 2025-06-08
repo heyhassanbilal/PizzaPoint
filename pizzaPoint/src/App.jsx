@@ -64,14 +64,14 @@ function App() {
         console.error("Error validating token:", err);
 
         // Only logout on specific auth-related errors
-        if (
-          err.message.includes("401") ||
-          err.message.includes("403") ||
-          err.message.includes("Unauthorized") ||
-          err.message.includes("Invalid token")
-        ) {
+        // if (
+        //   err.message.includes("401") ||
+        //   err.message.includes("403") ||
+        //   err.message.includes("Unauthorized") ||
+        //   err.message.includes("Invalid token")
+        // ) {
           logout();
-        } // Call the logout function to clear context and localStorage
+        // } // Call the logout function to clear context and localStorage
         // setToken(undefined); // Clear the token in context
         // setEmail(undefined); // Clear the token in context
         // if (window.location.pathname !== "/login") {
