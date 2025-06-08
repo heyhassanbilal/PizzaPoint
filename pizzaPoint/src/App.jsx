@@ -40,58 +40,58 @@ import { authService } from "./utils/services";
 function App() {
   const { token, setToken, email, setEmail, logout } = useAuth(); // ✅ Token directly mil jayega
   // const navigate = useNavigate();
-  useEffect(() => {
-    const checkToken = async () => {
-      // const token = localStorage.getItem("authToken");
-      if (!token) return;
+  // useEffect(() => {
+  //   const checkToken = async () => {
+  //     // const token = localStorage.getItem("authToken");
+  //     if (!token) return;
 
-      try {
-        const response = await authService.validateToken(email);
-        // const text = await res.text();
+  //     try {
+  //       const response = await authService.validateToken(email);
+  //       // const text = await res.text();
 
-        if (response.status != "valid") {
-          console.warn("Token invalid, logging out.");
-          console.log("-----------------------Token invalid, logging out.");
-          // localStorage.removeItem("authToken");
-          logout(); // Call the logout function to clear context and localStorage
-          // setToken(undefined); // Clear the token in context
-          // setEmail(undefined); // Clear the token in context
-          // if (window.location.pathname !== "/login") {
-          //   // navigate("/login");
-          //   window.location.href = "/login";
-          // }
-        }
-      } catch (err) {
-        console.error("Error validating token:", err);
-        console.log(
-          "-----------------------Token invalid due to catch block, logging out."
-        );
+  //       if (response.status != "valid") {
+  //         console.warn("Token invalid, logging out.");
+  //         console.log("-----------------------Token invalid, logging out.");
+  //         // localStorage.removeItem("authToken");
+  //         logout(); // Call the logout function to clear context and localStorage
+  //         // setToken(undefined); // Clear the token in context
+  //         // setEmail(undefined); // Clear the token in context
+  //         // if (window.location.pathname !== "/login") {
+  //         //   // navigate("/login");
+  //         //   window.location.href = "/login";
+  //         // }
+  //       }
+  //     } catch (err) {
+  //       console.error("Error validating token:", err);
+  //       console.log(
+  //         "-----------------------Token invalid due to catch block, logging out."
+  //       );
 
-        // Only logout on specific auth-related errors
-        // if (
-        //   err.message.includes("401") ||
-        //   err.message.includes("403") ||
-        //   err.message.includes("Unauthorized") ||
-        //   err.message.includes("Invalid token")
-        // ) {
-        logout();
-        // } // Call the logout function to clear context and localStorage
-        // setToken(undefined); // Clear the token in context
-        // setEmail(undefined); // Clear the token in context
-        // if (window.location.pathname !== "/login") {
-        //   window.location.href = "/login";
-        // navigate("/login");
-        // }
-      }
-    };
+  //       // Only logout on specific auth-related errors
+  //       // if (
+  //       //   err.message.includes("401") ||
+  //       //   err.message.includes("403") ||
+  //       //   err.message.includes("Unauthorized") ||
+  //       //   err.message.includes("Invalid token")
+  //       // ) {
+  //       logout();
+  //       // } // Call the logout function to clear context and localStorage
+  //       // setToken(undefined); // Clear the token in context
+  //       // setEmail(undefined); // Clear the token in context
+  //       // if (window.location.pathname !== "/login") {
+  //       //   window.location.href = "/login";
+  //       // navigate("/login");
+  //       // }
+  //     }
+  //   };
 
-    checkToken();
+  //   checkToken();
 
-    // Add periodic check to handle the 1-hour expiry issue
-    // const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
+  //   // Add periodic check to handle the 1-hour expiry issue
+  //   // const interval = setInterval(checkToken, 10 * 60 * 1000); // Check every 10 minutes
 
-    // return () => clearInterval(interval);
-  }, []);
+  //   // return () => clearInterval(interval);
+  // }, []);
 
   // In your parent component
   const [isCartOpen, setIsCartOpen] = useState(false);

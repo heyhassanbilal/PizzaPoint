@@ -34,38 +34,22 @@ export const AuthProvider = ({ children }) => {
     return signInWithPhoneNumber(auth, number,recaptchaVerifier);
   }
 
-  const isAuthenticated = () => {
-    // const token = token || localStorage.getItem('authToken');
-
-    //  const checkToken = async () => {
-    //       // const token = localStorage.getItem("authToken");
-    //       if (!token) return;
-    
-    //       try {
-    //         const text = await authService.validateToken();
-    //         // const text = await res.text();
-    
-    //         if (text.toLowerCase().includes("invalid")) {
-    //           console.warn("Token invalid, logging out.");
-    //           // localStorage.removeItem("authToken");
-    //           setToken(null); // Clear the token in context
-    //           // if (window.location.pathname !== "/login") {
-    //           //   // navigate("/login");
-    //           //   window.location.href = "/login";
-    //           // }
-    //         }
-    //       } catch (err) {
-    //         console.error("Error validating token:", err);
-    //         // localStorage.removeItem("authToken");
-    //         setToken(null); // Clear the token in context
-    //         // if (window.location.pathname !== "/login") {
-    //         //   window.location.href = "/login";
-    //         //   // navigate("/login");
-    //         // }
-    //       }
-    //     };
-    
-    // checkToken();
+  const isAuthenticated = async() => {
+    if (!token) return;
+          try {
+            const response = await authService.validateToken(email);
+            if (response.status != "valid") {
+              console.warn("Token invalid, logging out.");
+              console.log("-----------------------Token invalid, logging out.");
+              logout(); // Call the logout function to clear context and localStorage
+            }
+          } catch (err) {
+            console.error("Error validating token:", err);
+            console.log(
+              "-----------------------Token invalid due to catch block, logging out."
+            );
+            logout();
+          }
 
     if (!token) return false;
     else {console.log(token);return true;}
