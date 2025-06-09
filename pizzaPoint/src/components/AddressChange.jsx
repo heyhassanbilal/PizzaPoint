@@ -23,7 +23,7 @@ function AddressChange() {
   });
 
   useEffect(() => {
-    if (!isAuthenticated()) {
+    if (!isAuthenticated) {
       navigate("/login");
     }
   }, [isAuthenticated, navigate]);
