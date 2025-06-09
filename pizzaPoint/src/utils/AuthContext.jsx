@@ -62,7 +62,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
+      const email = localStorage.getItem("email");
       if (!token || !email) {
         console.warn("No token or email found, logging out.");
         setIsAuthLoading(false);
