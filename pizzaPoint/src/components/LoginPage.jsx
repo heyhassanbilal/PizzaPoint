@@ -4,7 +4,7 @@ import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
 
 export default function LoginPage() {
-  const { setToken, setEmail } = useAuth();
+  const { setToken, updateEmail } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [formData, setFormData] = useState({
@@ -38,7 +38,7 @@ export default function LoginPage() {
           const data = await authService.login(formData);
           console.log("Success:", data);
           setToken(data.token);
-          setEmail(data.email);
+          updateEmail(data.email);
           // alert("User login successfull");
           navigate("/");
         // });

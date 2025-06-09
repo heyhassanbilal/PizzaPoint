@@ -147,6 +147,7 @@ export const AuthProvider = ({ children }) => {
         setToken: updateToken,
         logout,
         setEmail: updateEmail,
+        updateEmail,
         setUpRecaptcha,
         isAuthenticated,
         setIsAuthenticated,
