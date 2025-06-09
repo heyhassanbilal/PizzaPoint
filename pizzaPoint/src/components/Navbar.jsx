@@ -10,10 +10,10 @@ import { authService } from "../utils/services";
 function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const { cart, loading } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
+  const navigate = useNavigate();
+  const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
 
   // const [isAuthenticated, setIsLoggedIn] = useState(isAuthenticated);
   // useEffect(() => {
