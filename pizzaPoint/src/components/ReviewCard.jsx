@@ -19,15 +19,15 @@ function ReviewCard({item, img,title,Initialprice,description,setCardOpen,size, 
 
     const { token, isAuthenticated } = useAuth() // ✅ Token directly mil jayega
 
-    const [authenticated, setAuthenticated] = React.useState(false);
-        useEffect(() => {
-        const checkAuth = async () => {
-            const result = await isAuthenticated();
-            setAuthenticated(result);
-            console.log("User is authenticated:", result);
-        };
-        checkAuth();
-        }, []);
+    const [authenticated, setAuthenticated] = React.useState(isAuthenticated);
+        // useEffect(() => {
+        // const checkAuth = async () => {
+        //     const result = await isAuthenticated();
+        //     setAuthenticated(result);
+        //     console.log("User is authenticated:", result);
+        // };
+        // checkAuth();
+        // }, []);
 
     const handleCheckboxChange = (event, id, money) => {
         if (event.target.checked) {
