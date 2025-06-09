@@ -39,7 +39,7 @@ export default function LoginPage() {
           console.log("Success:", data);
           setToken(data.token);
           updateEmail(data.email);
-          console.log("Token set:", data.token);
+          console.log("Token set:", data);
           isAuthenticatedFunc();
           // alert("User login successfull");
           navigate("/");
