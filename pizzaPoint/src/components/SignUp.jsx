@@ -27,7 +27,7 @@ const SignUp = () => {
   });
 
   useEffect(() => {
-    if (isAuthenticated()) {
+    if (isAuthenticated) {
       navigate("/");
     }
   }, [isAuthenticated, navigate]);
