@@ -13,7 +13,7 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
   const [formStep, setFormStep] = useState("form"); // "form", "otp"
-  const { setToken, setEmail, isAuthenticated } = useAuth();
+  const { setToken, setEmail, isAuthenticated, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isValid, setValid] = useState(false);
 
@@ -221,6 +221,7 @@ const SignUp = () => {
       setToken(response.token);
       setEmail(response.email);
       // alert("User registered successfully");
+      setIsAuthenticated(true);
       navigate("/");
     } catch (err) {
       console.error("Error confirming OTP:", err);
