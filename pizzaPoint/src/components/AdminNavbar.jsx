@@ -1,19 +1,24 @@
 import React from "react";
-import { useState,useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../utils/CartContext";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../utils/useAuth";
 
 function AdminNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const { cart, loading } = useCart();
   const [isOpen, setIsOpen] = useState(true);
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setIsMenuOpen(false);
     logout();
+    navigate("/adminLogin");
   };
 
   // Close menu when clicking outside or scrolling
@@ -73,7 +78,7 @@ function AdminNavbar() {
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 ref={buttonRef}
-                className="hidden sm:flex w-9 h-9 items-center justify-center text-brandRed rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out"
+                className="hidden sm:block text-black rounded-lg hover:cursor-pointer hover:scale-105 transition-transform duration-300 ease-in-out"
                 aria-label="User menu"
               >
                 <i className="fa-regular fa-user fa-lg sm:fa-2xl"></i>
