@@ -175,7 +175,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
           )}
         </div>
 
-        {isAuthenticated() && (
+        {isLoggedIn && (
           <button
             className="relative w-9 h-9 flex items-center justify-center hover:scale-105 transition-transform duration-300 ease-in-out"
             onClick={() => setIsCartOpen(true)}
