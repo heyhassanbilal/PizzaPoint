@@ -149,6 +149,7 @@ export const AuthProvider = ({ children }) => {
         setEmail: updateEmail,
         setUpRecaptcha,
         isAuthenticated,
+        setIsAuthenticated,
         isAuthenticatedFunc,
         isAuthLoading,
       }}

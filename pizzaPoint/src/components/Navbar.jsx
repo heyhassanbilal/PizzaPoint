@@ -11,11 +11,11 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const { cart, loading } = useCart();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated);
+  // const [isAuthenticated, setIsLoggedIn] = useState(isAuthenticated);
   // useEffect(() => {
   //   const checkAuth = async () => {
   //       const result = await isAuthenticated();
@@ -28,7 +28,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    setIsAuthenticated(false);
     setIsMenuOpen(false);
     logout();
   };
@@ -136,7 +136,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
 
           {isMenuOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
-              {!isLoggedIn ? (
+              {!isAuthenticated ? (
                 <>
                   <Link
                     to="/login"
@@ -175,7 +175,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
           )}
         </div>
 
-        {isLoggedIn && (
+        {isAuthenticated && (
           <button
             className="relative w-9 h-9 flex items-center justify-center hover:scale-105 transition-transform duration-300 ease-in-out"
             onClick={() => setIsCartOpen(true)}
