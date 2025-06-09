@@ -40,7 +40,7 @@ export default function LoginPage() {
           updateEmail(data.email);
           setToken(data.token);
           console.log("Token set:", data);
-          isAuthenticatedFunc();
+          // isAuthenticatedFunc();
           // alert("User login successfull");
           navigate("/");
         // });
