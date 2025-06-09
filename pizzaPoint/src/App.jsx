@@ -36,8 +36,11 @@ import AdminLogin from "./components/AdminLogin";
 import ResetPassword from "./components/ResetPassword";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
+import PizzaPointLoader from "./components/PizzaPointLoader";
 
 function App() {
+
+  const {isAuthLoading} = useAuth();
   const { token, setToken, email, setEmail, logout } = useAuth(); // ✅ Token directly mil jayega
   // const navigate = useNavigate();
   // useEffect(() => {
@@ -149,6 +152,9 @@ function App() {
               path="/"
               element={
                 <div className="h-screen overflow-y-auto overflow-x-hidden">
+                  {isAuthLoading && (
+                    <PizzaPointLoader/>
+                  )}
                   {isCartOpen && (
                     <YourCart
                       setIsCartOpen={setIsCartOpen}

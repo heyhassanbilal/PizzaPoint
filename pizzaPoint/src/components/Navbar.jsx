@@ -15,15 +15,15 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    const checkAuth = async () => {
-        const result = await isAuthenticated();
-        setIsLoggedIn(result);
-        console.log("User is authenticated:", result);
-    };
-    checkAuth();
-    }, []);
+  const [isLoggedIn, setIsLoggedIn] = useState(isAuthenticated);
+  // useEffect(() => {
+  //   const checkAuth = async () => {
+  //       const result = await isAuthenticated();
+  //       setIsLoggedIn(result);
+  //       console.log("User is authenticated:", result);
+  //   };
+  //   checkAuth();
+  //   }, []);
 
   
 

@@ -5,15 +5,15 @@ import { useAuth } from '../utils/useAuth';
 function ViewCartOverlay({setIsCartOpen}) {
     const {cart, loading} = useCart();
     const {isAuthenticated} = useAuth();
-    const [authenticated, setAuthenticated] = React.useState(false);
-    useEffect(() => {
-    const checkAuth = async () => {
-        const result = await isAuthenticated();
-        setAuthenticated(result);
-        console.log("User is authenticated:", result);
-    };
-    checkAuth();
-    }, []);
+    const [authenticated, setAuthenticated] = React.useState(isAuthenticated);
+    // useEffect(() => {
+    // const checkAuth = async () => {
+    //     const result = await isAuthenticated();
+    //     setAuthenticated(result);
+    //     console.log("User is authenticated:", result);
+    // };
+    // checkAuth();
+    // }, []);
 
     
 return (
