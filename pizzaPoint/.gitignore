@@ -32,3 +32,4 @@ dist-ssr
 .env.production.local
 
 # Remove the specific file line since we're using env vars now
+.vercel
