@@ -4,7 +4,7 @@ import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
 
 export default function LoginPage() {
-  const { setToken, updateEmail } = useAuth();
+  const { setToken, updateEmail, isAuthenticatedFunc } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [formData, setFormData] = useState({
@@ -39,6 +39,7 @@ export default function LoginPage() {
           console.log("Success:", data);
           setToken(data.token);
           updateEmail(data.email);
+          isAuthenticatedFunc();
           // alert("User login successfull");
           navigate("/");
         // });
