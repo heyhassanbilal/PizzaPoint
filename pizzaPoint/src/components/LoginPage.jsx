@@ -37,8 +37,8 @@ export default function LoginPage() {
         // .then((data) => {
           const data = await authService.login(formData);
           console.log("Success:", data);
-          setToken(data.token);
           updateEmail(data.email);
+          setToken(data.token);
           console.log("Token set:", data);
           isAuthenticatedFunc();
           // alert("User login successfull");

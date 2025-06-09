@@ -90,46 +90,46 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   // Check token on user activity + periodic background checks
-  useEffect(() => {
-    let activityTimer;
-    let backgroundTimer;
+  // useEffect(() => {
+  //   let activityTimer;
+  //   let backgroundTimer;
 
-    const checkTokenValidity = async () => {
-      if (!isAuthenticated) return;
+  //   const checkTokenValidity = async () => {
+  //     if (!isAuthenticated) return;
 
-      try {
-        const response = await authService.validateToken(email);
-        if (response.status !== "valid") {
-          logout();
-        }
-      } catch (error) {
-        console.error("Token check failed:", error);
-        // Don't logout on network errors
-      }
-    };
+  //     try {
+  //       const response = await authService.validateToken(email);
+  //       if (response.status !== "valid") {
+  //         logout();
+  //       }
+  //     } catch (error) {
+  //       console.error("Token check failed:", error);
+  //       // Don't logout on network errors
+  //     }
+  //   };
 
-    // Check on user activity (mouse, keyboard, etc.)
-    const handleActivity = () => {
-      clearTimeout(activityTimer);
-      activityTimer = setTimeout(checkTokenValidity, 1000); // Debounce
-    };
+  //   // Check on user activity (mouse, keyboard, etc.)
+  //   const handleActivity = () => {
+  //     clearTimeout(activityTimer);
+  //     activityTimer = setTimeout(checkTokenValidity, 1000); // Debounce
+  //   };
 
-    // Background check every 30 minutes
-    backgroundTimer = setInterval(checkTokenValidity, 30 * 60 * 1000);
+  //   // Background check every 30 minutes
+  //   backgroundTimer = setInterval(checkTokenValidity, 30 * 60 * 1000);
 
-    // Activity listeners
-    window.addEventListener("mousedown", handleActivity);
-    window.addEventListener("keydown", handleActivity);
-    window.addEventListener("scroll", handleActivity);
+  //   // Activity listeners
+  //   window.addEventListener("mousedown", handleActivity);
+  //   window.addEventListener("keydown", handleActivity);
+  //   window.addEventListener("scroll", handleActivity);
 
-    return () => {
-      clearTimeout(activityTimer);
-      clearInterval(backgroundTimer);
-      window.removeEventListener("mousedown", handleActivity);
-      window.removeEventListener("keydown", handleActivity);
-      window.removeEventListener("scroll", handleActivity);
-    };
-  }, [isAuthenticated]);
+  //   return () => {
+  //     clearTimeout(activityTimer);
+  //     clearInterval(backgroundTimer);
+  //     window.removeEventListener("mousedown", handleActivity);
+  //     window.removeEventListener("keydown", handleActivity);
+  //     window.removeEventListener("scroll", handleActivity);
+  //   };
+  // }, [isAuthenticated]);
 
   const logout = () => {
     console.log("Logging out..."); // ✅ Add this
