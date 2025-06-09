@@ -96,7 +96,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
           className="flex items-center h-8 px-2 sm:px-3 bg-red-600 text-white text-xs sm:text-sm rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out"
           onClick={() => navigate("/address")}
         >
-          <i className="fa-solid fa-location-dot mr-1 sm:mr-2"></i>
+          <i className="fa-solid fa-location-dot px-1 sm:mr-2"></i>
           <span className="hidden sm:inline">Change Location</span>
         </button>
 
@@ -104,7 +104,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
           href="tel:+36204489524"
           className="flex items-center h-8 px-2 sm:px-3 bg-red-600 text-white text-xs sm:text-sm rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out"
         >
-          <i className="fa-solid fa-phone mr-1"></i>
+          <i className="fa-solid fa-phone px-1"></i>
           <span className="truncate hidden lg:inline">+36204489524</span>
         </a>
       </div>
