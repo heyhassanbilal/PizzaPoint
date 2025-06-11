@@ -62,22 +62,31 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
 
     // Make sure container exists and is clean
     const container = document.getElementById("recaptcha-container");
-    if (container) {
-      container.innerHTML = "";
+    if (!container) {
+      console.error("reCAPTCHA container not found");
+      setError("reCAPTCHA container not found. Please refresh the page.");
+      return;
     }
 
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      auth,
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: () => {},
-        "expired-callback": () => {
-          console.log("reCAPTCHA expired");
-          setError("reCAPTCHA expired. Please try again.");
-        },
-      }
-    );
+    container.innerHTML = "";
+
+    try {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: () => {},
+          "expired-callback": () => {
+            console.log("reCAPTCHA expired");
+            setError("reCAPTCHA expired. Please try again.");
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error creating reCAPTCHA:", error);
+      setError("Failed to initialize reCAPTCHA. Please refresh the page.");
+    }
   };
 
   const handleChange = (e) => {
@@ -157,6 +166,9 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       const appVerifier = window.recaptchaVerifier;
+      if (!appVerifier) {
+        throw new Error("reCAPTCHA not initialized properly");
+      }
       //   const formattedPhoneNumber = "+" + phoneNumber.replace(/\D/g, "");
       const formattedPhoneNumber = phoneNumber.startsWith("+")
         ? phoneNumber
