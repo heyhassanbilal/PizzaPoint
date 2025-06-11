@@ -7,13 +7,12 @@ import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
-const SignUpTest = ({setIsLoading, isLoading}) => {
+const SignUpTest = ({ setIsLoading, isLoading }) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [verificationId, setVerificationId] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
-  
 
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -37,18 +36,48 @@ const SignUpTest = ({setIsLoading, isLoading}) => {
     }
   }, [isAuthenticated, navigate]);
 
-  const setupRecaptcha = () => {
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: () => {},
-          "expired-callback": () => console.log("reCAPTCHA expired"),
+  useEffect(() => {
+    return () => {
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (e) {
+          console.log("Error clearing reCAPTCHA on unmount:", e);
         }
-      );
+        window.recaptchaVerifier = null;
+      }
+    };
+  }, []);
+
+  const setupRecaptcha = () => {
+    // Always clear existing verifier first
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (e) {
+        console.log("Error clearing existing reCAPTCHA:", e);
+      }
+      window.recaptchaVerifier = null;
     }
+
+    // Make sure container exists and is clean
+    const container = document.getElementById("recaptcha-container");
+    if (container) {
+      container.innerHTML = "";
+    }
+
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      auth,
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: () => {},
+        "expired-callback": () => {
+          console.log("reCAPTCHA expired");
+          setError("reCAPTCHA expired. Please try again.");
+        },
+      }
+    );
   };
 
   const handleChange = (e) => {
@@ -123,8 +152,15 @@ const SignUpTest = ({setIsLoading, isLoading}) => {
       setError("");
       setMessage("");
       setupRecaptcha();
+
+      // Wait a bit for reCAPTCHA to initialize
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       const appVerifier = window.recaptchaVerifier;
-      const formattedPhoneNumber = "+" + phoneNumber.replace(/\D/g, "");
+      //   const formattedPhoneNumber = "+" + phoneNumber.replace(/\D/g, "");
+      const formattedPhoneNumber = phoneNumber.startsWith("+")
+        ? phoneNumber
+        : "+" + phoneNumber.replace(/\D/g, "");
       const confirmationResult = await signInWithPhoneNumber(
         auth,
         formattedPhoneNumber,
@@ -138,38 +174,46 @@ const SignUpTest = ({setIsLoading, isLoading}) => {
     } catch (err) {
       setError("Error sending OTP: " + err.message);
       setIsLoading(false);
-      if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
+
+      // Proper cleanup on error
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (e) {
+          console.log("Error clearing reCAPTCHA after failed OTP:", e);
+        }
+        window.recaptchaVerifier = null;
+      }
     }
   };
 
   const handleVerifyOTP = async (e) => {
-      e.preventDefault();
-      setError(null);
-      setIsLoading(true);
-  
-      if (!verificationCode) {
-        setIsLoading(false);
-        return setError("Please enter the OTP");
-      }
-  
-      try {
-        const userCredential = await confirmationResult.confirm(verificationCode);
-        console.log("Phone verified:", userCredential);
-  
-        const response = await authService.signup(formData);
-        setEmail(response.email);
-        setToken(response.token);
-        // alert("User registered successfully");
-        setIsAuthenticated(true);
-        setIsLoading(false);
-        navigate("/");
-      } catch (err) {
-        console.error("Error confirming OTP:", err);
-        setError(err.message);
-        navigate("/");
-        setIsLoading(false);
-      }
-    };
+    e.preventDefault();
+    setError(null);
+    setIsLoading(true);
+
+    if (!verificationCode) {
+      setIsLoading(false);
+      return setError("Please enter the OTP");
+    }
+
+    try {
+      const userCredential = await confirmationResult.confirm(verificationCode);
+      console.log("Phone verified:", userCredential);
+
+      const response = await authService.signup(formData);
+      setEmail(response.email);
+      setToken(response.token);
+      // alert("User registered successfully");
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      navigate("/");
+    } catch (err) {
+      console.error("Error confirming OTP:", err);
+      setError(err.message);
+      setIsLoading(false);
+    }
+  };
   //   return (
   //     <div style={{ margin: '20px' }}>
   //       <h2>Phone Authentication</h2>
