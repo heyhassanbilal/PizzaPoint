@@ -42,6 +42,7 @@ import SignUpTest from "./components/SignUpTest";
 function App() {
 
   const {isAuthLoading} = useAuth();
+  const [isLoading, setIsLoading] = useState(false); // For loading state, if needed
   const { token, setToken, email, setEmail, logout } = useAuth(); // ✅ Token directly mil jayega
   // const navigate = useNavigate();
   // useEffect(() => {
@@ -153,7 +154,7 @@ function App() {
               path="/"
               element={
                 <div className="h-screen overflow-y-auto overflow-x-hidden">
-                  {isAuthLoading && (
+                  {(isAuthLoading || isLoading) && (
                     <PizzaPointLoader/>
                   )}
                   {isCartOpen && (
@@ -248,8 +249,9 @@ function App() {
                   <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
+                    
                   />
-                  <SignUpTest />
+                  <SignUpTest isLoading={isLoading} setIsLoading={setIsLoading}/>
                 </>
               }
             />

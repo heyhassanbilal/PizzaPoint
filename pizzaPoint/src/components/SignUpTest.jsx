@@ -7,12 +7,13 @@ import { useNavigate } from "react-router-dom";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 
-const SignUpTest = () => {
+const SignUpTest = ({setIsLoading, isLoading}) => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState("");
   const [verificationId, setVerificationId] = useState(null);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState("");
+  
 
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
@@ -56,6 +57,7 @@ const SignUpTest = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     setError(null);
     const { password, confirmPassword, email } = formData;
 
@@ -91,6 +93,7 @@ const SignUpTest = () => {
     for (let v of synchronousValidations) {
       if (v.condition) {
         setError(v.message);
+        setIsLoading(false);
         return; // Exit early without attempting phone and email authentication
       }
     }
@@ -100,6 +103,7 @@ const SignUpTest = () => {
       const emailAlreadyExists = await authService.emailExists(email);
       if (emailAlreadyExists.exists) {
         setError("Email already exists");
+        setIsLoading(false);
         console.log("Email already exists");
         return; // Exit early without attempting phone authentication
       } else {
@@ -109,6 +113,7 @@ const SignUpTest = () => {
     } catch (err) {
       console.error("Error checking if email exists:", err);
       setError("Error checking email availability. Please try again.");
+      setIsLoading(false);
       return;
     }
   };
@@ -129,8 +134,10 @@ const SignUpTest = () => {
       setVerificationId(confirmationResult.verificationId);
       setMessage("OTP sent successfully");
       setFormStep("otp");
+      setIsLoading(false);
     } catch (err) {
       setError("Error sending OTP: " + err.message);
+      setIsLoading(false);
       if (window.recaptchaVerifier) window.recaptchaVerifier.clear();
     }
   };
@@ -138,8 +145,10 @@ const SignUpTest = () => {
   const handleVerifyOTP = async (e) => {
       e.preventDefault();
       setError(null);
+      setIsLoading(true);
   
       if (!verificationCode) {
+        setIsLoading(false);
         return setError("Please enter the OTP");
       }
   
@@ -152,10 +161,13 @@ const SignUpTest = () => {
         setToken(response.token);
         // alert("User registered successfully");
         setIsAuthenticated(true);
+        setIsLoading(false);
         navigate("/");
       } catch (err) {
         console.error("Error confirming OTP:", err);
         setError(err.message);
+        navigate("/");
+        setIsLoading(false);
       }
     };
   //   return (
