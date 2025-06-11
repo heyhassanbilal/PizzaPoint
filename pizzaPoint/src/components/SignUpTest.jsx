@@ -125,6 +125,7 @@ const SignUpTest = () => {
         formattedPhoneNumber,
         appVerifier
       );
+      setConfirmationResult(confirmationResult);
       setVerificationId(confirmationResult.verificationId);
       setMessage("OTP sent successfully");
       setFormStep("otp");
