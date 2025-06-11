@@ -36,6 +36,30 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
     }
   }, [isAuthenticated, navigate]);
 
+  // useEffect to automatically reset when phone number changes
+  useEffect(() => {
+    if (phoneNumber && formStep === "form") {
+      // Clear any existing reCAPTCHA when phone number changes
+      if (window.recaptchaVerifier) {
+        try {
+          window.recaptchaVerifier.clear();
+        } catch (e) {
+          console.log("Error clearing reCAPTCHA on phone change:", e);
+        }
+        window.recaptchaVerifier = null;
+      }
+
+      const container = document.getElementById("recaptcha-container");
+      if (container) {
+        container.innerHTML = "";
+      }
+
+      // Clear any previous errors
+      setError(null);
+      setMessage("");
+    }
+  }, [phoneNumber, formStep]);
+
   useEffect(() => {
     return () => {
       if (window.recaptchaVerifier) {
@@ -195,6 +219,12 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
           console.log("Error clearing reCAPTCHA after failed OTP:", e);
         }
         window.recaptchaVerifier = null;
+      }
+
+      // Also clear the container
+      const container = document.getElementById("recaptcha-container");
+      if (container) {
+        container.innerHTML = "";
       }
     }
   };
