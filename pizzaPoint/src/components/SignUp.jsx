@@ -218,8 +218,8 @@ const SignUp = () => {
       console.log("Phone verified:", userCredential);
 
       const response = await authService.signup(formData);
-      setToken(response.token);
       setEmail(response.email);
+      setToken(response.token);
       // alert("User registered successfully");
       setIsAuthenticated(true);
       navigate("/");

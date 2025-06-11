@@ -3,6 +3,7 @@ import React, { createContext, useState, useContext, useEffect } from "react";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { auth } from "../firebase";
 import { authService } from "./services";
+import { useNavigate } from "react-router-dom";
 // Create the context
 export const AuthContext = createContext();
 
@@ -137,6 +138,7 @@ export const AuthProvider = ({ children }) => {
     setEmail(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("email");
+    useNavigate('/');
   };
 
   return (
