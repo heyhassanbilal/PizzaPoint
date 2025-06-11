@@ -37,6 +37,7 @@ import ResetPassword from "./components/ResetPassword";
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 import PizzaPointLoader from "./components/PizzaPointLoader";
+import SignUpTest from "./components/SignUpTest";
 
 function App() {
 
@@ -218,6 +219,37 @@ function App() {
                     setSideMenuOpen={setSideMenuOpen}
                   />
                   <SignUp />
+                </>
+              }
+            />
+            <Route
+              path="/signup1"
+              element={
+                <>
+                  {isCartOpen && (
+                    <YourCart
+                      setIsCartOpen={setIsCartOpen}
+                      cartItems={cartItems}
+                      popularItems={popularItems}
+                      setCartItems={setCartItems}
+                      isOpen={isCartOpen}
+                      onClose={closeCart}
+                    />
+                  )}
+
+                  {isSideMenuOpen && (
+                    <SideMenu
+                      setSideMenuOpen={setSideMenuOpen}
+                      isSideMenuOpen={isSideMenuOpen}
+                      onSideMenuClose={closeSideMenu}
+                    />
+                  )}
+
+                  <Navbar
+                    setIsCartOpen={setIsCartOpen}
+                    setSideMenuOpen={setSideMenuOpen}
+                  />
+                  <SignUpTest />
                 </>
               }
             />

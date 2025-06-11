@@ -118,7 +118,7 @@ function YourCart({
             cart.cartItems &&
             cart.cartItems.map((item) =>
               item.quantity === 0 ? null : (
-                <div className="border-b-2" key={item.id}>
+                <div className="border-b-2" key={item.cartItemid}>
                   <div className="flex p-5 justify-around">
                     <div className="w-16 h-16 mr-2">
                       <img
