@@ -227,6 +227,9 @@ function App() {
               path="/signup1"
               element={
                 <>
+                  {isLoading && (
+                    <PizzaPointLoader/>
+                  )}
                   {isCartOpen && (
                     <YourCart
                       setIsCartOpen={setIsCartOpen}
