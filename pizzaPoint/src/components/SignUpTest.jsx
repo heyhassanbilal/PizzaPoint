@@ -54,7 +54,7 @@ const SignUpTest = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     const { password, confirmPassword, email } = formData;
