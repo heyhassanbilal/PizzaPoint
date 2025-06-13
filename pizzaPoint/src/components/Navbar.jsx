@@ -31,6 +31,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
     setIsAuthenticated(false);
     setIsMenuOpen(false);
     logout();
+    navigate("/");
   };
   const handleMyOrders = () => {
     setIsMenuOpen(false);
