@@ -158,7 +158,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
                 <>
                   <p
                     // onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"
+                    className="block w-full text-center px-4 py-2 text-sm text-gray-700 hover:scale-105 transition-transform duration-300 ease-in-out"
                   >
                   {name ? `Hello, ${name}` : "Hello, User"}
                   </p>
