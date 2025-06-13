@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateName = (newName) => {
-    setToken(newName);
+    setName(newName);
     localStorage.setItem("name", newName); // Optionally save it in localStorage
   };
 
