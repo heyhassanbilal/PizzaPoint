@@ -42,6 +42,7 @@ export default function LoginPage() {
           setToken(data.token);
           console.log("Token set:", data);
           setIsAuthenticated(true);
+          
           // isAuthenticatedFunc();
           // alert("User login successfull");
           navigate("/");

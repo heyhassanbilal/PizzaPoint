@@ -38,6 +38,9 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
     navigate("/orders");
   };
 
+  useEffect(() => {
+    console.log("Navbar name:", name);
+  },[name])
   // Close menu when clicking outside or scrolling
   useEffect(() => {
     const handleClickOutside = (event) => {
