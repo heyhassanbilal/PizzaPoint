@@ -17,6 +17,8 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [formStep, setFormStep] = useState("form"); // "form", "otp"
+  const [recaptchaRendered, setRecaptchaRendered] = useState(false); // Track if reCAPTCHA is rendered
+  
   const { setToken, setEmail, isAuthenticated, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [isValid, setValid] = useState(false);
@@ -36,25 +38,29 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
     }
   }, [isAuthenticated, navigate]);
 
+  // Cleanup function to properly clear reCAPTCHA
+  const cleanupRecaptcha = () => {
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (e) {
+        console.log("Error clearing reCAPTCHA:", e);
+      }
+      window.recaptchaVerifier = null;
+    }
+    
+    const container = document.getElementById("recaptcha-container");
+    if (container) {
+      container.innerHTML = "";
+    }
+    
+    setRecaptchaRendered(false);
+  };
+
   // useEffect to automatically reset when phone number changes
   useEffect(() => {
     if (phoneNumber && formStep === "form") {
-      // Clear any existing reCAPTCHA when phone number changes
-      if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-        } catch (e) {
-          console.log("Error clearing reCAPTCHA on phone change:", e);
-        }
-        window.recaptchaVerifier = null;
-      }
-
-      const container = document.getElementById("recaptcha-container");
-      if (container) {
-        container.innerHTML = "";
-      }
-
-      // Clear any previous errors
+      cleanupRecaptcha();
       setError(null);
       setMessage("");
     }
@@ -62,64 +68,59 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
 
   useEffect(() => {
     return () => {
-      if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-        } catch (e) {
-          console.log("Error clearing reCAPTCHA on unmount:", e);
-        }
-        window.recaptchaVerifier = null;
-      }
+      cleanupRecaptcha();
     };
   }, []);
 
   const setupRecaptcha = () => {
-    // Always clear existing verifier first
-    if (window.recaptchaVerifier) {
-      try {
-        window.recaptchaVerifier.clear();
-      } catch (e) {
-        console.log("Error clearing existing reCAPTCHA:", e);
+    return new Promise((resolve, reject) => {
+      // If reCAPTCHA is already rendered, resolve immediately
+      if (recaptchaRendered && window.recaptchaVerifier) {
+        resolve(window.recaptchaVerifier);
+        return;
       }
-      window.recaptchaVerifier = null;
-    }
 
-    // Make sure container exists and is clean
-    const container = document.getElementById("recaptcha-container");
-    if (!container) {
-      console.error("reCAPTCHA container not found");
-      setError("reCAPTCHA container not found. Please refresh the page.");
-      return;
-    }
+      // Clean up any existing reCAPTCHA first
+      cleanupRecaptcha();
 
-    container.innerHTML = "";
+      // Make sure container exists
+      const container = document.getElementById("recaptcha-container");
+      if (!container) {
+        reject(new Error("reCAPTCHA container not found"));
+        return;
+      }
 
-    try {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: () => {
-            console.log("reCAPTCHA solved");
-          },
-          "expired-callback": () => {
-            console.log("reCAPTCHA expired");
-            setError("reCAPTCHA expired. Please try again.");
-            setIsLoading(false); // Stop loading on expiry
-          },
-          "error-callback": (error) => {
-            console.log("reCAPTCHA error:", error);
-            setError("reCAPTCHA error. Please try again.");
-            setIsLoading(false); // Stop loading on error
-          },
-        }
-      );
-    } catch (error) {
-      console.error("Error creating reCAPTCHA:", error);
-      setError("Failed to initialize reCAPTCHA. Please refresh the page.");
-      setIsLoading(false);
-    }
+      try {
+        window.recaptchaVerifier = new RecaptchaVerifier(
+          auth,
+          "recaptcha-container",
+          {
+            size: "invisible",
+            callback: () => {
+              console.log("reCAPTCHA solved");
+            },
+            "expired-callback": () => {
+              console.log("reCAPTCHA expired");
+              setError("reCAPTCHA expired. Please try again.");
+              setIsLoading(false);
+              cleanupRecaptcha();
+            },
+            "error-callback": (error) => {
+              console.log("reCAPTCHA error:", error);
+              setError("reCAPTCHA error. Please try again.");
+              setIsLoading(false);
+              cleanupRecaptcha();
+            },
+          }
+        );
+        
+        setRecaptchaRendered(true);
+        resolve(window.recaptchaVerifier);
+      } catch (error) {
+        console.error("Error creating reCAPTCHA:", error);
+        reject(error);
+      }
+    });
   };
 
   const handleChange = (e) => {
@@ -165,7 +166,7 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
       if (v.condition) {
         setError(v.message);
         setIsLoading(false);
-        return; // Exit early without attempting phone and email authentication
+        return;
       }
     }
 
@@ -176,7 +177,7 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
         setError("Email already exists");
         setIsLoading(false);
         console.log("Email already exists");
-        return; // Exit early without attempting phone authentication
+        return;
       } else {
         setValid(true);
         sendOtp();
@@ -190,62 +191,49 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
   };
 
   const sendOtp = async () => {
-  try {
-    setError("");
-    setMessage("");
-    setupRecaptcha();
+    try {
+      setError("");
+      setMessage("");
 
-    // Wait a bit for reCAPTCHA to initialize
-    await new Promise((resolve) => setTimeout(resolve, 500));
+      // Setup reCAPTCHA with promise-based approach
+      const appVerifier = await setupRecaptcha();
+      
+      // Wait a bit more for reCAPTCHA to be fully ready
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const appVerifier = window.recaptchaVerifier;
-    if (!appVerifier) {
-      throw new Error("reCAPTCHA not initialized properly");
+      const formattedPhoneNumber = phoneNumber.startsWith("+")
+        ? phoneNumber
+        : "+" + phoneNumber.replace(/\D/g, "");
+
+      console.log("Sending OTP to:", formattedPhoneNumber);
+
+      // Create a timeout promise that rejects after 30 seconds
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          reject(new Error("Request timed out. Please try again or check if reCAPTCHA was completed."));
+        }, 30000);
+      });
+
+      // Race between the actual Firebase call and timeout
+      const confirmationResult = await Promise.race([
+        signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier),
+        timeoutPromise
+      ]);
+
+      setConfirmationResult(confirmationResult);
+      setVerificationId(confirmationResult.verificationId);
+      setMessage("OTP sent successfully");
+      setFormStep("otp");
+      setIsLoading(false);
+    } catch (err) {
+      console.error("Error sending OTP:", err);
+      setError("Error sending OTP: " + err.message);
+      setIsLoading(false);
+      
+      // Clean up on error
+      cleanupRecaptcha();
     }
-
-    const formattedPhoneNumber = phoneNumber.startsWith("+")
-      ? phoneNumber
-      : "+" + phoneNumber.replace(/\D/g, "");
-
-    // Create a timeout promise that rejects after 30 seconds
-    const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => {
-        reject(new Error("Request timed out. Please try again or check if reCAPTCHA was completed."));
-      }, 30000); // 30 seconds
-    });
-
-    // Race between the actual Firebase call and timeout
-    const confirmationResult = await Promise.race([
-      signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier),
-      timeoutPromise
-    ]);
-
-    setConfirmationResult(confirmationResult);
-    setVerificationId(confirmationResult.verificationId);
-    setMessage("OTP sent successfully");
-    setFormStep("otp");
-    setIsLoading(false);
-  } catch (err) {
-    setError("Error sending OTP: " + err.message);
-    setIsLoading(false);
-
-    // Proper cleanup on error
-    if (window.recaptchaVerifier) {
-      try {
-        window.recaptchaVerifier.clear();
-      } catch (e) {
-        console.log("Error clearing reCAPTCHA after failed OTP:", e);
-      }
-      window.recaptchaVerifier = null;
-    }
-
-    // Also clear the container
-    const container = document.getElementById("recaptcha-container");
-    if (container) {
-      container.innerHTML = "";
-    }
-  }
-};
+  };
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
@@ -264,7 +252,6 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
       const response = await authService.signup(formData);
       setEmail(response.email);
       setToken(response.token);
-      // alert("User registered successfully");
       setIsAuthenticated(true);
       setIsLoading(false);
       navigate("/");
@@ -274,22 +261,18 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
       setIsLoading(false);
     }
   };
-  //   return (
-  //     <div style={{ margin: '20px' }}>
-  //       <h2>Phone Authentication</h2>
-  //       <div id="recaptcha-container"></div>
-  //       <input
-  //         type="text"
-  //         placeholder="Enter phone number with country code (e.g., +1234567890)"
-  //         value={phoneNumber}
-  //         onChange={(e) => setPhoneNumber(e.target.value)}
-  //         style={{ marginBottom: '5px' }}
-  //       />
-  //       <button onClick={sendOtp}>Send OTP</button>
-  //       {message && <p style={{ color: 'green' }}>{message}</p>}
-  //       {error && <p style={{ color: 'red' }}>{error}</p>}
-  //     </div>
-  //   );
+
+  // Function to go back to form (useful for retry scenarios)
+  const goBackToForm = () => {
+    setFormStep("form");
+    setVerificationCode("");
+    setConfirmationResult(null);
+    setVerificationId(null);
+    setError(null);
+    setMessage("");
+    cleanupRecaptcha();
+  };
+
   return (
     <div className="flex justify-center items-center min-h-[93.5vh] bg-[#ef4444]">
       <div className="bg-white p-8 rounded-xl shadow-lg w-96">
@@ -353,31 +336,47 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
             <div id="recaptcha-container" className="mb-2"></div>
             <button
               type="submit"
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
+              disabled={isLoading}
+              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition disabled:opacity-50"
             >
-              Send Verification Code
+              {isLoading ? "Sending..." : "Send Verification Code"}
             </button>
             {error && <p style={{ color: "red" }}>{error}</p>}
+            {message && <p style={{ color: "green" }}>{message}</p>}
           </form>
         ) : (
-          <form onSubmit={handleVerifyOTP}>
-            <input
-              type="text"
-              name="otp"
-              value={verificationCode}
-              onChange={(e) => setVerificationCode(e.target.value)}
-              placeholder="Verification Code"
-              className="w-full p-2 border rounded mb-4"
-              required
-            />
-            <button
-              type="submit"
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
-            >
-              Verify OTP
-            </button>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-          </form>
+          <div>
+            <form onSubmit={handleVerifyOTP}>
+              <p className="mb-4 text-sm text-gray-600">
+                Enter the verification code sent to {phoneNumber}
+              </p>
+              <input
+                type="text"
+                name="otp"
+                value={verificationCode}
+                onChange={(e) => setVerificationCode(e.target.value)}
+                placeholder="Verification Code"
+                className="w-full p-2 border rounded mb-4"
+                maxLength="6"
+                required
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition disabled:opacity-50 mb-2"
+              >
+                {isLoading ? "Verifying..." : "Verify OTP"}
+              </button>
+              <button
+                type="button"
+                onClick={goBackToForm}
+                className="w-full bg-gray-500 text-white py-2 rounded hover:bg-gray-600 transition"
+              >
+                Change Phone Number
+              </button>
+              {error && <p style={{ color: "red" }}>{error}</p>}
+            </form>
+          </div>
         )}
 
         <p className="mt-3">
@@ -393,4 +392,5 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
     </div>
   );
 };
+
 export default SignUpTest;
