@@ -261,7 +261,7 @@ function CheckOut() {
                             </div>)}
                             {orderType == "PICKUP" && (<div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Delivery</h4>
-                                <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.deliveryFee : 0}</h4>
+                                <h4 className='text-sm lg:text-base'>HUF 0</h4>
                             </div>)}
                             {orderType == "DELIVERY" && (<div className='flex justify-between text-brandRed font-bold'>
                                 <h4 className='text-sm lg:text-base'>Total</h4>
