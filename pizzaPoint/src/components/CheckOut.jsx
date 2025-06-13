@@ -255,7 +255,7 @@ function CheckOut() {
                                 <h4 className='text-sm lg:text-base'>Service fee</h4>
                                 <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.serviceFee : 0}</h4>
                             </div>
-                            {orderType == "DELEVERY" && (<div className='flex justify-between text-brandRed'>
+                            {orderType == "DELIVERY" && (<div className='flex justify-between text-brandRed'>
                                 <h4 className='text-sm lg:text-base'>Delivery</h4>
                                 <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.deliveryFee : 0}</h4>
                             </div>)}
@@ -263,7 +263,7 @@ function CheckOut() {
                                 <h4 className='text-sm lg:text-base'>Delivery</h4>
                                 <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.deliveryFee : 0}</h4>
                             </div>)}
-                            {orderType == "DELEVERY" && (<div className='flex justify-between text-brandRed font-bold'>
+                            {orderType == "DELIVERY" && (<div className='flex justify-between text-brandRed font-bold'>
                                 <h4 className='text-sm lg:text-base'>Total</h4>
                                 <h4 className='text-sm lg:text-base'>HUF {check !=undefined ? check.totalPrice : 0}</h4>
                             </div>)}
