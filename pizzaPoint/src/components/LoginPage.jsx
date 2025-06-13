@@ -4,7 +4,7 @@ import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
 
 export default function LoginPage() {
-  const { setToken, updateEmail, isAuthenticatedFunc, setIsAuthenticated } = useAuth();
+  const { setToken, updateEmail, updateName, isAuthenticatedFunc, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState();
   const [formData, setFormData] = useState({
@@ -38,6 +38,7 @@ export default function LoginPage() {
           const data = await authService.login(formData);
           console.log("Success:", data);
           updateEmail(data.email);
+          updateName(data.name);
           setToken(data.token);
           console.log("Token set:", data);
           setIsAuthenticated(true);

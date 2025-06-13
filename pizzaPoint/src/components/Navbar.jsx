@@ -13,7 +13,7 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const navigate = useNavigate();
-  const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
+  const { isAuthenticated, logout, setIsAuthenticated, name } = useAuth();
 
   // const [isAuthenticated, setIsLoggedIn] = useState(isAuthenticated);
   // useEffect(() => {
@@ -156,6 +156,12 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
                 </>
               ) : (
                 <>
+                  <p
+                    // onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"
+                  >
+                  {name ? `Hello, ${name}` : "Hello, User"}
+                  </p>
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-brandRed hover:text-white"

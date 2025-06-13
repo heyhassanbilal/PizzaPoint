@@ -17,7 +17,7 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
   const [verificationCode, setVerificationCode] = useState("");
   const [confirmationResult, setConfirmationResult] = useState(null);
   const [formStep, setFormStep] = useState("form"); // "form", "otp"
-  const { setToken, setEmail, isAuthenticated, setIsAuthenticated } = useAuth();
+  const { setToken, setEmail, isAuthenticated, setIsAuthenticated, updateName } = useAuth();
   const navigate = useNavigate();
   const [isValid, setValid] = useState(false);
 
@@ -254,6 +254,7 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
 
       const response = await authService.signup(formData);
       setEmail(response.email);
+      updateName(response.name);
       setToken(response.token);
       // alert("User registered successfully");
       setIsAuthenticated(true);

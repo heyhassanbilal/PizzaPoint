@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   // const auth = getAuth();
   const [token, setToken] = useState(localStorage.getItem("authToken") || null);
   const [email, setEmail] = useState(localStorage.getItem("email") || null);
+  const [name, setName] = useState(localStorage.getItem("name") || null);
 
   const updateEmail = (newEmail) => {
     setEmail(newEmail);
@@ -22,6 +23,11 @@ export const AuthProvider = ({ children }) => {
   const updateToken = (newToken) => {
     setToken(newToken);
     localStorage.setItem("authToken", newToken); // Optionally save it in localStorage
+  };
+
+  const updateName = (newName) => {
+    setToken(newName);
+    localStorage.setItem("name", newName); // Optionally save it in localStorage
   };
 
   const setUpRecaptcha = (number) => {
@@ -136,6 +142,7 @@ export const AuthProvider = ({ children }) => {
     console.log("Logging out..."); // ✅ Add this
     setToken(null);
     setEmail(null);
+    updateName(null);
     localStorage.removeItem("authToken");
     localStorage.removeItem("email");
     useNavigate('/');
@@ -155,6 +162,8 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated,
         isAuthenticatedFunc,
         isAuthLoading,
+        updateName,
+        name,
       }}
     >
       {children}
