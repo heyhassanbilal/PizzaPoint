@@ -190,53 +190,62 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
   };
 
   const sendOtp = async () => {
-    try {
-      setError("");
-      setMessage("");
-      setupRecaptcha();
+  try {
+    setError("");
+    setMessage("");
+    setupRecaptcha();
 
-      // Wait a bit for reCAPTCHA to initialize
-      await new Promise((resolve) => setTimeout(resolve, 500));
+    // Wait a bit for reCAPTCHA to initialize
+    await new Promise((resolve) => setTimeout(resolve, 500));
 
-      const appVerifier = window.recaptchaVerifier;
-      if (!appVerifier) {
-        throw new Error("reCAPTCHA not initialized properly");
-      }
-      //   const formattedPhoneNumber = "+" + phoneNumber.replace(/\D/g, "");
-      const formattedPhoneNumber = phoneNumber.startsWith("+")
-        ? phoneNumber
-        : "+" + phoneNumber.replace(/\D/g, "");
-      const confirmationResult = await signInWithPhoneNumber(
-        auth,
-        formattedPhoneNumber,
-        appVerifier
-      );
-      setConfirmationResult(confirmationResult);
-      setVerificationId(confirmationResult.verificationId);
-      setMessage("OTP sent successfully");
-      setFormStep("otp");
-      setIsLoading(false);
-    } catch (err) {
-      setError("Error sending OTP: " + err.message);
-      setIsLoading(false);
-
-      // Proper cleanup on error
-      if (window.recaptchaVerifier) {
-        try {
-          window.recaptchaVerifier.clear();
-        } catch (e) {
-          console.log("Error clearing reCAPTCHA after failed OTP:", e);
-        }
-        window.recaptchaVerifier = null;
-      }
-
-      // Also clear the container
-      const container = document.getElementById("recaptcha-container");
-      if (container) {
-        container.innerHTML = "";
-      }
+    const appVerifier = window.recaptchaVerifier;
+    if (!appVerifier) {
+      throw new Error("reCAPTCHA not initialized properly");
     }
-  };
+
+    const formattedPhoneNumber = phoneNumber.startsWith("+")
+      ? phoneNumber
+      : "+" + phoneNumber.replace(/\D/g, "");
+
+    // Create a timeout promise that rejects after 30 seconds
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => {
+        reject(new Error("Request timed out. Please try again or check if reCAPTCHA was completed."));
+      }, 30000); // 30 seconds
+    });
+
+    // Race between the actual Firebase call and timeout
+    const confirmationResult = await Promise.race([
+      signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier),
+      timeoutPromise
+    ]);
+
+    setConfirmationResult(confirmationResult);
+    setVerificationId(confirmationResult.verificationId);
+    setMessage("OTP sent successfully");
+    setFormStep("otp");
+    setIsLoading(false);
+  } catch (err) {
+    setError("Error sending OTP: " + err.message);
+    setIsLoading(false);
+
+    // Proper cleanup on error
+    if (window.recaptchaVerifier) {
+      try {
+        window.recaptchaVerifier.clear();
+      } catch (e) {
+        console.log("Error clearing reCAPTCHA after failed OTP:", e);
+      }
+      window.recaptchaVerifier = null;
+    }
+
+    // Also clear the container
+    const container = document.getElementById("recaptcha-container");
+    if (container) {
+      container.innerHTML = "";
+    }
+  }
+};
 
   const handleVerifyOTP = async (e) => {
     e.preventDefault();
