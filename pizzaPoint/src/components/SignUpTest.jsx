@@ -100,16 +100,25 @@ const SignUpTest = ({ setIsLoading, isLoading }) => {
         "recaptcha-container",
         {
           size: "invisible",
-          callback: () => {},
+          callback: () => {
+            console.log("reCAPTCHA solved");
+          },
           "expired-callback": () => {
             console.log("reCAPTCHA expired");
             setError("reCAPTCHA expired. Please try again.");
+            setIsLoading(false); // Stop loading on expiry
+          },
+          "error-callback": (error) => {
+            console.log("reCAPTCHA error:", error);
+            setError("reCAPTCHA error. Please try again.");
+            setIsLoading(false); // Stop loading on error
           },
         }
       );
     } catch (error) {
       console.error("Error creating reCAPTCHA:", error);
       setError("Failed to initialize reCAPTCHA. Please refresh the page.");
+      setIsLoading(false);
     }
   };
 
