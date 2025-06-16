@@ -55,6 +55,7 @@ function AddressChange() {
         zip: "",
         selected: 1,
       });
+      navigate("/");
     } catch (err) {
       console.error("Failed to add address", err);
     }

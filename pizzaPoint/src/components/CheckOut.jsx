@@ -112,7 +112,7 @@ function CheckOut() {
         } catch (error) {
             if (error.name !== 'AbortError') {
                 console.error('Checkout error:', error);
-                alert(`Checkout error: ${error.message}`);
+                // alert(`Checkout error: ${error.message}`);
             }
         }
     };
@@ -267,7 +267,7 @@ function CheckOut() {
                             <div className='flex gap-3 lg:gap-5 items-center'>
                                 <i className="fa-solid fa-sack-dollar text-lg lg:text-xl"></i>
                                 <div className='flex flex-col'>
-                                    <h3 className='text-white font-bold text-sm lg:text-base'>Cash</h3>
+                                    <h3 className='text-white font-bold text-sm lg:text-base'>Cash or Card on Delivery</h3>
                                     <p className='text-xs lg:text-sm text-gray-300'>The chosen payment method will be charged</p>
                                 </div>
                             </div>
