@@ -177,10 +177,10 @@ function CheckOut() {
                 <div className='w-full lg:w-1/2 flex flex-col items-center lg:items-end mt-20 lg:mt-32 mb-8'>
                     {/* Delivery/Pickup Toggle */}
                     <div className='flex w-full max-w-md lg:max-w-xl h-12 rounded-full bg-white items-center p-1'>
-                        <div className={`${orderType == "DELIVERY" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 h-full rounded-full text-center flex items-center justify-center hover:cursor-pointer`} onClick={() => setOrderType("DELIVERY")}>
+                        <div className={`${orderType == "DELIVERY" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 h-full rounded-full text-center flex items-center justify-center hover:cursor-pointer`} onClick={() => handleOrderType("DELIVERY")}>
                             <h3>Delivery</h3>
                         </div>
-                        <div className={`${orderType == "PICKUP" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 rounded-full h-full flex items-center justify-center hover:cursor-pointer` } onClick={() => setOrderType("PICKUP")}>
+                        <div className={`${orderType == "PICKUP" ? "bg-brandRed text-white": "text-brandRed"} w-1/2 rounded-full h-full flex items-center justify-center hover:cursor-pointer` } onClick={() => handleOrderType("PICKUP")}>
                             <h3>Pickup</h3>
                         </div>
                     </div>
