@@ -54,12 +54,10 @@ function AddressChange() {
         latitude: placeLatLng.lat,
         longitude: placeLatLng.lng,
       });
-      if (response.ok && result.valid) {
+      if (result.valid) {
         // Now actually save the address
         await addressService.addAddress({
           ...formData,
-          lat: placeLatLng.lat,
-          lng: placeLatLng.lng,
         });
         fetchAddresses();  
         // Reset form fields
