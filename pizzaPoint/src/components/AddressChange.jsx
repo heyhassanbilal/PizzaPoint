@@ -49,7 +49,7 @@ function AddressChange() {
     e.preventDefault();
 
     try {
-      const response = await addressService.validateAddress({
+      const result = await addressService.validateAddress({
         street: formData.street,
         latitude: placeLatLng.lat,
         longitude: placeLatLng.lng,
