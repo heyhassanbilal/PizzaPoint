@@ -4,11 +4,20 @@ import AddressCard from "./AddressCard";
 import { useAuth } from "../utils/useAuth";
 import { addressService } from "../utils/services";
 import { useNavigate } from "react-router-dom";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
 function AddressChange() {
   const { token, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [addresses, setAddresses] = useState([]);
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
+
+  const [autocomplete, setAutocomplete] = useState(null);
+  const [placeLatLng, setPlaceLatLng] = useState(null);
 
   const [formData, setFormData] = useState({
     buildingName: "",
@@ -40,22 +49,35 @@ function AddressChange() {
     e.preventDefault();
 
     try {
-      const message = await addressService.addAddress(formData);
-      // alert(message);
-      fetchAddresses(); // Refresh addresses after adding a new one
-      // Reset form fields
-      setFormData({
-        buildingName: "",
-        floor: "",
-        apartmentNo: "",
-        intercom: "",
-        otherInstructions: "",
-        street: "",
-        city: "",
-        zip: "",
-        selected: 1,
+      const response = await addressService.validateAddress({
+        street: formData.street,
+        latitude: placeLatLng.lat,
+        longitude: placeLatLng.lng,
       });
-      navigate("/");
+      if (response.ok && result.valid) {
+        // Now actually save the address
+        await addressService.addAddress({
+          ...formData,
+          lat: placeLatLng.lat,
+          lng: placeLatLng.lng,
+        });
+        fetchAddresses();  
+        // Reset form fields
+        setFormData({
+          buildingName: "",
+          floor: "",
+          apartmentNo: "",
+          intercom: "",
+          otherInstructions: "",
+          street: "",
+          city: "",
+          zip: "",
+          selected: 1,
+        });
+        navigate("/");
+      } else {
+        alert("This address is outside our 5 km delivery zone.");
+      }
     } catch (err) {
       console.error("Failed to add address", err);
     }
@@ -67,6 +89,24 @@ function AddressChange() {
       setAddresses(data);
     } catch (error) {
       console.error("Failed to fetch addresses", error);
+    }
+  };
+
+  const handlePlaceSelect = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      const location = place.geometry?.location;
+
+      if (location) {
+        setFormData((prev) => ({
+          ...prev,
+          street: place.formatted_address,
+        }));
+        setPlaceLatLng({
+          lat: location.lat(),
+          lng: location.lng(),
+        });
+      }
     }
   };
 
@@ -96,8 +136,14 @@ function AddressChange() {
               </h2>
 
               {/* Responsive grid layout */}
-              <div className={`grid gap-4 sm:gap-6 mb-8 sm:mb-16 justify-center 
-    ${addresses?.length === 1 ? 'grid-cols-1' : 'grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'}`}>
+              <div
+                className={`grid gap-4 sm:gap-6 mb-8 sm:mb-16 justify-center 
+    ${
+      addresses?.length === 1
+        ? "grid-cols-1"
+        : "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+    }`}
+              >
                 {addresses &&
                   addresses.map((address) => (
                     <AddressCard
@@ -120,7 +166,7 @@ function AddressChange() {
             className="w-full sm:w-4/5 md:w-3/5 self-center space-y-4"
           >
             {/* Street Address */}
-            <input
+            {/* <input
               type="text"
               name="street"
               value={formData.street}
@@ -128,7 +174,21 @@ function AddressChange() {
               placeholder="Street Address"
               className="w-full p-2 border border-gray-400 rounded"
               required
-            />
+            /> */}
+
+            {isLoaded && (
+              <Autocomplete
+                onLoad={setAutocomplete}
+                onPlaceChanged={handlePlaceSelect}
+              >
+                <input
+                  type="text"
+                  placeholder="Street Address"
+                  required
+                  className="w-full p-2 border border-gray-400 rounded"
+                />
+              </Autocomplete>
+            )}
 
             {/* Building Name */}
             <input
