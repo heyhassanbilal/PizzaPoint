@@ -38,10 +38,10 @@ import AdminProtectedRoute from "./components/AdminProtectedRoute";
 import { authService } from "./utils/services";
 import PizzaPointLoader from "./components/PizzaPointLoader";
 import SignUpTest from "./components/SignUpTest";
+import { LoadScript } from "@react-google-maps/api";
 
 function App() {
-
-  const {isAuthLoading} = useAuth();
+  const { isAuthLoading } = useAuth();
   const [isLoading, setIsLoading] = useState(false); // For loading state, if needed
   const { token, setToken, email, setEmail, logout } = useAuth(); // ✅ Token directly mil jayega
   // const navigate = useNavigate();
@@ -154,9 +154,7 @@ function App() {
               path="/"
               element={
                 <div className="h-screen overflow-y-auto overflow-x-hidden">
-                  {(isAuthLoading || isLoading) && (
-                    <PizzaPointLoader/>
-                  )}
+                  {(isAuthLoading || isLoading) && <PizzaPointLoader />}
                   {isCartOpen && (
                     <YourCart
                       setIsCartOpen={setIsCartOpen}
@@ -227,9 +225,7 @@ function App() {
               path="/signup1"
               element={
                 <>
-                  {isLoading && (
-                    <PizzaPointLoader/>
-                  )}
+                  {isLoading && <PizzaPointLoader />}
                   {isCartOpen && (
                     <YourCart
                       setIsCartOpen={setIsCartOpen}
@@ -252,9 +248,11 @@ function App() {
                   <Navbar
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
-                    
                   />
-                  <SignUpTest isLoading={isLoading} setIsLoading={setIsLoading}/>
+                  <SignUpTest
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                  />
                 </>
               }
             />
@@ -335,7 +333,12 @@ function App() {
                     setIsCartOpen={setIsCartOpen}
                     setSideMenuOpen={setSideMenuOpen}
                   />
-                  <AddressChange />
+                  {/* <LoadScript
+                    googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                    libraries={libraries}
+                  > */}
+                    <AddressChange />
+                  {/* </LoadScript> */}
                 </>
               }
             />

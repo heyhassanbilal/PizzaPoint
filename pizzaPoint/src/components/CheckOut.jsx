@@ -15,83 +15,111 @@ function CheckOut() {
     const [check, setCheck] = useState();
     // const [data, setData] = useState();
     
-    const [orderType,setOrderType] = useState("DELIVERY");
+    const [orderType,setOrderType] = useState("PICKUP");
     let paymentMethod = "CASH";
     const {cart, setCart} = useCart();
     const {email, token} = useAuth(); 
     // const BASE_URL = 'http://localhost:8082';
     const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
 
-    useEffect(() => {
-        const fetchAddresses = async() => {
-            const data = await addressService.fetchAllAddresses();
-            if (data.length == 0){
-                navigate("/address")
+    const fetchAddresses = async() => {
+        const data = await addressService.fetchAllAddresses();
+        if (data.length == 0){
+            navigate("/address")
+        }
+    };
+    
+    async function getSelectedAddress() {
+        try {
+            const response = await fetch(`${BASE_URL}/api/address/selected?isSelected=true`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (!response.ok) {
+                navigate("/address");
+                throw new Error('Error fetching selected address');
             }
-        };
-        fetchAddresses();
-    },[])
 
-    useEffect(() => {
-        async function getSelectedAddress() {
-            try {
-                const response = await fetch(`${BASE_URL}/api/address/selected?isSelected=true`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`,
-                    },
-                });
+            const data = await response.json();
+            setSelectedAddresses(data);
+            console.log(data, "selectedAddresses-----------------");
 
-                if (!response.ok) {
-                    throw new Error('Error fetching selected address');
-                }
+        } catch (error) {
+            console.error('Error fetching selected address:', error);
+            navigate("/address");
+            // alert('Error fetching selected address: ' + error.message);
+        }
+    }
+    // useEffect(() => {
+    //     fetchAddresses();
+    // },[])
 
-                const data = await response.json();
-                setSelectedAddresses(data);
-                console.log(data, "selectedAddresses-----------------");
+    // useEffect(() => {
+    //     getSelectedAddress();
+    // },[])
 
-            } catch (error) {
-                console.error('Error fetching selected address:', error);
-                navigate("/address")
-                // alert('Error fetching selected address: ' + error.message);
+    const runPickupCheckout = async (controller) => {
+        try {
+            const response = await fetch(`${BASE_URL}/api/orders/pickup-checkout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`,
+                },
+                credentials: 'include',
+                signal: controller.signal,
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Checkout failed: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            setCheck(data);
+            console.log(data, "PickUp Checkout successful");
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error('Checkout error:', error);
+                alert(`Checkout error: ${error.message}`);
             }
         }
-        getSelectedAddress();
-    },[])
-
+    };
+    const runDeliveryCheckout = async (controller) => {
+        try {
+            const response = await fetch(`${BASE_URL}/api/orders/checkout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    Authorization: `Bearer ${token}`,
+                },
+                credentials: 'include',
+                signal: controller.signal,
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Checkout failed: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            setCheck(data);
+            console.log(data, "PickUp Checkout successful");
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                console.error('Checkout error:', error);
+                alert(`Checkout error: ${error.message}`);
+            }
+        }
+    };
     useEffect(() => {
         const controller = new AbortController();
     
-        const runCheckout = async () => {
-            try {
-                const response = await fetch(`${BASE_URL}/api/orders/checkout`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                        Authorization: `Bearer ${token}`,
-                    },
-                    credentials: 'include',
-                    signal: controller.signal,
-                });
-    
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`Checkout failed: ${errorText}`);
-                }
-    
-                const data = await response.json();
-                setCheck(data);
-                console.log(data, "Checkout successful");
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    console.error('Checkout error:', error);
-                    alert(`Checkout error: ${error.message}`);
-                }
-            }
-        };
-    
-        runCheckout();
+        runPickupCheckout(controller);
     
         return () => controller.abort();
     }, [token]);
@@ -129,6 +157,17 @@ function CheckOut() {
     };
 
     const cartItems = cart && cart.cartItems ? cart.cartItems : [];
+
+    const handleOrderType = async (type) => {
+        if (type == orderType) return;
+        setOrderType(type);
+        if (type === "PICKUP") {
+            await runPickupCheckout(new AbortController());
+        } else if (type === "DELIVERY") {
+            await getSelectedAddress();
+            await runDeliveryCheckout(new AbortController());
+        }
+    }
 
     return (
         <>
