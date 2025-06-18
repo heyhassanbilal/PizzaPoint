@@ -190,8 +190,8 @@ function App() {
               }
             />
 
-            <Route
-              path="/signup"
+            {/* <Route
+              path="/signup1"
               element={
                 <>
                   {isCartOpen && (
@@ -220,9 +220,9 @@ function App() {
                   <SignUp />
                 </>
               }
-            />
+            /> */}
             <Route
-              path="/signup1"
+              path="/signup"
               element={
                 <>
                   {isLoading && <PizzaPointLoader />}
