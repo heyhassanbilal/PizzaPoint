@@ -284,7 +284,7 @@ function AdminDashboard() {
                     <th className="pb-3 font-medium">ID</th>
                     <th className="pb-3 font-medium">Date</th>
                     <th className="pb-3 font-medium">Name</th>
-                    <th className="pb-3 font-medium">Location</th>
+                    <th className="pb-3 font-medium">Order Type</th>
                     <th className="pb-3 font-medium">Amount</th>
                     <th className="pb-3 font-medium">Status Order</th>
                   </tr>
@@ -304,7 +304,7 @@ function AdminDashboard() {
                           )}
                         </td>
                         <td className="py-4">{item.user.name}</td>
-                        <td className="py-4">{item.address?.buildingName || "N/A"}</td>
+                        <td className="py-4">{item.orderType}</td>
                         <td className="py-4">{item.totalPrice} HUF</td>
                         <td className="py-4">
                           <select
@@ -336,13 +336,13 @@ function AdminDashboard() {
                               <p>
                                 <strong>Phone:</strong> {item.user.phone}
                               </p>
-                              <p>
+                              {item.address && <p>
                                 <strong>Location:</strong>{" "}
                                 {item.address.buildingName}, Street -{" "}
                                 {item.address.street}, Floor -{" "}
                                 {item.address.floor}, Intercom -{" "}
                                 {item.address.intercom}
-                              </p>
+                              </p>}
                               <p>
                                 <strong>OrderType:</strong> {item.orderType}
                               </p>
