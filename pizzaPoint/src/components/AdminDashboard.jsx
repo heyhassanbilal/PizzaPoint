@@ -303,7 +303,7 @@ function AdminDashboard() {
                             options
                           )}
                         </td>
-                        <td className="py-4 max-w-[160px] truncate">{item.user.name}</td>
+                        <td className="py-4 max-w-[130px] truncate">{item.user.name}</td>
                         <td className="py-4">{item.orderType}</td>
                         <td className="py-4">{item.totalPrice} HUF</td>
                         <td className="py-4">
