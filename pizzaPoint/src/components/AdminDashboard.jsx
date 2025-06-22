@@ -24,6 +24,7 @@ function AdminDashboard() {
     OUT_FOR_DELIVERY: "Out for Delivery",
     DELIVERED: "Delivered",
     CANCELLED: "Cancelled",
+    COMPLETED: "Completed",
   };
 
   const options = {
