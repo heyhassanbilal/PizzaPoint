@@ -112,7 +112,7 @@ export default function OrderDetails() {
           </div>
         </div>
 
-        <div className="mb-6">
+        {order.address && <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3">Delivery Address</h3>
           <div className="bg-gray-50 rounded-lg p-4">
             <p className="mb-1">{order.address.buildingName}</p>
@@ -121,7 +121,7 @@ export default function OrderDetails() {
             <p className="mb-1">Apartment: {order.address.apartmentNo}</p>
             <p>Intercom: {order.address.intercom}</p>
           </div>
-        </div>
+        </div>}
 
         <div className="mb-6">
           <h3 className="font-semibold text-lg mb-3">Payment Details</h3>

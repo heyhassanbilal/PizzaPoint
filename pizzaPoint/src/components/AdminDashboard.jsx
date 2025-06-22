@@ -23,9 +23,7 @@ function AdminDashboard() {
     READY_FOR_PICKUP: "Ready for Pickup",
     OUT_FOR_DELIVERY: "Out for Delivery",
     DELIVERED: "Delivered",
-    COMPLETED: "Completed",
     CANCELLED: "Cancelled",
-    FAILED: "Failed",
   };
 
   const options = {
