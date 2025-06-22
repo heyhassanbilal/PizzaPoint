@@ -158,6 +158,7 @@ function CheckOut() {
 
     const cartItems = cart && cart.cartItems ? cart.cartItems : [];
 
+    
     const handleOrderType = async (type) => {
         if (type == orderType) return;
         setOrderType(type);
