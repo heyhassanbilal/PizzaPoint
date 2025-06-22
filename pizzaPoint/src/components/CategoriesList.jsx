@@ -7,21 +7,19 @@ function CategoriesList() {
 
   // Simplified function to handle clicking on a menu item
   const handleMenuClick = (sectionId, e) => {
-  e.preventDefault();
-
-  const section = document.getElementById(sectionId);
-  if (section) {
-    const yOffset = -60; // Adjust this based on your navbar height (e.g., 60px)
-    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-
-    window.scrollTo({ top: y, behavior: "smooth" });
-
-    setTimeout(() => {
-      setActiveSection(sectionId);
-    }, 100);
-  }
-};
-
+    e.preventDefault();
+    
+    // Scroll to the section
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+      
+      // Force update the active section after a brief moment to ensure clean transition
+      setTimeout(() => {
+        setActiveSection(sectionId);
+      }, 100);
+    }
+  };
 
   const sections = ["PIZZA", "DRINKS", "BURGER", "FRIES_NUGGETS", "CALZONE"];
 
