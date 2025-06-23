@@ -22,6 +22,7 @@ export const CartProvider = ({ children }) => {
     if (!token) return;
     try {
       setLoading(true);
+      console.log(token);
       const response = await fetch(`${baseUrl}/api/cart/user-email?email=${encodeURIComponent(email)}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
