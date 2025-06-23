@@ -12,5 +12,5 @@ export const authService = {
   adminOTPcheck: (credentials) => apiCore.post('/auth/verify-otp', credentials),
   resetPassword: (credentials) => apiCore.post('/auth/resetPassword', credentials),
   validateToken: (email) => apiCore.get(`/auth/validate-token/${email}`),
-  openRestaurant: (open) => apiCore.put(`/auth/restaurant/1/status?isOpen=${open}`),
+  openRestaurant: (open) => apiCore.put(`/api/restaurant/1/status?isOpen=${open}`),
 };

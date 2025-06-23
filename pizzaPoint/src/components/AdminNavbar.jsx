@@ -57,8 +57,8 @@ function AdminNavbar() {
 
   const handleSetIsOpen = async () => {
     try {
+      const response = await authService.openRestaurant(!isOpen);
       setIsOpen((p) => !p);
-      const response = await authService.openRestaurant(isOpen);
     } catch (error) {
       console.error("Error updating restaurant status:", error);
     }

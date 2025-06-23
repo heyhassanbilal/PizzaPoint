@@ -30,15 +30,6 @@ export default function AdminLogin() {
 
     // You can send the form data to the server here
     try {
-      // fetch("http://localhost:8082/auth/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // })
-      //   .then((response) => response.json())
-      // .then((data) => {
       const data = await authService.adminLogin(formData);
       setStatus(data.otpSent);
       if (status) {
