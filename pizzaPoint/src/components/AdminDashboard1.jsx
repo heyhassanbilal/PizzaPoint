@@ -103,6 +103,14 @@ function AdminDashboard1() {
     }
   };
 
+  const toggleRow = (id) => {
+    setOpenRows((prevOpenRows) =>
+      prevOpenRows.includes(id)
+        ? prevOpenRows.filter((rowId) => rowId !== id)
+        : [...prevOpenRows, id]
+    );
+  };
+
   return (
     <div className="w-full">
       <AdminNavbar propIsOpen={isOpen} />
@@ -124,6 +132,108 @@ function AdminDashboard1() {
       </button>
       {/* You can test interaction manually too */}
       {/* <button onClick={playSound}>Test Sound</button> */}
+      <table className="min-w-full">
+        <thead>
+          <tr className="text-left text-gray-500 text-sm">
+            <th className="pb-3 font-medium">ID</th>
+            <th className="pb-3 font-medium">Date</th>
+            <th className="pb-3 font-medium">Name</th>
+            <th className="pb-3 font-medium">Order Type</th>
+            <th className="pb-3 font-medium">Amount</th>
+            <th className="pb-3 font-medium">Status Order</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((item) => (
+            <React.Fragment key={item.orderId}>
+              <tr
+                className="border-t cursor-pointer hover:bg-gray-100"
+                onClick={() => toggleRow(item.orderId)}
+              >
+                <td className="py-4">{item.orderSequence}</td>
+                <td className="py-4">
+                  {new Date(item.createdAt).toLocaleString("en-US", options)}
+                </td>
+                <td className="py-4 max-w-[130px] truncate">
+                  {item.user.name}
+                </td>
+                <td className="py-4">{item.orderType}</td>
+                <td className="py-4">{item.totalPrice} HUF</td>
+                <td className="py-4">
+                  {item.status!="PLACED" && <select
+                    className="border border-gray-300 rounded p-1 bg-white text-sm"
+                    value={item.status}
+                    onChange={(e) =>
+                      updateOrderStatus(item.orderId, e.target.value)
+                    }
+                  >
+                    {Object.keys(StatusOptions).map((key) => (
+                      <option key={key} value={key}>
+                        {StatusOptions[key]}
+                      </option>
+                    ))}
+                  </select>}
+                  {item.status=="PLACED" && <div className="flex items-center gap-3">
+                        <button className="text-green-500 hover:text-green-700">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                        <button className="text-red-500 hover:text-red-700">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                  </div>}
+                </td>
+              </tr>
+
+              {openRows.includes(item.orderId) && (
+                <tr className="bg-gray-50 border-t">
+                  <td colSpan={7} className="py-4 px-6 text-sm text-gray-600">
+                    <div className="space-y-2">
+                      <p>
+                        <strong>Order ID:</strong> #{item.orderId}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {item.user.phone}
+                      </p>
+                      {item.address && (
+                        <p>
+                          <strong>Location:</strong> {item.address.buildingName}
+                          , Street - {item.address.street}, Floor -{" "}
+                          {item.address.floor}, Intercom -{" "}
+                          {item.address.intercom}
+                        </p>
+                      )}
+                      <p>
+                        <strong>OrderType:</strong> {item.orderType}
+                      </p>
+                      <p>
+                        <strong>Payment Method:</strong> {item.paymentMethod}
+                      </p>
+                      <p>
+                        <strong>Order:</strong>
+                        {item.orderItems.map((orderItem, index) => (
+                          <p key={index} className="text-sm">
+                            <span className="font-medium">
+                              {menuNames[orderItem.menuItemId] || "Loading..."}{" "}
+                              (x{orderItem.quantity})
+                            </span>
+                            {orderItem.extras?.length > 0 && (
+                              <span className="text-gray-500">
+                                {" "}
+                                — Extras:{" "}
+                                {orderItem.extras.map((e) => e.name).join(", ")}
+                              </span>
+                            )}
+                          </p>
+                        ))}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
