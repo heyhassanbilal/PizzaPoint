@@ -39,6 +39,7 @@ import { authService } from "./utils/services";
 import PizzaPointLoader from "./components/PizzaPointLoader";
 import SignUpTest from "./components/SignUpTest";
 import { LoadScript } from "@react-google-maps/api";
+import AdminDashboard1 from "./components/AdminDashboard1";
 
 function App() {
   const { isAuthLoading } = useAuth();
@@ -302,6 +303,14 @@ function App() {
               element={
                 <AdminProtectedRoute>
                   <AdminDashboard />
+                </AdminProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin1"
+              element={
+                <AdminProtectedRoute>
+                  <AdminDashboard1 />
                 </AdminProtectedRoute>
               }
             />
