@@ -8,6 +8,18 @@ function AdminDashboard1() {
   const audioRef = useRef(null);
   const previousOrderIds = useRef(new Set());
   const [orders, setOrders] = useState([]);
+  const [openRows, setOpenRows] = useState([]);
+  
+  const StatusOptions = {
+    PENDING: "Pending",
+    PLACED: "Placed",
+    PREPARING: "Preparing",
+    READY_FOR_PICKUP: "Ready for Pickup",
+    OUT_FOR_DELIVERY: "Out for Delivery",
+    DELIVERED: "Delivered",
+    CANCELLED: "Cancelled",
+    COMPLETED: "Completed",
+  };
 
   // useEffect when the app mounts
   useEffect(() => {
@@ -168,27 +180,31 @@ function AdminDashboard1() {
                 <td className="py-4">{item.orderType}</td>
                 <td className="py-4">{item.totalPrice} HUF</td>
                 <td className="py-4">
-                  {item.status!="PLACED" && <select
-                    className="border border-gray-300 rounded p-1 bg-white text-sm"
-                    value={item.status}
-                    onChange={(e) =>
-                      updateOrderStatus(item.orderId, e.target.value)
-                    }
-                  >
-                    {Object.keys(StatusOptions).map((key) => (
-                      <option key={key} value={key}>
-                        {StatusOptions[key]}
-                      </option>
-                    ))}
-                  </select>}
-                  {item.status=="PLACED" && <div className="flex items-center gap-3">
-                        <button className="text-green-500 hover:text-green-700">
-                            <i class="fa-solid fa-check"></i>
-                        </button>
-                        <button className="text-red-500 hover:text-red-700">
-                            <i class="fa-solid fa-xmark"></i>
-                        </button>
-                  </div>}
+                  {item.status != "PLACED" && (
+                    <select
+                      className="border border-gray-300 rounded p-1 bg-white text-sm"
+                      value={item.status}
+                      onChange={(e) =>
+                        updateOrderStatus(item.orderId, e.target.value)
+                      }
+                    >
+                      {Object.keys(StatusOptions).map((key) => (
+                        <option key={key} value={key}>
+                          {StatusOptions[key]}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                  {item.status == "PLACED" && (
+                    <div className="flex items-center gap-3">
+                      <button className="text-green-500 hover:text-green-700">
+                        <i class="fa-solid fa-check"></i>
+                      </button>
+                      <button className="text-red-500 hover:text-red-700">
+                        <i class="fa-solid fa-xmark"></i>
+                      </button>
+                    </div>
+                  )}
                 </td>
               </tr>
 
