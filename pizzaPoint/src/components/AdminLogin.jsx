@@ -62,6 +62,7 @@ export default function AdminLogin() {
       });
       if (data.token) {
         localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('adminEmail', data.email);
         setToken(data.token);
         setEmail(data.email);
         navigate("/admin");

@@ -13,6 +13,7 @@ function AdminDashboard1() {
     useEffect(() => {
         audioRef.current = new Audio('/notification.mp3');
         const token = localStorage.getItem('adminToken');
+        const email = localStorage.getItem('adminEmail');
         if (!token) {
             console.error('No admin token found in local storage');
             // Redirect to login page or show an error message
@@ -22,7 +23,7 @@ function AdminDashboard1() {
 
         const checkAdminStatus = async () => {
             try {
-                const response = await adminService.validateToken(token);
+                const response = await adminService.validateToken(email);
                 if (response.isExpired || response.role != "ADMIN"){
                     console.error('Invalid admin token or insufficient permissions');
                     // Redirect to login page or show an error message
