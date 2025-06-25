@@ -22,6 +22,29 @@ function AdminDashboard1() {
     COMPLETED: "Completed",
   };
 
+  const fetchMenuData = async (id) => {
+    try {
+      const response = await fetch(
+        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/menuItem/get/${id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.statusText}`);
+      }
+
+      const json = await response.json();
+      return json.name + " " + json.size;
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        console.log("Error fetching data:", error.message);
+        console.log(token);
+      }
+    }
+  };
+
   // useEffect when the app mounts
   useEffect(() => {
     audioRef.current = new Audio("/notification.mp3");
@@ -90,6 +113,16 @@ function AdminDashboard1() {
         }
 
         previousOrderIds.current = newOrderIds;
+
+        const names = {};
+        for (const order of orders) {
+          for (const item of order.orderItems) {
+            if (!names[item.menuItemId]) {
+              names[item.menuItemId] = await adminService.getMenuItemById(item.menuItemId);
+            }
+          }
+        }
+        setMenuNames(names);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
