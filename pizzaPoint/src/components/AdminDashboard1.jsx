@@ -105,7 +105,7 @@ function AdminDashboard1() {
 
   return (
     <div className="w-full">
-      <AdminNavbar />
+      <AdminNavbar isOpen={isOpen}/>
       <div>
         <h2>Order Watcher</h2>
         <ul>
@@ -122,6 +122,8 @@ function AdminDashboard1() {
       >
         Enable Notifications
       </button>
+      {/* You can test interaction manually too */}
+            {/* <button onClick={playSound}>Test Sound</button> */}
     </div>
   );
 }

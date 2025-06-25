@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
 
-function AdminNavbar() {
+function AdminNavbar({isOpen}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const { cart, loading } = useCart();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(isOpen);
   const navigate = useNavigate();
 
   const handleLogout = () => {
