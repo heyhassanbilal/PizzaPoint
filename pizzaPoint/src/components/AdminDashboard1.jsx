@@ -62,7 +62,7 @@ function AdminDashboard1() {
                 const newOrders = await adminService.getAllOrders(); // Replace with your actual API call
                 setOrders(newOrders);
 
-                const newOrderIds = new Set(newOrders.map(order => order._id || order.id));
+                const newOrderIds = new Set(newOrders.map(order => order.orderId));
 
                 // Check for new IDs
                 let hasNew = false;
@@ -109,8 +109,8 @@ function AdminDashboard1() {
             <h2>Order Watcher</h2>
             <ul>
                 {orders.map(order => (
-                    <li key={order._id || order.id}>
-                        Order #{order._id || order.id}
+                    <li key={order.orderId}>
+                        Order #{order.orderId}
                     </li>
                 ))}
             </ul>
