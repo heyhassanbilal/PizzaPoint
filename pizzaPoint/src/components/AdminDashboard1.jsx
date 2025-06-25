@@ -114,6 +114,14 @@ function AdminDashboard1() {
           ))}
         </ul>
       </div>
+      <button
+        onClick={() => {
+          audioRef.current = new Audio("/notification.mp3");
+          audioRef.current.play();
+        }}
+      >
+        Enable Notifications
+      </button>
     </div>
   );
 }
