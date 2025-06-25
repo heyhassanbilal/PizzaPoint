@@ -16,7 +16,7 @@ function AdminDashboard1() {
         if (!token) {
             console.error('No admin token found in local storage');
             // Redirect to login page or show an error message
-            window.location.href = '/adminLogin';
+            // window.location.href = '/adminLogin';
             return;
         }
 
@@ -26,12 +26,12 @@ function AdminDashboard1() {
                 if (response.isExpired || response.role != "ADMIN"){
                     console.error('Invalid admin token or insufficient permissions');
                     // Redirect to login page or show an error message
-                    window.location.href = '/adminLogin';
+                    // window.location.href = '/adminLogin';
                 }
             } catch (error) {
                 console.error('Error validating admin token:', error);
                 // Redirect to login page or show an error message
-                window.location.href = '/adminLogin';
+                // window.location.href = '/adminLogin';
             }
         };
 
