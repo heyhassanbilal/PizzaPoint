@@ -9,7 +9,8 @@ function AdminDashboard1() {
   const previousOrderIds = useRef(new Set());
   const [orders, setOrders] = useState([]);
   const [openRows, setOpenRows] = useState([]);
-  
+  const [menuNames, setMenuNames] = useState({});
+
   const StatusOptions = {
     PENDING: "Pending",
     PLACED: "Placed",
