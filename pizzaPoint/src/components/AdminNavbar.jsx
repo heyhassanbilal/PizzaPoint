@@ -6,13 +6,13 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/useAuth";
 import { authService } from "../utils/services";
 
-function AdminNavbar({propIsOpen}) {
+function AdminNavbar({ propIsOpen }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, logout, setIsAuthenticated } = useAuth();
   const menuRef = useRef(null);
   const buttonRef = useRef(null);
   const { cart, loading } = useCart();
-  const [isOpen, setIsOpen] = useState(propIsOpen);
+  const [isOpen, setIsOpen] = useState(propIsOpen); // state desynchronized with propIsOpen, we will update it based on prop changes
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -21,6 +21,10 @@ function AdminNavbar({propIsOpen}) {
     logout();
     navigate("/adminLogin");
   };
+
+  useEffect(() => {
+    setIsOpen(propIsOpen);
+  }, [propIsOpen]); // Update isOpen state when propIsOpen changes
 
   // Close menu when clicking outside or scrolling
   useEffect(() => {
@@ -62,7 +66,7 @@ function AdminNavbar({propIsOpen}) {
     } catch (error) {
       console.error("Error updating restaurant status:", error);
     }
-  }
+  };
 
   return (
     <>
