@@ -115,7 +115,7 @@ function AdminDashboard1() {
         previousOrderIds.current = newOrderIds;
 
         const names = {};
-        for (const order of orders) {
+        for (const order of newOrders) {
           for (const item of order.orderItems) {
             if (!names[item.menuItemId]) {
               const response  = await adminService.getMenuItemById(item.menuItemId);
