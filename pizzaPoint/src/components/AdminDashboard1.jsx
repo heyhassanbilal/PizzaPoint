@@ -120,6 +120,7 @@ function AdminDashboard1() {
             if (!names[item.menuItemId]) {
               const response  = await adminService.getMenuItemById(item.menuItemId);
               names[item.menuItemId] = response.name + " " + response.size;
+              console.log(names[item.menuItemId]);
             }
           }
         }
