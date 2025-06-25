@@ -2,8 +2,8 @@
 import { apiCore } from './apiCore';
 
 export const adminService = {
-  updateOrderStatus: (id, status) => apiCore.patch(`api/orders/${id}/status?status=${status}`),
-  getMenuItemById: (id) => apiCore.get(`api/menuItem/get/${id}`),
+  updateOrderStatus: (id, status) => apiCore.patch(`/api/orders/${id}/status?status=${status}`),
+  getMenuItemById: (id) => apiCore.get(`/api/menuItem/get/${id}`),
   getAllOrders: () => apiCore.get(`/api/orders/all/orders`),
   getRestaurantStatus: () => apiCore.get(`/api/restaurant/restaurant-status`),
   updateRestaurantStatus: (open) => apiCore.put(`/api/restaurant/1/status?isOpen=${open}`),
