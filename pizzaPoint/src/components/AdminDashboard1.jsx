@@ -118,7 +118,8 @@ function AdminDashboard1() {
         for (const order of orders) {
           for (const item of order.orderItems) {
             if (!names[item.menuItemId]) {
-              names[item.menuItemId] = await adminService.getMenuItemById(item.menuItemId);
+              const response  = await adminService.getMenuItemById(item.menuItemId);
+              names[item.menuItemId] = response.name + " " + response.size;
             }
           }
         }
