@@ -24,6 +24,7 @@ function AdminDashboard1() {
         const checkAdminStatus = async () => {
             try {
                 const response = await adminService.validateToken(email);
+                console.log(response)
                 if (response.isExpired || response.role != "ADMIN"){
                     console.error('Invalid admin token or insufficient permissions');
                     // Redirect to login page or show an error message
