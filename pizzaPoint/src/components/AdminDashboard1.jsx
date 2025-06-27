@@ -10,16 +10,20 @@ function AdminDashboard1() {
   const [orders, setOrders] = useState([]);
   const [openRows, setOpenRows] = useState([]);
   const [menuNames, setMenuNames] = useState({});
+  const [displayType, setDisplayType] = useState("placed");
+  const [audioEnabled, setAudioEnabled] = useState(false);
 
   const StatusOptions = {
-    PENDING: "Pending",
-    PLACED: "Placed",
     PREPARING: "Preparing",
-    READY_FOR_PICKUP: "Ready for Pickup",
     OUT_FOR_DELIVERY: "Out for Delivery",
     DELIVERED: "Delivered",
     CANCELLED: "Cancelled",
+  };
+  const StatusOptionsPickup = {
+    PREPARING: "Preparing",
+    READY_FOR_PICKUP: "Ready for Pickup",
     COMPLETED: "Completed",
+    CANCELLED: "Cancelled",
   };
 
   const fetchMenuData = async (id) => {
@@ -48,6 +52,7 @@ function AdminDashboard1() {
   // useEffect when the app mounts
   useEffect(() => {
     audioRef.current = new Audio("/notification.mp3");
+    // setAudioEnabled(true);
     const token = localStorage.getItem("adminToken");
     const email = localStorage.getItem("adminEmail");
     if (!token) {
@@ -96,7 +101,10 @@ function AdminDashboard1() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const newOrders = await adminService.getAllOrders();
+        const newOrders =
+          displayType == "placed"
+            ? await adminService.getAllOrders()
+            : await adminService.getAllOrdersByStatus(displayType);
         setOrders(newOrders);
 
         const newOrderIds = new Set(newOrders.map((order) => order.orderId));
@@ -137,7 +145,7 @@ function AdminDashboard1() {
     const interval = setInterval(fetchOrders, 10000); // 🔁 Then every 10s
 
     return () => clearInterval(interval); // Clean up on unmount
-  }, []);
+  }, [displayType]);
 
   const updateRestaurantStatus = async () => {
     try {
@@ -161,42 +169,92 @@ function AdminDashboard1() {
     );
   };
 
-  const options = {
+  const Dateoptions = {
     day: "2-digit",
     month: "short",
     year: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   };
+  const options = {
+    // day: "2-digit",
+    // month: "short",
+    // year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+
+  const handleGetByStatus = (status) => async () => {
+    try {
+      const response = await adminService.getAllOrdersByStatus(status);
+      setOrders(response);
+      setDisplayType(status);
+    } catch (error) {
+      console.error("Error fetching orders by status:", error);
+    }
+  };
+
+  const updateOrderStatus = async (id, status) => {
+    try {
+      const response = await adminService.updateOrderStatus(id, status);
+      setOrders((prevOrders) =>
+        prevOrders.map((order) =>
+          order.orderId === id ? { ...order, status } : order
+        )
+      );
+      console.log("Order status updated successfully:", response);
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      // Optionally, you can show an error message to the user
+      alert("Failed to update order status. Please try again.");
+    }
+  };
 
   return (
     <div className="w-full">
       <AdminNavbar propIsOpen={isOpen} />
-      <div className="mt-16">
-        <h2>Order Watcher</h2>
-        <ul>
-          {orders.map((order) => (
-            <li key={order.orderId}>Order #{order.orderId}</li>
-          ))}
-        </ul>
-      </div>
-      <button
-        onClick={() => {
-          audioRef.current = new Audio("/notification.mp3");
-          audioRef.current.play();
-        }}
-      >
-        Enable Notifications
-      </button>
+      {!audioEnabled && (
+        <button
+          className="fixed bottom-4 right-4 bg-blue-500 text-white px-4 py-2 rounded z-50"
+          onClick={() => {
+            audioRef.current = new Audio("/notification.mp3");
+            audioRef.current.play();
+            setAudioEnabled(true);
+          }}
+        >
+          Enable Notifications
+        </button>
+      )}
       {/* You can test interaction manually too */}
       {/* <button onClick={playSound}>Test Sound</button> */}
-      <div className="h-auto w-11/12 p-6 rounded-lg border-2 shadow-lg">
+      <div className="h-auto mt-32 w-11/12 p-6 rounded-lg border-2 shadow-lg mx-auto">
         <div className="flex justify-between">
-          <h2 className="font-semibold text-xl">Order List</h2>
+          <h2 className="font-semibold text-xl">Orders</h2>
           <div className="bg-gray-200 flex rounded-lg">
-            <h3 className="bg-black text-white rounded-l-lg p-2">Monthly</h3>
-            <h3 className="p-2 border-x-2 border-gray-300">Weekly</h3>
-            <h3 className="p-2 rounded-r-lg">Today</h3>
+            <h3
+              className={`${
+                displayType == "placed" ? "bg-black text-white" : null
+              } rounded-l-lg py-2 px-5`}
+              onClick={handleGetByStatus("placed")}
+            >
+              Placed
+            </h3>
+            <h3
+              className={`${
+                displayType == "delivered" ? "bg-black text-white" : null
+              } p-2 border-x-2 border-gray-300`}
+              onClick={handleGetByStatus("delivered")}
+            >
+              Delivered
+            </h3>
+            <h3
+              className={`${
+                displayType == "cancelled" ? "bg-black text-white" : null
+              } p-2 rounded-r-lg`}
+              onClick={handleGetByStatus("cancelled")}
+            >
+              Cancelled
+            </h3>
           </div>
         </div>
 
@@ -205,7 +263,7 @@ function AdminDashboard1() {
             <thead>
               <tr className="text-left text-gray-500 text-sm">
                 <th className="pb-3 font-medium">ID</th>
-                <th className="pb-3 font-medium">Date</th>
+                <th className="pb-3 font-medium">Time</th>
                 <th className="pb-3 font-medium">Name</th>
                 <th className="pb-3 font-medium">Order Type</th>
                 <th className="pb-3 font-medium">Amount</th>
@@ -240,20 +298,34 @@ function AdminDashboard1() {
                             updateOrderStatus(item.orderId, e.target.value)
                           }
                         >
-                          {Object.keys(StatusOptions).map((key) => (
+                          {item.orderType == "DELIVERY" ? Object.keys(StatusOptions).map((key) => (
                             <option key={key} value={key}>
                               {StatusOptions[key]}
                             </option>
-                          ))}
+                          )): Object.keys(StatusOptionsPickup).map((key) => (
+                            <option key={key} value={key}>
+                                {StatusOptionsPickup[key]}
+                            </option>
+                          ))}        
                         </select>
                       )}
                       {item.status == "PLACED" && (
-                        <div className="flex items-center gap-3">
-                          <button className="text-green-500 hover:text-green-700">
-                            <i class="fa-solid fa-check"></i>
+                        <div className="flex items-center gap-3 text-2xl">
+                          <button
+                            className="text-green-500 hover:text-green-700 hover:scale-110"
+                            onClick={() =>
+                              updateOrderStatus(item.orderId, "PREPARING")
+                            }
+                          >
+                            <i className="fa-solid fa-check"></i>
                           </button>
-                          <button className="text-red-500 hover:text-red-700">
-                            <i class="fa-solid fa-xmark"></i>
+                          <button
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() =>
+                              updateOrderStatus(item.orderId, "CANCELLED")
+                            }
+                          >
+                            <i className="fa-solid fa-xmark"></i>
                           </button>
                         </div>
                       )}
@@ -286,30 +358,37 @@ function AdminDashboard1() {
                             <strong>OrderType:</strong> {item.orderType}
                           </p>
                           <p>
+                            <strong>Date:</strong>{" "}
+                            {new Date(item.createdAt).toLocaleString(
+                              "en-US",
+                              Dateoptions
+                            )}
+                          </p>
+                          <p>
                             <strong>Payment Method:</strong>{" "}
                             {item.paymentMethod}
                           </p>
                           <p>
                             <strong>Order:</strong>
-                            {item.orderItems.map((orderItem, index) => (
-                              <p key={index} className="text-sm">
-                                <span className="font-medium">
-                                  {menuNames[orderItem.menuItemId] ||
-                                    "Loading..."}{" "}
-                                  (x{orderItem.quantity})
-                                </span>
-                                {orderItem.extras?.length > 0 && (
-                                  <span className="text-gray-500">
-                                    {" "}
-                                    — Extras:{" "}
-                                    {orderItem.extras
-                                      .map((e) => e.name)
-                                      .join(", ")}
-                                  </span>
-                                )}
-                              </p>
-                            ))}
                           </p>
+                          {item.orderItems.map((orderItem, index) => (
+                            <p key={index} className="text-sm">
+                              <span className="font-medium">
+                                {menuNames[orderItem.menuItemId] ||
+                                  "Loading..."}{" "}
+                                (x{orderItem.quantity})
+                              </span>
+                              {orderItem.extras?.length > 0 && (
+                                <span className="text-gray-500">
+                                  {" "}
+                                  — Extras:{" "}
+                                  {orderItem.extras
+                                    .map((e) => e.name)
+                                    .join(", ")}
+                                </span>
+                              )}
+                            </p>
+                          ))}
                         </div>
                       </td>
                     </tr>
