@@ -25,6 +25,7 @@ import { AuthProvider } from "./utils/AuthContext";
 import { CartProvider } from "./utils/CartContext";
 import LoginPage from "./components/LoginPage";
 import SideMenu from "./components/SideMenu";
+import CustomAlert from "./components/CustomAlert";
 import AdminPage from "./components/AdminPage";
 import AdminDashboard from "./components/AdminDashboard";
 import AddressChange from "./components/AddressChange";
@@ -329,6 +330,9 @@ function App() {
                       onClose={closeCart}
                     />
                   )}
+{/* 
+                  <CustomAlert
+                    message="Please select your address to continue" /> */}
 
                   {isSideMenuOpen && (
                     <SideMenu

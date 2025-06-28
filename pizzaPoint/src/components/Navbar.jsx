@@ -105,11 +105,11 @@ function Navbar({ setIsCartOpen, setSideMenuOpen }) {
         </button>
 
         <a 
-          href="tel:+36204489524"
+          href="tel:+36204489602"
           className="flex items-center h-8 px-2 sm:px-3 bg-red-600 text-white text-xs sm:text-sm rounded-lg hover:scale-105 transition-transform duration-300 ease-in-out"
         >
           <i className="fa-solid fa-phone px-1"></i>
-          <span className="truncate hidden lg:inline">+36204489524</span>
+          <span className="truncate hidden lg:inline">+36204489602</span>
         </a>
       </div>
 
