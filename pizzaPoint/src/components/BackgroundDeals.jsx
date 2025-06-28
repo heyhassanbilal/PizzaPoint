@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import bg1 from "../assets/imgs/bg1.webp";
-import bg2 from "../assets/imgs/bg2.webp";
-import bg3 from "../assets/imgs/bg3.webp";
-import bg4 from "../assets/imgs/bg4.webp";
+import bg1 from "../assets/imgs/bg1.jpeg";
+import bg2 from "../assets/imgs/bg2.jpeg";
+import bg3 from "../assets/imgs/bg3.jpeg";
+// import bg4 from "../assets/imgs/bg4.webp";
 
 function BackgroundDeals() {
-  const bg = [bg1, bg2, bg3, bg4];
+  const bg = [bg1, bg2, bg3];
   const [currentBgIndex, setBgIndex] = useState(0);
 
   useEffect(() => {

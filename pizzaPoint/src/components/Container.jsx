@@ -7,11 +7,11 @@ import React, { useEffect } from "react";
 // import ServeDeals from './ServeDeals'
 // import WinterDeals from './WinterDeals'
 import BasicCategory from "./BasicCategory";
-import BeveragesBanner from "../assets/imgs/BeveragesBanner.webp";
-import ClassicPizzaBanner from "../assets/imgs/ClassicPizzaBanner.webp";
-import FriesBanner from "../assets/imgs/FriesBanner.webp";
-import burgerBanner from "../assets/imgs/burgerBanner.png";
-import calzoneBanner from "../assets/imgs/calzoneBanner.png";
+import BeveragesBanner from "../assets/imgs/BeveragesBanner.jpg";
+import ClassicPizzaBanner from "../assets/imgs/ClassicPizzaBanner.jpg";
+import FriesBanner from "../assets/imgs/FriesBanner.jpeg";
+import burgerBanner from "../assets/imgs/burgerBanner.jpg";
+import calzoneBanner from "../assets/imgs/calzoneBanner.jpg";
 import PizzaPointLoader from "./PizzaPointLoader";
 // import CheeseGarlicBread from '../assets/imgs/CheeseGarlicBread.webp'
 // import MeatyGarlicBread from '../assets/imgs/MeatyGarlicBread.webp'
