@@ -29,7 +29,7 @@ function AdminDashboard1() {
   const fetchMenuData = async (id) => {
     try {
       const response = await fetch(
-        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/menuItem/get/${id}`,
+        `https://pizza-point-ec8bd06cdd83.herokuapp.com/api/menuItem/get/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
