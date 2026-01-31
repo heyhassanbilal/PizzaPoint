@@ -20,7 +20,7 @@ function CheckOut() {
     const {cart, setCart} = useCart();
     const {email, token} = useAuth(); 
     // const BASE_URL = 'http://localhost:8082';
-    const BASE_URL =  'https://pizzapoint-c71ca9db8a73.herokuapp.com';
+    const BASE_URL =  'https://pizza-point-ec8bd06cdd83.herokuapp.com';
 
     const fetchAddresses = async() => {
         const data = await addressService.fetchAllAddresses();
