@@ -6,7 +6,7 @@ export const CartContext = createContext();
 export const CartProvider = ({ children }) => {
 
   // const baseUrl = 'http://localhost:8082';
-  const baseUrl = 'https://pizzapoint-c71ca9db8a73.herokuapp.com';
+  const baseUrl = 'https://pizza-point-ec8bd06cdd83.herokuapp.com';
 
   const [cart, setCart] = useState([]);
 //   const [extra, setExtra] = useState([]);
