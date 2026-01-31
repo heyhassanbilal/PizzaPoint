@@ -16,6 +16,7 @@ function AdminDashboard() {
   const [menuNames, setMenuNames] = useState({});
   const { token } = useAuth();
   const [data, setData] = useState([]);
+  const baseURL = 'https://pizza-point-ec8bd06cdd83.herokuapp.com';
   const StatusOptions = {
     PENDING: "Pending",
     PLACED: "Placed",
@@ -71,7 +72,7 @@ function AdminDashboard() {
   const updateOrderStatus = async (id, status) => {
     try {
       const response = await fetch(
-        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/orders/${id}/status`,
+        `${baseURL}/api/orders/${id}/status`,
         {
           method: "PATCH",
           headers: {
@@ -103,7 +104,7 @@ function AdminDashboard() {
   const fetchMenuData = async (id) => {
     try {
       const response = await fetch(
-        `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/menuItem/get/${id}`,
+        `${baseURL}/api/menuItem/get/${id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -130,7 +131,7 @@ function AdminDashboard() {
     async function fetchData() {
       try {
         const response = await fetch(
-          `https://pizzapoint-c71ca9db8a73.herokuapp.com/api/orders/all/orders`,
+          `${baseURL}/api/orders/all/orders`,
           {
             headers: { Authorization: `Bearer ${token}` },
             signal,
